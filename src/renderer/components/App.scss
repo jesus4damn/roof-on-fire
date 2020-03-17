@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    padding: 4px;
+    box-sizing: border-box;
+}
+button {
+    background-color: inherit;
+}
+.appWrapper {
+    background-color: #1e1d1e;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas:
+            "head head"
+            "main cues"
+            "time time";
+    grid-template-rows: 50px 1fr 200px;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    color: #ffffff;
+}
+
+.headerWrapper {
+    display: flex;
+    grid-area: head;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.mainWorkspaceWrapper {
+    composes: container;
+    grid-area: main;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.cuesWorkspaceWrapper {
+    display: flex;
+    grid-area: cues;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+.timeLineWorkspaceWrapper {
+    display: flex;
+    grid-area: time;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
