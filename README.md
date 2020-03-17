@@ -51,9 +51,3 @@ In case you want to get rid of this, you can removing the following from `packag
 1. Remove `lint-staged`, `prettier`, `eslint-config-prettier`, and `husky` from the `devDependencies`
 
 Also remove all mentions of Prettier from the `extends` section in `.eslintrc.json`.
-
-## About this project
-This project was set up from scratch but is heavily influenced by the [Electron React Boilerplate project](https://github.com/chentsulin/electron-react-boilerplate) and [React Redux TypeScript guide](https://github.com/piotrwitek/react-redux-typescript-guide).
-
-## License
-MIT © [R. Franken](https://github.com/Robinfr)
