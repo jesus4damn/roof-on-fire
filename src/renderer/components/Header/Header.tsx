@@ -5,7 +5,7 @@ require('./Header.scss')
 
 const Header:React.FC = () => {
     return (
-        <div className={'headerWrapper'}>
+        <div className={'headerContent'}>
             <h2>
                 roof on fire
             </h2>
