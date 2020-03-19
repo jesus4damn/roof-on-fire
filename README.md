@@ -9,21 +9,24 @@ npm install
 
 ## Usage
 Run the following to start :
-
+```bash
+npm run prestart
+```
+and then
 ```bash
 npm run start-dev
 ```
+This will start the application with hot-reload so you can instantly start developing your application.
 
-Both processes can br started **simultaneously** in different console tabs:
+DONT FORGET KILL PROCESS Electron FROM TASK MANAGER
+
+
+This two for processes started **simultaneously** in different console tabs:
 
 ```bash
 npm run start-renderer-dev
 npm run start-main-dev
 ```
-
-This will start the application with hot-reload so you can instantly start developing your application.
-
-DONT FORGET KILL PROCESS Electron FROM TASK MANAGER
 ## Packaging
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default you can run the following to package for your current platform:
 

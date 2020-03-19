@@ -1,3 +1,16 @@
 .cuesWrapper {
   color: green;
+  display: grid;
+  grid-template-rows: 3% 1fr;
+  width: 100%;
+  height: 100%;
+}
+.selectionButtons {
+}
+.cuesWrapperContent {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  flex-wrap: wrap;
+  overflow-y: scroll;
 }

@@ -14,8 +14,8 @@ export interface I_Props {
 }
 
 const CuesWorkspace: React.FunctionComponent<I_Props> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
-    <div className={'cuesWrapper'}>
-        <div>
+    <div className='cuesWrapper'>
+        <div className="selectionButtons">
             <button onClick={() => {switchActionsScreenAction('props')}}>
                 props
             </button>
@@ -23,9 +23,10 @@ const CuesWorkspace: React.FunctionComponent<I_Props> = ({actionsScreenSwitcher,
                 cues
             </button>
         </div>
-       <h2>MAIN SCREEN</h2>
-        {actionsScreenSwitcher === 'props' && <Properties />}
-        {actionsScreenSwitcher === 'cues' && <Cues />}
+        <div className="cuesWrapperContent">
+            {actionsScreenSwitcher === 'props' && <Properties />}
+            {actionsScreenSwitcher === 'cues' && <Cues />}
+        </div>
     </div>
 );
 
