@@ -2,12 +2,12 @@ import * as React from 'react';
 
 require('./Field.scss');
 
-interface I_Props {
+interface IProps {
     id: string,
     title: string
 }
 
-const Field: React.FC<I_Props> = ({id, title}) => {
+const Field: React.FC<IProps> = ({id, title}) => {
     return (
         <div className="totalWrap">
             <div className="wrap">

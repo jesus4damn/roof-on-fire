@@ -1,4 +1,4 @@
-import { I_CounterActions } from './counterReducer/counterActions';
-import {I_AppActions} from "./appReducer/appActions";
+import { ICounterActions } from './counterReducer/counterActions';
+import {IAppActions} from "./appReducer/appActions";
 
-export type RootActions = I_CounterActions | I_AppActions;
+export type RootActions = ICounterActions | IAppActions;

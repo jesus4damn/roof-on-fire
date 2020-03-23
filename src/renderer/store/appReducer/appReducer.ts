@@ -1,19 +1,19 @@
 import { Reducer } from 'redux';
-import {I_ActionsScreenSwitchers, I_MainScreenSwitchers} from "../../../types/appTypes";
+import {IActionsScreenSwitchers, IMainScreenSwitchers} from "../../../types/appTypes";
 import {SWITCH_ACTIONS_SCREEN, SWITCH_MAIN_SCREEN} from "./appActions";
 import {RootActions} from "../rootActions";
 
-export interface I_AppState {
-    readonly mainScreenSwitcher: I_MainScreenSwitchers;
-    readonly actionsScreenSwitcher: I_ActionsScreenSwitchers;
+export interface IAppState {
+    readonly mainScreenSwitcher: IMainScreenSwitchers;
+    readonly actionsScreenSwitcher: IActionsScreenSwitchers;
 }
 
-const defaultState: I_AppState = {
+const defaultState: IAppState = {
     mainScreenSwitcher: 'visualiser',
     actionsScreenSwitcher: 'cues'
 };
 
-export const appReducer: Reducer<I_AppState> = (
+export const appReducer: Reducer<IAppState> = (
     state = defaultState,
     action: RootActions
 ) => {
