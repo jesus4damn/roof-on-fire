@@ -1,14 +1,14 @@
 import * as React from "react";
 import {connect} from "react-redux";
 
-const Fixtures:React.FC = () => {
+const Cues:React.FC = () => {
     return (
         <div>
             <h2>
-                Fixtures
+                Cues
             </h2>
         </div>
     )
 };
 
-export default connect(null, null)(Fixtures)
+export default connect(null, null)(Cues)
