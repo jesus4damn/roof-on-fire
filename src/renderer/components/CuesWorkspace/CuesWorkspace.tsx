@@ -2,18 +2,18 @@ import * as React from 'react';
 import {RootState} from "../../store/rootReducer";
 import { switchActionsScreenAction } from "../../store/appReducer/appActions";
 import {connect} from "react-redux";
-import {I_ActionsScreenSwitchers } from "../../../types/appTypes";
+import {IActionsScreenSwitchers } from "../../../types/appTypes";
 import Properties from "./Properties/Properties";
 import Cues from "./Cues/Cues";
 
 require('./CuesWorkspace.scss');
 
-export interface I_Props {
-    actionsScreenSwitcher: I_ActionsScreenSwitchers,
-    switchActionsScreenAction: (val: I_ActionsScreenSwitchers) => void
+export interface IProps {
+    actionsScreenSwitcher: IActionsScreenSwitchers,
+    switchActionsScreenAction: (val: IActionsScreenSwitchers) => void
 }
 
-const CuesWorkspace: React.FunctionComponent<I_Props> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
+const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
     <div className='cuesWrapper'>
         <div className="selectionButtons">
             <button onClick={() => {switchActionsScreenAction('props')}}>

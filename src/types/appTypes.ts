@@ -1,2 +1,3 @@
-export type I_MainScreenSwitchers = 'visualiser' | 'program' | 'fixtures';
-export type I_ActionsScreenSwitchers = 'props' | 'cues';
+export type IMainScreenSwitchers = 'visualiser' | 'cueListWindow';
+export type IMainRightScreenSwitchers =  'fixtures' | 'cuesWindow' | null;
+export type IActionsScreenSwitchers = 'props' | 'cues';

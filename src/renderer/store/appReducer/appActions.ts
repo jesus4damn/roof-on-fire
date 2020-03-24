@@ -1,22 +1,29 @@
 import { Action, ActionCreator } from 'redux';
-import {I_ActionsScreenSwitchers, I_MainScreenSwitchers} from "../../../types/appTypes";
+import { IActionsScreenSwitchers, IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
 
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
+export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
 export const SWITCH_ACTIONS_SCREEN = 'app/SWITCH_ACTIONS_SCREEN';
 
-export interface I_SwitchMainScreenAction extends Action {
-    type: typeof SWITCH_MAIN_SCREEN, payload: I_MainScreenSwitchers
+export interface ISwitchMainScreenAction extends Action {
+    type: typeof SWITCH_MAIN_SCREEN, payload: IMainScreenSwitchers
 }
-export interface I_SwitchActionsScreenAction extends Action {
-    type: typeof SWITCH_ACTIONS_SCREEN, payload: I_ActionsScreenSwitchers
+export interface ISwitchMainRightPartAction extends Action {
+    type: typeof SWITCH_MAIN_RIGHT_PART, payload: IMainRightScreenSwitchers
+}
+export interface ISwitchActionsScreenAction extends Action {
+    type: typeof SWITCH_ACTIONS_SCREEN, payload: IActionsScreenSwitchers
 }
 
-export const switchMainScreenAction: ActionCreator<I_SwitchMainScreenAction> = (payload) => ({
+export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
 });
+export const switchMainRightPartAction: ActionCreator<ISwitchMainRightPartAction> = (payload) => ({
+    type: SWITCH_MAIN_RIGHT_PART, payload
+});
 
-export const switchActionsScreenAction: ActionCreator<I_SwitchActionsScreenAction> = (payload) => ({
+export const switchActionsScreenAction: ActionCreator<ISwitchActionsScreenAction> = (payload) => ({
     type: SWITCH_ACTIONS_SCREEN, payload
 });
 
-export type I_AppActions = I_SwitchMainScreenAction | I_SwitchActionsScreenAction;
+export type IAppActions = ISwitchMainScreenAction | ISwitchActionsScreenAction | ISwitchMainRightPartAction;

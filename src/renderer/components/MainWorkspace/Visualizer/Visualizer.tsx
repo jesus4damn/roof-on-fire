@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-require('./Counter.scss');
+require('./Visualizer.scss');
 
 export interface Props {
     value: number;
@@ -9,11 +9,9 @@ export interface Props {
     decrementValue: () => any;
 }
 
-const Counter: React.FunctionComponent<Props> = ({ value, incrementValue, decrementValue }) => (
+const Visualizer: React.FunctionComponent<Props> = ({ value, incrementValue, decrementValue }) => (
     <div className="counter">
-        <p>
-
-        </p>
+        <h2>MAIN SCREEN</h2>
         <p id="counter-value">Current value: {value}</p>
         <p>
             <button id="increment" onClick={incrementValue}>
@@ -26,4 +24,4 @@ const Counter: React.FunctionComponent<Props> = ({ value, incrementValue, decrem
     </div>
 );
 
-export default Counter;
+export default Visualizer;

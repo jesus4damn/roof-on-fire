@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Counter component renders correctly 1`] = `
+exports[`Visualizer component renders correctly 1`] = `
 <div
   className="counter"
 >
@@ -13,7 +13,7 @@ exports[`Counter component renders correctly 1`] = `
   <p
     id="counter-value"
   >
-    Current value: 
+    Current value:
     1
   </p>
   <p>

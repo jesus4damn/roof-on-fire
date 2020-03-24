@@ -3,19 +3,19 @@ import { Action, ActionCreator } from 'redux';
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 
-export interface I_IncrementAction extends Action {
+export interface IIncrementAction extends Action {
     type: typeof INCREMENT;
 }
-export interface I_DecrementAction extends Action {
+export interface IDecrementAction extends Action {
     type: typeof DECREMENT;
 }
 
-export const increment: ActionCreator<I_IncrementAction> = () => ({
+export const increment: ActionCreator<IIncrementAction> = () => ({
     type: INCREMENT
 });
 
-export const decrement: ActionCreator<I_DecrementAction> = () => ({
+export const decrement: ActionCreator<IDecrementAction> = () => ({
     type: DECREMENT
 });
 
-export type I_CounterActions = I_IncrementAction | I_DecrementAction;
+export type ICounterActions = IIncrementAction | IDecrementAction;

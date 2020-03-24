@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { I_CounterState, counterReducer } from './counterReducer/counterReducer';
-import {appReducer, I_AppState} from "./appReducer/appReducer";
+import { ICounterState, counterReducer } from './counterReducer/counterReducer';
+import {appReducer, IAppState} from "./appReducer/appReducer";
 
 export interface RootState {
-    counter: I_CounterState,
-    app: I_AppState
+    counter: ICounterState,
+    app: IAppState
 }
 
 export const rootReducer = combineReducers<RootState>({
