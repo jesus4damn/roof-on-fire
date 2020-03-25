@@ -23,12 +23,19 @@ export const appReducer: Reducer<IAppState> = (
         case SWITCH_MAIN_SCREEN:
             return {
                 ...state,
-                mainLeftScreenSwitcher:  action.payload
+                mainLeftScreenSwitcher: action.payload,
+                mainRightScreenSwitcher: state.mainLeftScreenSwitcher === 'visualiser'
+                && action.payload === 'visualiser'
+                    ? null
+                    : action.payload === 'cueListWindow' ? "cuesWindow" : state.mainRightScreenSwitcher,
             };
         case SWITCH_MAIN_RIGHT_PART:
             return {
                 ...state,
-                mainRightScreenSwitcher: action.payload === state.mainRightScreenSwitcher ? null : action.payload
+                mainRightScreenSwitcher: state.mainLeftScreenSwitcher === 'cueListWindow'
+                && action.payload === state.mainRightScreenSwitcher
+                    ? 'cuesWindow'
+                    : action.payload === state.mainRightScreenSwitcher ? null : action.payload
             };
         case SWITCH_ACTIONS_SCREEN:
             return {
