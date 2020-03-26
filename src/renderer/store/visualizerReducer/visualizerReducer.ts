@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { DECREMENT, INCREMENT } from './counterActions';
+import { DECREMENT, INCREMENT } from './visualizerActions';
 import {RootActions} from "../rootActions";
 
 export interface ICounterState {
@@ -11,7 +11,7 @@ const defaultState: ICounterState = {
     value: 0
 };
 
-export const counterReducer: Reducer<ICounterState> = (
+export const visualizerReducer: Reducer<ICounterState> = (
     state = defaultState,
     action: RootActions
 ) => {

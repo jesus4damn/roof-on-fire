@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { ICounterState, counterReducer } from './counterReducer/counterReducer';
+import { ICounterState, visualizerReducer } from './visualizerReducer/visualizerReducer';
 import {appReducer, IAppState} from "./appReducer/appReducer";
 import fixturesReducer, { IFixturesState } from './fixturesReducer/fixturesReducer';
 
@@ -11,7 +11,7 @@ export interface RootState {
 }
 
 export const rootReducer = combineReducers<RootState>({
-    counter: counterReducer,
+    counter: visualizerReducer,
     app: appReducer,
     fixtures: fixturesReducer
 });

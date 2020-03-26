@@ -18,4 +18,4 @@ export const decrement: ActionCreator<IDecrementAction> = () => ({
     type: DECREMENT
 });
 
-export type ICounterActions = IIncrementAction | IDecrementAction;
+export type IVisualizerActions = IIncrementAction | IDecrementAction;

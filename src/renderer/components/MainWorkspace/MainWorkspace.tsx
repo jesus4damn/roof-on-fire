@@ -3,21 +3,25 @@ import { RootState } from '../../store/rootReducer';
 import { switchMainRightPartAction, switchMainScreenAction } from '../../store/appReducer/appActions';
 import { connect } from 'react-redux';
 import { IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
-import VisualizerContainer from './Visualizer/VisualizerContainer';
+import Visualizer from './Visualizer/VisualizerContainer';
 import Fixtures from './Fixtures/Fixtures';
 import CueList from './CueList/CueList';
 import Cues from './Cues/Cues';
 
 require('./MainWorkspace.scss');
 
-export interface IProps {
+export interface IConnectedProps {
     mainLeftScreenSwitcher: IMainScreenSwitchers,
     mainRightScreenSwitcher: IMainRightScreenSwitchers,
+}
+export interface IDispatchedProps {
     switchMainScreenAction: (val: IMainScreenSwitchers) => void
     switchMainRightPartAction: (val: IMainRightScreenSwitchers) => void
 }
 
-const MainWorkspace: React.FunctionComponent<IProps> = ({
+interface IAllProps extends IConnectedProps, IDispatchedProps {}
+
+const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                                                             mainLeftScreenSwitcher,
                                                             mainRightScreenSwitcher,
                                                             switchMainScreenAction,
@@ -49,7 +53,7 @@ const MainWorkspace: React.FunctionComponent<IProps> = ({
         </div>
         <div className="workspaceContent">
             <div className="workspaceContainer">
-                {mainLeftScreenSwitcher === 'visualiser' && <VisualizerContainer/>}
+                {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}
                 {mainLeftScreenSwitcher === 'cueListWindow' && <CueList/>}
             </div>
             {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{borderLeft: '1px solid grey'}}>
@@ -59,7 +63,6 @@ const MainWorkspace: React.FunctionComponent<IProps> = ({
         </div>
     </div>
 )};
-
 
 const mapStateToProps = (state: RootState) => ({
     mainLeftScreenSwitcher: state.app.mainLeftScreenSwitcher,

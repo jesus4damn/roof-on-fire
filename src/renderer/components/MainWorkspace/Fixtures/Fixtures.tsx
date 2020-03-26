@@ -2,8 +2,11 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { RootState } from '../../../store/rootReducer';
 import { getFixtureGroups, getFixtures } from '../../../store/fixturesReducer/fixturesSelector';
-import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
 import { IFixture, IFixturesGroup } from '../../../../types/fixtureTypes';
+import FixtureItem from './FixtureItem';
+import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
+
+require('./FixtureItem.scss');
 
 interface IProps {
     fixtures: IFixture[],
@@ -21,12 +24,7 @@ const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
                 <tbody>
                     {fixtures.map( f => {
                         return (
-                            <tr key={f.id}>
-                                <td>{f.name}</td>
-                                <td>{f.active}</td>
-                                <td>{f.img}</td>
-                                <td>{f.type}</td>
-                            </tr>
+                            <FixtureItem key={f.id} fixture={f} update={updateFixture}/>
                         )
                     })}
                 </tbody>
@@ -40,4 +38,4 @@ const mapStateToProps = (state: RootState) => ({
     groups: getFixtureGroups(state)
 });
 
-export default connect(mapStateToProps, {updateFixture})(Fixtures);
+export default connect(mapStateToProps, { updateFixture })(Fixtures);

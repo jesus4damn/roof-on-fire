@@ -17,15 +17,13 @@ export interface IUpdateFixtureAC extends Action {
     type: typeof UPDATE_FIXTURE, fixture: IFixture
 }
 
-export const patchFixtureAC: ActionCreator<IPatchFixtureAC> = (payload) => ({
-    type: PATCH_FIXTURE, payload
-});
+export const patchFixtureAC: ActionCreator<IPatchFixtureAC> = (payload) =>
+    ({ type: PATCH_FIXTURE, payload });
 
-export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: string) => ({
-    type: DELETE_FIXTURE, fixtureId
-});
-export const updateFixture = (fixture: IFixture) => (dispatch: Dispatch) => ({
-    type: UPDATE_FIXTURE, fixture
-});
+export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: string) =>
+    ({ type: DELETE_FIXTURE, fixtureId });
+
+export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
+    ({ type: UPDATE_FIXTURE, fixture });
 
 

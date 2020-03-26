@@ -1,0 +1,19 @@
+.fixtureRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 5px;
+  border: green solid 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 95%;
+}
+.title {
+  font-size: xx-small;
+}
+.paramBlock {
+  display: flex;
+  flex-direction: column;
+  max-width: 14%;
+}

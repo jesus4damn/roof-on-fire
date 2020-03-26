@@ -12,4 +12,4 @@ const TimeLine:React.FC = () => {
     )
 }
 
-export default connect(null, null)(TimeLine)
+export default connect(null, null)(TimeLine);
