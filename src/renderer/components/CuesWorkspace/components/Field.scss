@@ -1,49 +1,59 @@
 .totalWrap {
-  position: relative;
-  height: 6rem;
-  padding: 5px;
+    position: relative;
+    height: 6rem;
+    padding: 5px;
 }
 
 .wrap {
-  position: relative;
-  width: 99%;
-  height: 99%;
-
-  background: #444444;
-  border-radius: 2px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #0D0C0C;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .imgWrap {
-  position: absolute;
-  left: 3.57%;
-  right: 3.57%;
-  top: 4.17%;
-  bottom: 22.92%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0D0C0C;
-  border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0D0C0C;
+    flex: 0 0 100%;
+    height: 73%;
+    border-radius: 2px;
+    z-index: 2;
+    border: 2px solid #444444;
+    box-sizing: border-box;
+    border-bottom: 0;
 }
 
 .titleWrap {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 72.92%;
-  bottom: 0%;
-
-  background: #666666;
-  border-radius: 0px 0px 2px 2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #FFFFFF;
+    background: #666666;
+    border-radius: 0px 0px 2px 2px;
+    text-align: center;
+    color: #FFFFFF;
+    flex: 0 0 100%;
+    position: relative;
+    z-index: 3;
+    height: 26px;
+    align-self: flex-end;
+    width: 100%;
+    border: 2px solid #666666;
+    box-sizing: border-box;
 }
 
 .image {
-  position: relative;
+    width: 30%;
+    height: 40%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
 
-  opacity: 0.5;
+.preview__img {
+    width: 100%;
+    height: 100%;
 }
