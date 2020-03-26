@@ -1,3 +1,4 @@
+// @ts-ignore
 Array.prototype.unique = function() {
     let a = this.concat();
     for (let i = 0; i < a.length; ++i) {

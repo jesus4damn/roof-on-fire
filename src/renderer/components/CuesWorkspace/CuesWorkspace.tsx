@@ -15,17 +15,46 @@ export interface IProps {
 
 const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
     <div className='cuesWrapper'>
-        <div className="selectionButtons">
+        <div className="selectionButtonsSetting">
             <button onClick={() => {switchActionsScreenAction('props')}}>
-                props
+            Горелки
             </button>
             <button onClick={() => {switchActionsScreenAction('cues')}}>
-                cues
+            Фейерверки T1
+            </button>
+            <button onClick={() => {switchActionsScreenAction('props')}}>
+            Фейерверки T2
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            Диммера
+            </button>
+            <button onClick={() => {switchActionsScreenAction('props')}}>
+            Протяжные
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            Динамика
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            Статика
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            Мои
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            +
             </button>
         </div>
         <div className="cuesWrapperContent">
             {actionsScreenSwitcher === 'props' && <Properties />}
             {actionsScreenSwitcher === 'cues' && <Cues />}
+        </div>
+        <div className="selectionButtons">
+            <button onClick={() => {switchActionsScreenAction('props')}}>
+            Кью
+            </button>
+            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            Параметры
+            </button>
         </div>
     </div>
 );

@@ -12,7 +12,10 @@ const Field: React.FC<IProps> = ({id, title}) => {
         <div className="totalWrap">
             <div className="wrap">
                 <div className="imgWrap">
-                    <span className="image">IMG</span>
+                    <div className="image">
+                    <img className="preview__img" src="src/renderer/assets/no_img-block-right.svg" alt=""/>
+                    </div>
+                    
                 </div>
                 <div className="titleWrap">
                     <span className="title"><a>{title}</a></span>
