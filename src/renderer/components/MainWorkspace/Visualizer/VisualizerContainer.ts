@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 
 import Visualizer from './Visualizer';
 import { RootState } from '../../../store/rootReducer';
-import { decrement, increment } from '../../../store/counterReducer/counterActions';
+import { decrement, increment } from '../../../store/visualizerReducer/visualizerActions';
 import {RootActions} from "../../../store/rootActions";
 
 const mapStateToProps = (state: RootState) => ({

@@ -11,6 +11,12 @@ button {
     margin: 1px;
     outline: none;
 }
+input {
+    background-color: inherit;
+    padding: 0;
+    text-align: center;
+    border-width: 0;
+}
 .appWrapper {
     background-color: #1e1d1e;
     margin: 0 auto;

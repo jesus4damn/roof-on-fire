@@ -10,6 +10,7 @@ const generateMockFixtures = (count: number): IFixture[] => {
     for (let i = 0; i < count; i++) {
         res.push({
             id: `mock-fixture-created-${i}`,
+            number: i + 1,
             selected: false,
             type: 'fixture',
             active: false,
@@ -38,7 +39,7 @@ const generateMockFixtures = (count: number): IFixture[] => {
                     physicalOutput: 0,
                     parts: null,
                     dmxAddress: prevAddres + 3,
-                    name: 'dimmer'
+                    name: 'speed'
                 }
             ]
         });
@@ -72,7 +73,8 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
         case UPDATE_FIXTURE:
             return {
-                ...state
+                ...state,
+                fixtures: [...state.fixtures.map(f => f.id === action.fixture.id ? action.fixture : f)]
             };
         default:
             return state;

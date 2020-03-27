@@ -1,4 +1,5 @@
 export interface IFixtureBase {
+    number: number,
     selected: boolean,
     type: TFixturesTypes,
     active: boolean,

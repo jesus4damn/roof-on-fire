@@ -2,8 +2,11 @@ import * as React from "react";
 import {connect} from "react-redux";
 import { RootState } from '../../../store/rootReducer';
 import { getFixtureGroups, getFixtures } from '../../../store/fixturesReducer/fixturesSelector';
-import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
 import { IFixture, IFixturesGroup } from '../../../../types/fixtureTypes';
+import FixtureItem from './FixtureItem';
+import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
+
+require('./FixtureItem.scss');
 
 interface IProps {
     fixtures: IFixture[],
@@ -24,7 +27,7 @@ const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
                             <tr key={f.id}>
                                 <td><div className="fixturesItem"><span>{f.img}</span> </div> </td>
                                 <td><div className="fixturesItem"><span>№</span> <span>{f.name}</span> </div></td>
-                                <td><div className="fixturesItem"><span>nonegit</span> <span>{f.active}</span> </div> </td>                               
+                                <td><div className="fixturesItem"><span>nonegit</span> <span>{f.active}</span> </div> </td>
                                 <td><div className="fixturesItem"><span>DMX</span> <span>{f.type}</span>  </div></td>
                                 <td><div className="fixturesItem"><span>ARM adress</span> <span>500</span>  </div></td>
                                 <td><div className="fixturesItem"><span>dimm</span> <span>0</span> </div> </td>
@@ -45,4 +48,4 @@ const mapStateToProps = (state: RootState) => ({
     groups: getFixtureGroups(state)
 });
 
-export default connect(mapStateToProps, {updateFixture})(Fixtures);
+export default connect(mapStateToProps, { updateFixture })(Fixtures);
