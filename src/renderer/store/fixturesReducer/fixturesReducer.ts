@@ -1,8 +1,8 @@
 import { Reducer } from 'redux';
-
 import {RootActions} from "../rootActions";
 import { IFixture, IFixturesGroup, IParamsDMX, IPatternBase, TFixturesTypes } from '../../../types/fixtureTypes';
 import { DELETE_FIXTURE, PATCH_FIXTURE, UPDATE_FIXTURE } from './fixturesActions';
+import { getFixtureIcon } from '../../assets/imageGetter';
 
 const generateMockFixtures = (count: number): IFixture[] => {
     let res: IFixture[] = [];
@@ -14,7 +14,7 @@ const generateMockFixtures = (count: number): IFixture[] => {
             selected: false,
             type: 'fixture',
             active: false,
-            img: `<img src='src/renderer/assets/fire_mashin.svg' />`,
+            img: getFixtureIcon(),
             name: `fire-machine ${i}`,
             posX: 0,
             posY: 0,

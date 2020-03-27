@@ -3,11 +3,13 @@ import { IFixture, IFixturesGroup } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
 require('./FixtureItem.scss');
 
+
 interface IProps {
     fixture: IFixture,
     update: (fixture: IFixture) => void
 }
 type TFixtureParams = keyof IFixture
+
 const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
     const [inputValue, setInputValue] = useState<string | number >('');
@@ -21,7 +23,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     return (
         <div className={"fixtureRow"}
             style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}>
-            <div>{fixture.img}</div>
+            <div><img src={fixture.img ? fixture.img  : ''}/></div>
             <div onClick={select} className={"paramBlock"}>
                 <span className={"title"}>№</span>
                 <span>{fixture.number}</span>
