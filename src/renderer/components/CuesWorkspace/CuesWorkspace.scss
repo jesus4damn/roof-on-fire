@@ -92,6 +92,16 @@
     right: 0;
 }
 
+.selectionButtonsTop button:nth-child(1),
+.selectionButtonsTop button:nth-child(4) {
+    width: 20%;
+}
+
+.selectionButtonsTop button:nth-child(2),
+.selectionButtonsTop button:nth-child(3) {
+    width: 30%;
+}
+
 .selectionButtonsTop button:nth-child(4):before {
     content: '';
     width: 0px;
