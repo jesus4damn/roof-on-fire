@@ -4,13 +4,31 @@
     grid-template-rows: 3% 1fr;
     width: 100%;
     height: 100%;
+    .fixtures {
+        color: #fff;
+        td {
+            background: #4F4F4F;
+            border-radius: 5px;
+            color: #fff;
+            .fixturesItem {
+                display: flex;
+                text-align: center;
+                flex-wrap: wrap;
+                span {
+                    flex: 1;
+                }
+            }
+        }
+    }
 }
+
 .navGroup {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: baseline;
 }
+
 .workspaceContent {
     display: flex;
     flex-direction: row;
@@ -20,6 +38,7 @@
     height: 100%;
     background-color: #0D0C0C;
 }
+
 .workspaceContainer {
     display: flex;
     justify-content: center;

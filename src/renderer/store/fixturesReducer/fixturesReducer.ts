@@ -13,7 +13,7 @@ const generateMockFixtures = (count: number): IFixture[] => {
             selected: false,
             type: 'fixture',
             active: false,
-            img: null,
+            img: `<img src='src/renderer/assets/fire_mashin.svg' />`,
             name: `fire-machine ${i}`,
             posX: 0,
             posY: 0,

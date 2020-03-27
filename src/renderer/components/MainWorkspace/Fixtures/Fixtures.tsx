@@ -17,15 +17,20 @@ const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
             <h2>
                 Fixtures
             </h2>
-            <table>
+            <table className="fixtures">
                 <tbody>
                     {fixtures.map( f => {
                         return (
                             <tr key={f.id}>
-                                <td>{f.name}</td>
-                                <td>{f.active}</td>
-                                <td>{f.img}</td>
-                                <td>{f.type}</td>
+                                <td><div className="fixturesItem"><span>{f.img}</span> </div> </td>
+                                <td><div className="fixturesItem"><span>№</span> <span>{f.name}</span> </div></td>
+                                <td><div className="fixturesItem"><span>none</span> <span>{f.active}</span> </div> </td>                               
+                                <td><div className="fixturesItem"><span>DMX</span> <span>{f.type}</span>  </div></td>
+                                <td><div className="fixturesItem"><span>ARM adress</span> <span>500</span>  </div></td>
+                                <td><div className="fixturesItem"><span>dimm</span> <span>0</span> </div> </td>
+                                <td><div className="fixturesItem"><span>tilt</span> <span>127</span> </div> </td>
+                                <td><div className="fixturesItem"><span>speed</span> <span>0</span> </div> </td>
+                                <td><div className="fixturesItem"><span>speed</span> <span>-</span>  </div></td>
                             </tr>
                         )
                     })}

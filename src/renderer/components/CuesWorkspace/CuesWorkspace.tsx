@@ -1,7 +1,7 @@
 import * as React from 'react';
+import {connect} from "react-redux";
 import {RootState} from "../../store/rootReducer";
 import { switchActionsScreenAction } from "../../store/appReducer/appActions";
-import {connect} from "react-redux";
 import {IActionsScreenSwitchers } from "../../../types/appTypes";
 import Properties from "./Properties/Properties";
 import Cues from "./Cues/Cues";
@@ -16,7 +16,8 @@ export interface IProps {
 const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
     <div className='cuesWrapper'>
         <div className="selectionButtonsSetting">
-            <button onClick={() => {switchActionsScreenAction('props')}}>
+          <div className="selectionButtonsTop">
+          <button className="activeButtonsTop" onClick={() => {switchActionsScreenAction('props')}}>
             Горелки
             </button>
             <button onClick={() => {switchActionsScreenAction('cues')}}>
@@ -28,10 +29,12 @@ const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, 
             <button onClick={() => {switchActionsScreenAction('cues')}}>
             Диммера
             </button>
-            <button onClick={() => {switchActionsScreenAction('props')}}>
+          </div>
+          <div className="selectionButtonsBottom">
+          <button onClick={() => {switchActionsScreenAction('props')}}>
             Протяжные
             </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
+            <button className="activeButtonsBottom" onClick={() => {switchActionsScreenAction('cues')}}>
             Динамика
             </button>
             <button onClick={() => {switchActionsScreenAction('cues')}}>
@@ -43,6 +46,8 @@ const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, 
             <button onClick={() => {switchActionsScreenAction('cues')}}>
             +
             </button>
+          </div>
+           
         </div>
         <div className="cuesWrapperContent">
             {actionsScreenSwitcher === 'props' && <Properties />}
