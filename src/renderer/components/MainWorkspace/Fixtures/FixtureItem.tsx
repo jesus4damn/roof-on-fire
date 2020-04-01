@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IFixture, IFixturesGroup } from '../../../../types/fixtureTypes';
+import { IFixture } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
 require('./FixtureItem.scss');
 
@@ -23,7 +23,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     return (
         <div className={"fixtureRow"}
             style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}>
-            <div><img src={fixture.img ? fixture.img  : ''}/></div>
+            <div><img alt={'fixture'} src={fixture.img ? fixture.img  : ''}/></div>
             <div onClick={select} className={"paramBlock"}>
                 <span className={"title"}>№</span>
                 <span>{fixture.number}</span>
@@ -60,7 +60,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
             </div>
             {fixture.params.map(p => {
                 return (
-                    <div className={"paramBlock"}>
+                    <div key={'Parametr' + p.name} className={"paramBlock"}>
                         <span className={"title"}>{p.name}</span>
                         <span>{p.physicalOutput}</span>
                     </div>

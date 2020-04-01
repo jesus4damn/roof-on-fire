@@ -3,7 +3,8 @@ import { IActionsScreenSwitchers, IMainRightScreenSwitchers, IMainScreenSwitcher
 
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
-export const SWITCH_ACTIONS_SCREEN = 'app/SWITCH_ACTIONS_SCREEN';
+export const SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN';
+export const SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN';
 
 export interface ISwitchMainScreenAction extends Action {
     type: typeof SWITCH_MAIN_SCREEN, payload: IMainScreenSwitchers
@@ -11,8 +12,11 @@ export interface ISwitchMainScreenAction extends Action {
 export interface ISwitchMainRightPartAction extends Action {
     type: typeof SWITCH_MAIN_RIGHT_PART, payload: IMainRightScreenSwitchers
 }
-export interface ISwitchActionsScreenAction extends Action {
-    type: typeof SWITCH_ACTIONS_SCREEN, payload: IActionsScreenSwitchers
+export interface ISwitchFixturePropertiesButtonsScreen extends Action {
+    type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN, payload: IActionsScreenSwitchers
+}
+export interface ISwitchFixtureTypesButtonsScreen extends Action {
+    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload: string
 }
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
@@ -22,8 +26,12 @@ export const switchMainRightPartAction: ActionCreator<ISwitchMainRightPartAction
     type: SWITCH_MAIN_RIGHT_PART, payload
 });
 
-export const switchActionsScreenAction: ActionCreator<ISwitchActionsScreenAction> = (payload) => ({
-    type: SWITCH_ACTIONS_SCREEN, payload
+export const switchFixturePropertiesButtonsScreen: ActionCreator<ISwitchFixturePropertiesButtonsScreen> = (payload) => ({
+    type: SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN, payload
+});
+export const switchFixtureTypesButtonsScreen: ActionCreator<ISwitchFixtureTypesButtonsScreen> = (payload) => ({
+    type: SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload
 });
 
-export type IAppActions = ISwitchMainScreenAction | ISwitchActionsScreenAction | ISwitchMainRightPartAction;
+export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
+    | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen;

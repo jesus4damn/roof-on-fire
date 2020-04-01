@@ -24,7 +24,7 @@ const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
                 <div>
                     {fixtures.map( f => {
                         return (
-                            <FixtureItem fixture={f} update={updateFixture}/>
+                            <FixtureItem key={f.id} fixture={f} update={updateFixture}/>
                         )
                     })}
                 </div>

@@ -1,61 +1,22 @@
 import { Reducer } from 'redux';
 import {RootActions} from "../rootActions";
-import { IFixture, IFixturesGroup, IParamsDMX, IPatternBase, TFixturesTypes } from '../../../types/fixtureTypes';
+import {
+    IFixture,
+    IFixturesGroup,
+} from '../../../types/fixtureTypes';
 import { DELETE_FIXTURE, PATCH_FIXTURE, UPDATE_FIXTURE } from './fixturesActions';
-import { getFixtureIcon } from '../../assets/imageGetter';
-
-const generateMockFixtures = (count: number): IFixture[] => {
-    let res: IFixture[] = [];
-    let prevAddres = 1;
-    for (let i = 0; i < count; i++) {
-        res.push({
-            id: `mock-fixture-created-${i}`,
-            number: i + 1,
-            selected: false,
-            type: 'fixture',
-            active: false,
-            img: getFixtureIcon(),
-            name: `fire-machine ${i}`,
-            posX: 0,
-            posY: 0,
-            startAddress: prevAddres + 5 * i,
-            params: [
-                {
-                dmxOutput: 0,
-                physicalOutput: 0,
-                parts: null,
-                dmxAddress: prevAddres + 1,
-                name: 'dimmer'
-                },
-                {
-                    dmxOutput: 0,
-                    physicalOutput: 0,
-                    parts: null,
-                    dmxAddress: prevAddres + 2,
-                    name: 'tilt'
-                },
-                {
-                    dmxOutput: 0,
-                    physicalOutput: 0,
-                    parts: null,
-                    dmxAddress: prevAddres + 3,
-                    name: 'speed'
-                }
-            ]
-        });
-        prevAddres = prevAddres + 1
-    }
-    return res
-};
+import { generateMockFixtures } from '../mockDataGenerators';
 
 export interface IFixturesState {
     readonly fixtures: IFixture[],
     readonly groups: IFixturesGroup[],
+    readonly fixtureTypes: string[],
 }
 
 const defaultState: IFixturesState = {
     fixtures: generateMockFixtures(8),
     groups: [],
+    fixtureTypes: ['fire-machine', 'fireworks-position T1', 'fireworks-position T2', 'Dimmers'],
 };
 
 export const fixturesReducer: Reducer<IFixturesState> = (

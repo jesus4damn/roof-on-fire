@@ -1,14 +1,14 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import CueLine from './CueLine/CueLine';
-const baseUrl = require("../../assets/timecode.svg");
+import { getTimeLineBackground } from '../../assets/imageGetter';
 
 require('./TimeLine.scss');
 
 const TimeLine:React.FC = () => {
-    let cues = [{},{},{},]
+    let cues = [{},{},{},{}];
     return (
-        <div style={{backgroundImage: `url(${baseUrl})`}} className={'timelineBlock'}>
+        <div style={{backgroundImage: `url(${getTimeLineBackground()})`}} className={'timelineBlock'}>
                 TIMELINE
             {cues.map((c, i) =>
                 <CueLine key={'cue' + i} />
