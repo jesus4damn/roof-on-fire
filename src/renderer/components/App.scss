@@ -3,6 +3,7 @@
     padding: 4px;
     box-sizing: border-box;
 }
+
 button {
     background-color: inherit;
     color: green;
@@ -11,23 +12,22 @@ button {
     margin: 1px;
     outline: none;
 }
+
 input {
     background-color: inherit;
     padding: 0;
     text-align: center;
     border-width: 0;
 }
+
 .appWrapper {
     background-color: #1e1d1e;
     margin: 0 auto;
     height: 98vh;
     display: grid;
-    grid-template-areas:
-            "head head"
-            "main cues"
-            "time time";
+    grid-template-areas: "head head" "main cues" "time time";
     grid-template-rows: 5% 1fr 20%;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     color: #ffffff;
     max-height: 99vh;
 }
@@ -40,6 +40,7 @@ input {
     align-items: center;
     height: 100%;
 }
+
 .mainWorkspaceWrapper {
     display: flex;
     grid-area: main;
@@ -48,6 +49,7 @@ input {
     align-items: center;
     max-height: 74vh;
 }
+
 .cuesWorkspaceWrapper {
     display: flex;
     grid-area: cues;
@@ -57,6 +59,7 @@ input {
     max-height: 74vh;
     height: 100%;
 }
+
 .timeLineWorkspaceWrapper {
     display: flex;
     grid-area: time;

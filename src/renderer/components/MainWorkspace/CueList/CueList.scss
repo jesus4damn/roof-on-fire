@@ -1,0 +1,38 @@
+..WrapCuesList {
+    padding-top: 2px;
+    border-radius: 5px;
+    border: 2px solid #444444;
+    border-top: 0;
+    align-items: flex-start;
+    box-sizing: border-box;
+    width: 98%;
+}
+
+.TableCuesList {
+    color: #fff;
+    border-collapse: collapse;
+    font-size: 14px;
+    width: 100%;
+}
+
+.headerTableCuesList {
+    background: #444444;
+    border-radius: 5px;
+}
+
+.TableCuesList td {
+    text-align: center;
+    padding: 12px;
+}
+
+.headerTableCuesList-active {
+    color: #F2C94C;
+}
+
+.headerTableCuesList-dmx {
+    color: #F2C94C;
+}
+
+.headerTableCuesList-hex {
+    color: #EB5757;
+}
