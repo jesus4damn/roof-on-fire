@@ -18,6 +18,7 @@ const CueLine:React.FC<IProps & any> = ({cueItem}) => {
     }
     const classnameForOpen = isOpen ? '' : ''
     return (
+<<<<<<< HEAD
         <div className={classnameForOpen} style={{width: `${cueWidth}px`}}>
             { isOpen
                 ? <div onClick={checkIsOpen}>
@@ -27,9 +28,15 @@ const CueLine:React.FC<IProps & any> = ({cueItem}) => {
                      <span className={'timelineCue-triangle'} >                        
                      </span>
                      </div>
+=======
+        <div className={'timelineCue'}>
+            { isOpen
+                ? <div>opened</div>
+                : <div>closed</div>
+>>>>>>> b8e90f9dc8f403df44e533f8099616e4d14f5237
             }
         </div>
     )
-}
+};
 
 export default CueLine;

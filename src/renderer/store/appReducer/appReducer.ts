@@ -1,24 +1,31 @@
 import { Reducer } from 'redux';
 import { IActionsScreenSwitchers, IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
-import { SWITCH_ACTIONS_SCREEN, SWITCH_MAIN_RIGHT_PART, SWITCH_MAIN_SCREEN } from './appActions';
-import {RootActions} from "../rootActions";
+import {
+    SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
+    SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
+    SWITCH_MAIN_RIGHT_PART,
+    SWITCH_MAIN_SCREEN
+} from './appActions';
+import { RootActions } from '../rootActions';
 
 export interface IAppState {
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
-    readonly actionsScreenSwitcher: IActionsScreenSwitchers,
+    readonly fixtureTypesScreenWindow: string,
+    readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
 }
 
 const defaultState: IAppState = {
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,
-    actionsScreenSwitcher: 'cues'
+    fixtureTypesScreenWindow: '',
+    fixturesPropertiesScreenWindow: 'cues'
 };
 
 export const appReducer: Reducer<IAppState> = (
     state = defaultState,
     action: RootActions
-) => {
+):IAppState => {
     switch (action.type) {
         case SWITCH_MAIN_SCREEN:
             return {
@@ -37,10 +44,15 @@ export const appReducer: Reducer<IAppState> = (
                     ? 'cuesWindow'
                     : action.payload === state.mainRightScreenSwitcher ? null : action.payload
             };
-        case SWITCH_ACTIONS_SCREEN:
+        case SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN:
             return {
                 ...state,
-                actionsScreenSwitcher: action.payload
+                fixturesPropertiesScreenWindow: action.payload
+            };
+        case SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN:
+            return {
+                ...state,
+                fixtureTypesScreenWindow: action.payload
             };
         default:
             return state;

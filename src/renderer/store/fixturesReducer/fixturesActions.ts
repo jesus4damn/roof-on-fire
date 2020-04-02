@@ -1,4 +1,4 @@
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { IFixture } from '../../../types/fixtureTypes';
 
 export const PATCH_FIXTURE = 'fixtures/PATCH_FIXTURE';
@@ -26,4 +26,7 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
 
+export const getFixturePatternById = () => {
+
+};
 

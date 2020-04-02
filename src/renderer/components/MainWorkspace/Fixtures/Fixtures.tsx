@@ -16,6 +16,7 @@ interface IProps {
 
 const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
     return (
+<<<<<<< HEAD
         <div className="WrapFixtures">
             <div className="FrameAccordion">
                         <h2 >
@@ -32,6 +33,20 @@ const Fixtures:React.FC<IProps> = ({fixtures, groups, updateFixture}) => {
                                 })}
                             </div>
                         </div>
+=======
+        <div>
+            <h2>
+                Fixtures
+            </h2>
+            <div className="fixtures">
+                <div>
+                    {fixtures.map( f => {
+                        return (
+                            <FixtureItem key={f.id} fixture={f} update={updateFixture}/>
+                        )
+                    })}
+                </div>
+>>>>>>> b8e90f9dc8f403df44e533f8099616e4d14f5237
             </div>
         </div>
         

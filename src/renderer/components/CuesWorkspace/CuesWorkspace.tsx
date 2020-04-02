@@ -1,72 +1,98 @@
 import * as React from 'react';
-import {connect} from "react-redux";
-import {RootState} from "../../store/rootReducer";
-import { switchActionsScreenAction } from "../../store/appReducer/appActions";
-import {IActionsScreenSwitchers } from "../../../types/appTypes";
-import Properties from "./Properties/Properties";
-import Cues from "./Cues/Cues";
+import { connect } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
+import {
+    switchFixturePropertiesButtonsScreen,
+    switchFixtureTypesButtonsScreen
+} from '../../store/appReducer/appActions';
+import { IActionsScreenSwitchers } from '../../../types/appTypes';
+import Properties from './Properties/Properties';
+import Cues from './Cues/Cues';
+import { getFixturesTypes } from '../../store/fixturesReducer/fixturesSelector';
 
 require('./CuesWorkspace.scss');
 
 export interface IProps {
-    actionsScreenSwitcher: IActionsScreenSwitchers,
-    switchActionsScreenAction: (val: IActionsScreenSwitchers) => void
+    fixtureTypesScreenWindow: string,
+    fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
+    fixturesTypes: string[],
+    switchFixturePropertiesButtonsScreen: (val: IActionsScreenSwitchers) => void
+    switchFixtureTypesButtonsScreen: (val: string) => void
 }
 
-const CuesWorkspace: React.FunctionComponent<IProps> = ({actionsScreenSwitcher, switchActionsScreenAction}) => (
-    <div className='cuesWrapper'>
-        <div className="selectionButtonsSetting">
-          <div className="selectionButtonsTop">
-          <button className="activeButtonsTop" onClick={() => {switchActionsScreenAction('props')}}>
-            Горелки
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            Фейерверки T1
-            </button>
-            <button onClick={() => {switchActionsScreenAction('props')}}>
-            Фейерверки T2
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            Диммера
-            </button>
-          </div>
-          <div className="selectionButtonsBottom">
-          <button onClick={() => {switchActionsScreenAction('props')}}>
-            Протяжные
-            </button>
-            <button className="activeButtonsBottom" onClick={() => {switchActionsScreenAction('cues')}}>
-            Динамика
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            Статика
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            Мои
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            +
-            </button>
-          </div>
-           
+const CuesWorkspace: React.FunctionComponent<IProps> = ({
+                                                            fixturesTypes,
+                                                            fixtureTypesScreenWindow,
+                                                            fixturesPropertiesScreenWindow,
+                                                            switchFixturePropertiesButtonsScreen,
+                                                            switchFixtureTypesButtonsScreen
+                                                        }) => {
+
+    return (
+        <div className='cuesWrapper'>
+            <div className="selectionButtonsSetting">
+                <div className="selectionButtonsTop">
+                    {fixturesTypes.length && fixturesTypes.map(ft => {
+                        return (
+                            <button className={fixtureTypesScreenWindow === ft ? 'activeButtonsTop' : ''}
+                                    key={'fixtureTypeButton' + ft}
+                                    onClick={() => {
+                                        switchFixtureTypesButtonsScreen(ft);
+                                    }}>
+                                {ft}
+                            </button>
+                        );
+                    })}
+                </div>
+                <div className="selectionButtonsBottom">
+                    <button
+                        className={fixturesPropertiesScreenWindow === 'long' ? "activeButtonsBottom" : ''}
+                        onClick={() => {
+                        switchFixturePropertiesButtonsScreen('long');
+                    }}>
+                        Протяжные
+                    </button>
+                    <button
+                        className={fixturesPropertiesScreenWindow === 'dynamic' ? "activeButtonsBottom" : ''}
+                            onClick={() => {
+                        switchFixturePropertiesButtonsScreen('dynamic');
+                    }}>
+                        Динамика
+                    </button>
+                    <button
+                        className={fixturesPropertiesScreenWindow === 'static' ? "activeButtonsBottom" : ''}
+                        onClick={() => {
+                        switchFixturePropertiesButtonsScreen('static');
+                    }}>
+                        Статика
+                    </button>
+                    <button
+                        className={fixturesPropertiesScreenWindow === 'cues' ? "activeButtonsBottom" : ''}
+                        onClick={() => {
+                        switchFixturePropertiesButtonsScreen('cues');
+                    }}>
+                        Мои
+                    </button>
+                </div>
+            </div>
+            <div className="cuesWrapperContent">
+                {fixturesPropertiesScreenWindow === 'static' && <Properties />}
+                {fixturesPropertiesScreenWindow === 'dynamic' && <Properties />}
+                {fixturesPropertiesScreenWindow === 'long' && <Properties />}
+                {fixturesPropertiesScreenWindow === 'cues' && <Cues/>}
+            </div>
         </div>
-        <div className="cuesWrapperContent">
-            {actionsScreenSwitcher === 'props' && <Properties />}
-            {actionsScreenSwitcher === 'cues' && <Cues />}
-        </div>
-        <div className="selectionButtons">
-            <button onClick={() => {switchActionsScreenAction('props')}}>
-            Кью
-            </button>
-            <button onClick={() => {switchActionsScreenAction('cues')}}>
-            Параметры
-            </button>
-        </div>
-    </div>
-);
+    );
+};
 
 
 const mapStateToProps = (state: RootState) => ({
-    actionsScreenSwitcher: state.app.actionsScreenSwitcher
+    fixturesPropertiesScreenWindow: state.app.fixturesPropertiesScreenWindow,
+    fixtureTypesScreenWindow: state.app.fixtureTypesScreenWindow,
+    fixturesTypes: getFixturesTypes(state)
 });
 
-export default connect(mapStateToProps, { switchActionsScreenAction })(CuesWorkspace);
+export default connect(mapStateToProps, {
+    switchFixturePropertiesButtonsScreen,
+    switchFixtureTypesButtonsScreen
+})(CuesWorkspace);
