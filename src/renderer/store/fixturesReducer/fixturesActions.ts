@@ -5,9 +5,9 @@ export const PATCH_FIXTURES = 'fixtures/PATCH_FIXTURE';
 export const DELETE_FIXTURE = 'fixtures/DELETE_FIXTURE';
 export const UPDATE_FIXTURE = 'fixtures/UPDATE_FIXTURE';
 
-export type IFixtureActions = IPatchFixtureAC | IDeleteFixtureAC | IUpdateFixtureAC;
+export type IFixtureActions = IPatchFixturesAC | IDeleteFixtureAC | IUpdateFixtureAC;
 
-export interface IPatchFixtureAC extends Action {
+export interface IPatchFixturesAC extends Action {
     type: typeof PATCH_FIXTURES, payload: IFixture[]
 }
 export interface IDeleteFixtureAC extends Action {
@@ -17,7 +17,7 @@ export interface IUpdateFixtureAC extends Action {
     type: typeof UPDATE_FIXTURE, fixture: IFixture
 }
 
-export const patchFixtureAC: ActionCreator<IPatchFixtureAC> = (payload) =>
+export const patchFixturesAC: ActionCreator<IPatchFixturesAC> = (payload: IFixture[]) =>
     ({ type: PATCH_FIXTURES, payload });
 
 export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: string) =>

@@ -7,18 +7,19 @@ import {
     SWITCH_MAIN_SCREEN
 } from './appActions';
 import { RootActions } from '../rootActions';
+import { TFixtureType } from '../fixturesReducer/fixturesReducer';
 
 export interface IAppState {
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
-    readonly fixtureTypesScreenWindow: string,
+    readonly fixtureTypesScreenWindow: TFixtureType,
     readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
 }
 
 const defaultState: IAppState = {
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,
-    fixtureTypesScreenWindow: '',
+    fixtureTypesScreenWindow: 'fireMachine',
     fixturesPropertiesScreenWindow: 'cues'
 };
 

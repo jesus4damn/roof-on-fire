@@ -10,8 +10,9 @@ import { IFieldsState } from '../store/fieldsReducer/fieldsReducer';
 import { IFixture } from '../../types/fixtureTypes';
 import { connect } from 'react-redux';
 import { RootState } from '../store/rootReducer';
-import { patchFixtureAC } from '../store/fixturesReducer/fixturesActions';
+import { patchFixturesAC } from '../store/fixturesReducer/fixturesActions';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
+
 require('./App.scss');
 const Storage = require('../../main/StoreData');
 
@@ -19,7 +20,16 @@ const dataStorage = new Storage({
     configName: 'initialAppData',
     defaults: {
         showData: {
-            fields: [],
+            fields: {
+                fireMachines: {
+                    staticFields: [],
+                    dynamicFields: [],
+                    longFields: []
+                },
+                fireWorks: {
+                    fields: []
+                }
+            },
             fixtures: []
         }
     }
@@ -29,33 +39,43 @@ interface IInitialData {
     fields: IFieldsState
     fixtures: IFixture[]
 }
+
 interface IProps {
-    patchFixtureAC: (fixtures: IFixture) => void
+    patchFixturesAC: (fixtures: IFixture[]) => void
     setInitialFields: (fields: IFieldsState) => void
 }
 
-const Application = ({patchFixtureAC, setInitialFields}:IProps) => {
-
+const Application = ({ patchFixturesAC, setInitialFields }: IProps) => {
     useEffect(() => {
         try {
-            const { fields, fixtures } = dataStorage.get('showData')
-            if (fields.cuesFields.length) {
-                setInitialFields(fields)
+            const commonData: IInitialData = dataStorage.get('showData');
+            if (commonData.fields.fireMachines.staticFields.length) {
+                setInitialFields(commonData.fields);
             }
-            if (fixtures.length) {
-                patchFixtureAC(fixtures)
+            if (commonData.fixtures.length) {
+                patchFixturesAC(commonData.fixtures);
             }
         } catch (e) {
+            const fixtures = generateMockFixtures(10);
+            const parts = fixtures[0].params[3].parts !== null
+            && fixtures[0].params[3].parts.length
+                ? fixtures[0].params[3].parts
+                : [];
             let initialData: IInitialData = {
                 fields: {
                     cuesFields: generateFields(null),
-                    staticFields: generateFields(null),
-                    dynamicFields: generateFields(null),
-                    longFields: generateFields(null),
+                    fireMachines: {
+                        staticFields: generateFields(parts.filter(p => p.type === 'static')),
+                        dynamicFields: generateFields(parts.filter(p => p.type === 'dynamic')),
+                        longFields: generateFields(parts.filter(p => p.type === 'long'))
+                    },
+                    fireWorks: {
+                        fields: generateFields(null)
+                    }
                 },
-                fixtures: generateMockFixtures(10)
+                fixtures: fixtures
             };
-            dataStorage.set('showData', initialData)
+            dataStorage.set('showData', initialData);
         }
     }, []);
     return (
@@ -67,10 +87,10 @@ const Application = ({patchFixtureAC, setInitialFields}:IProps) => {
         </div>);
 };
 
-const mapStateToProps = (state: RootState) => ({ });
+const mapStateToProps = (state: RootState) => ({});
 
 const ApplicationContainer = connect(mapStateToProps, {
-    patchFixtureAC, setInitialFields
+    patchFixturesAC, setInitialFields
 })(Application);
 
 export default hot(ApplicationContainer);

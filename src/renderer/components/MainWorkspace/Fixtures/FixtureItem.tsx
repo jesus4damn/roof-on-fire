@@ -21,9 +21,12 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     };
 
     return (
-        <div className={"fixtureRow"} >
-            <div>
-                <img alt={'fixture'} src={fixture.img ? fixture.img  : ''} className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}/>
+        <div className={"fixtureRow"} style={{boxShadow: fixture.selected ? '0 0 10px 0 green' : 'none'}}>
+            <div onClick={select}>
+                <img alt={'fixture'}
+                     src={fixture.img ? fixture.img  : ''}
+                     className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
+                />
             </div>
 
             <div onClick={select} className={"paramBlock"}>

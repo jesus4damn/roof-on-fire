@@ -1,21 +1,30 @@
 import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
 import { IField } from '../../../types/fieldsTypes';
-import { generateFields } from '../mockDataGenerators';
 import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS } from './fieldsActions';
 
 export interface IFieldsState {
     readonly cuesFields: IField[],
-    readonly staticFields: IField[],
-    readonly dynamicFields: IField[],
-    readonly longFields: IField[],
+    readonly fireMachines: {
+        readonly staticFields: IField[],
+        readonly dynamicFields: IField[],
+        readonly longFields: IField[],
+    },
+    readonly fireWorks: {
+        readonly fields: IField[]
+    }
 }
 
 const defaultState: IFieldsState = {
     cuesFields: [],
-    staticFields: [],
-    dynamicFields: [],
-    longFields: [],
+    fireMachines: {
+        staticFields: [],
+        dynamicFields: [],
+        longFields: []
+    },
+    fireWorks: {
+        fields: []
+    }
 };
 
 export const fieldsReducer: Reducer<IFieldsState> = (
@@ -31,20 +40,9 @@ export const fieldsReducer: Reducer<IFieldsState> = (
             return {
                 ...state,
                 ...action.payload.fields
-            }
-        case SET_NEW_FIELDS:
-            const isRearrange = action.payload.patterns && action.payload.patterns.length
-                ? action.payload.patterns
-                : null;
-            const toRearrange = action.payload.patternsType === 'static'
-                ? {staticFields: generateFields(isRearrange)}
-                : action.payload.patternsType === 'dynamic'
-                    ? {staticFields: generateFields(isRearrange)}
-                    : {longFields: generateFields(isRearrange)};
-            return {
-                ...state,
-                ...toRearrange
             };
+        case SET_NEW_FIELDS:
+            return state;
         default:
             return state;
     }

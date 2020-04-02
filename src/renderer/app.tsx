@@ -12,7 +12,7 @@ const mainElement = document.createElement('div');
 document.body.appendChild(mainElement);
 
 // Render components
-const render = (Component: () => JSX.Element) => {
+const render = (Component: any) => {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>

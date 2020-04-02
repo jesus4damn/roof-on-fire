@@ -1,5 +1,6 @@
 import { Action, ActionCreator } from 'redux';
 import { IActionsScreenSwitchers, IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
+import { TFixtureType } from '../fixturesReducer/fixturesReducer';
 
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
@@ -16,7 +17,7 @@ export interface ISwitchFixturePropertiesButtonsScreen extends Action {
     type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN, payload: IActionsScreenSwitchers
 }
 export interface ISwitchFixtureTypesButtonsScreen extends Action {
-    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload: string
+    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload: TFixtureType
 }
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({

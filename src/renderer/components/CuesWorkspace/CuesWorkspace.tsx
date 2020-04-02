@@ -9,13 +9,14 @@ import { IActionsScreenSwitchers } from '../../../types/appTypes';
 import Properties from './Properties/Properties';
 import Cues from './Cues/Cues';
 import { getFixturesTypes } from '../../store/fixturesReducer/fixturesSelector';
+import { TFixtureType } from '../../store/fixturesReducer/fixturesReducer';
 
 require('./CuesWorkspace.scss');
 
 export interface IProps {
     fixtureTypesScreenWindow: string,
     fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
-    fixturesTypes: string[],
+    fixturesTypes: TFixtureType[],
     switchFixturePropertiesButtonsScreen: (val: IActionsScreenSwitchers) => void
     switchFixtureTypesButtonsScreen: (val: string) => void
 }

@@ -15,24 +15,26 @@ export const generateMockPatterns = (quan: number):IPattern[] => {
         {
             delay: 15,
             time: 500,
-            type: 'short',
+            type: 'shot',
             height: 0,
             angle: 15,
         },
     ];
+    let addr = 0;
     let res = [];
     for (let i = 0; i < quan; i++) {
+        addr = addr + 5;
         res.push({
             id: uuid(),
             selected: false,
             active: false,
             img: getReactPng(),
-            name: null,
+            name: `patt ${i % 2 === 0 ? 'long' : 'static'}`,
             offset: 15,
-            type: 'long',
+            type: i % 2 === 0 ? 'long' : 'static',
             steps: steps,
-            dmxStart: 0,
-            dmxEnd: 5,
+            dmxStart: addr,
+            dmxEnd: addr + 5,
         });
     }
     // @ts-ignore
@@ -79,11 +81,10 @@ export const generateMockFixtures = (count: number): IFixture[] => {
                 {
                     dmxOutput: 0,
                     physicalOutput: 0,
-                    parts: generateMockPatterns(10),
+                    parts: generateMockPatterns(13),
                     dmxAddress: prevAddres + 3,
                     name: 'patterns'
                 },
-
             ]
         });
         prevAddres = prevAddres + 1

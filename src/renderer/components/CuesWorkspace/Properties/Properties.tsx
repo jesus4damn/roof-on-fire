@@ -17,10 +17,7 @@ interface IProps {
 }
 
 const Patterns:React.FC<IProps> = ({patternsType, fixturePatterns, setNewFields, fieldsArr}) => {
-    useEffect(() => {
-        let toGenerate = fixturePatterns.filter(p => p.type === patternsType);
-        setNewFields(toGenerate, patternsType !== 'cues' ? patternsType : 'long')
-    },[]);
+
     return (
         <React.Fragment>
             {fieldsArr.map(f => (

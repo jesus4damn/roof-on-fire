@@ -10,13 +10,14 @@ import { generateMockFixtures } from '../mockDataGenerators';
 export interface IFixturesState {
     readonly fixtures: IFixture[],
     readonly groups: IFixturesGroup[],
-    readonly fixtureTypes: string[],
+    readonly fixtureTypes: TFixtureType[],
 }
+export type TFixtureType = 'fireMachine'| 'fireWorksT1'| 'fireWorksT2'| 'dimmer';
 
 const defaultState: IFixturesState = {
     fixtures: generateMockFixtures(8),
     groups: [],
-    fixtureTypes: ['fire-machine', 'fireworks-position T1', 'fireworks-position T2', 'Dimmers'],
+    fixtureTypes: ['fireMachine', 'fireWorksT1', 'fireWorksT2', 'dimmer'],
 };
 
 export const fixturesReducer: Reducer<IFixturesState> = (

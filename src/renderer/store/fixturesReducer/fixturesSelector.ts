@@ -2,6 +2,7 @@ import { RootState } from '../rootReducer';
 import { createSelector } from "reselect";
 import { IFixture, IPattern } from '../../../types/fixtureTypes';
 import { getSelectedFixtureTypesScreenWindow } from '../appReducer/appSelectors';
+import { TFixtureType } from './fixturesReducer';
 
 export const getFixtures = (state:RootState):IFixture[] => state.fixtures.fixtures;
 export const getFixtureGroups = (state:RootState) => state.fixtures.groups;
@@ -13,7 +14,7 @@ export const getSelectedGroupFixtures = createSelector(getFixtures, getFixtureGr
     });
     return res;
 });
-export const getFixturesTypes = (state:RootState):string[] => state.fixtures.fixtureTypes;
+export const getFixturesTypes = (state:RootState):TFixtureType[] => state.fixtures.fixtureTypes;
 
 export const getPatternsByFixtureType = createSelector(
     getFixtures,

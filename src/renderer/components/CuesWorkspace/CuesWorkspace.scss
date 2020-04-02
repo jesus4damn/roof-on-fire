@@ -161,6 +161,7 @@
 
 .cuesWrapperContent {
     width: 99%;
+    min-height: 64vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     flex-wrap: wrap;
