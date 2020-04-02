@@ -21,15 +21,11 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     };
 
     return (
-        <div className={"fixtureRow"}
-<<<<<<< HEAD
-            // style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}
-            >
-            <div ><img src={fixture.img ? fixture.img  : ''} className={"paramBlock paramBlock-active"}/></div>
-=======
-            style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}>
-            <div><img alt={'fixture'} src={fixture.img ? fixture.img  : ''}/></div>
->>>>>>> b8e90f9dc8f403df44e533f8099616e4d14f5237
+        <div className={"fixtureRow"} >
+            <div>
+                <img alt={'fixture'} src={fixture.img ? fixture.img  : ''} className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}/>
+            </div>
+
             <div onClick={select} className={"paramBlock"}>
                 <span className={"title"}>№</span>
                 <span>{fixture.number}</span>
@@ -46,7 +42,8 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                                 setInputValue(fixture.startAddress !== null ? fixture.startAddress : '');
                                 setEditMode('startAddress');
                             }
-                            }>{fixture.startAddress}</span>}
+                            }>{fixture.startAddress}
+                </span> }
             </div>
             <div className={"paramBlock"}>
                 <span className={"title"}>name</span>
@@ -61,8 +58,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                             onDoubleClick={() => {
                                 setInputValue(fixture.name !== null ? fixture.name : '');
                                 setEditMode('name');
-                            }
-                            }>{fixture.name}</span>}
+                            } }>{fixture.name}</span>}
             </div>
             {fixture.params.map(p => {
                 return (

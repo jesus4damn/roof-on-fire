@@ -1,9 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
 require('./CueList.scss');
+
 const CueList:React.FC = () => {
     return (
-        <div className="WrapCuesList">            
+        <div className="WrapCuesList">
         <table className="TableCuesList">
             <tr className="headerTableCuesList">
                 <td>№</td>
@@ -11,7 +12,7 @@ const CueList:React.FC = () => {
                 <td>Start time</td>
                 <td>Total time</td>
                 <td>Offset</td>
-                <td>Type</td>                
+                <td>Type</td>
             </tr>
             <tr>
                 <td>1</td>
@@ -19,7 +20,7 @@ const CueList:React.FC = () => {
                 <td>0</td>
                 <td>0</td>
                 <td>2s</td>
-                <td className="headerTableCuesList-dmx">dmx</td>                
+                <td className="headerTableCuesList-dmx">dmx</td>
             </tr>
             <tr >
                 <td>1</td>
@@ -27,7 +28,7 @@ const CueList:React.FC = () => {
                 <td>5</td>
                 <td>22</td>
                 <td>1s</td>
-                <td className="headerTableCuesList-dmx">dmx</td>                
+                <td className="headerTableCuesList-dmx">dmx</td>
             </tr>
             <tr >
                 <td>1</td>
@@ -35,7 +36,7 @@ const CueList:React.FC = () => {
                 <td>3</td>
                 <td>22</td>
                 <td>1s</td>
-                <td className="headerTableCuesList-dmx">dmx</td>                
+                <td className="headerTableCuesList-dmx">dmx</td>
             </tr>
             <tr className="headerTableCuesList-active">
                 <td>1</td>
@@ -43,7 +44,7 @@ const CueList:React.FC = () => {
                 <td>1</td>
                 <td>22</td>
                 <td>1s</td>
-                <td className="headerTableCuesList-hex">hex</td>                
+                <td className="headerTableCuesList-hex">hex</td>
             </tr>
         </table>
     </div>
