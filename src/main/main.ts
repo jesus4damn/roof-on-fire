@@ -1,8 +1,18 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+const Store = require('./StoreData');
 
 let win: BrowserWindow | null;
+
+const store = new Store({
+    // We'll call our data file 'user-preferences'
+    configName: 'user-preferences',
+    defaults: {
+        // 800x600 is the default size of our window
+        windowBounds: { width: 800, height: 600 }
+    }
+});
 
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');

@@ -4,7 +4,7 @@ import {
     IFixture,
     IFixturesGroup,
 } from '../../../types/fixtureTypes';
-import { DELETE_FIXTURE, PATCH_FIXTURE, UPDATE_FIXTURE } from './fixturesActions';
+import { DELETE_FIXTURE, PATCH_FIXTURES, UPDATE_FIXTURE } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
 
 export interface IFixturesState {
@@ -24,9 +24,10 @@ export const fixturesReducer: Reducer<IFixturesState> = (
     action: RootActions
 ) => {
     switch (action.type) {
-        case PATCH_FIXTURE:
+        case PATCH_FIXTURES:
             return {
-                ...state
+                ...state,
+                fixtures: action.payload
             };
         case DELETE_FIXTURE:
             return {

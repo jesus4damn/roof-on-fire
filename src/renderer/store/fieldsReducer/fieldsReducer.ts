@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
 import { IField } from '../../../types/fieldsTypes';
 import { generateFields } from '../mockDataGenerators';
-import { PICK_UP_FIELD, SET_NEW_FIELDS } from './fieldsActions';
+import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS } from './fieldsActions';
 
 export interface IFieldsState {
     readonly cuesFields: IField[],
@@ -12,10 +12,10 @@ export interface IFieldsState {
 }
 
 const defaultState: IFieldsState = {
-    cuesFields: generateFields(null),
-    staticFields: generateFields(null),
-    dynamicFields: generateFields(null),
-    longFields: generateFields(null),
+    cuesFields: [],
+    staticFields: [],
+    dynamicFields: [],
+    longFields: [],
 };
 
 export const fieldsReducer: Reducer<IFieldsState> = (
@@ -27,6 +27,11 @@ export const fieldsReducer: Reducer<IFieldsState> = (
             return {
                 ...state
             };
+        case SET_INITIAL_FIELDS:
+            return {
+                ...state,
+                ...action.payload.fields
+            }
         case SET_NEW_FIELDS:
             const isRearrange = action.payload.patterns && action.payload.patterns.length
                 ? action.payload.patterns
