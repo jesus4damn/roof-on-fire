@@ -71,6 +71,10 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                     </div>
                 );
             })}
+            <div className={"paramBlock"}>
+                <span className={"title"}>{fixture.activePattern && fixture.activePattern.type}</span>
+                <span>{fixture.activePattern && fixture.activePattern.name}</span>
+            </div>
         </div>
     );
 };

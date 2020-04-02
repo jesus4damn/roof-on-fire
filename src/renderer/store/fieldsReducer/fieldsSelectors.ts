@@ -13,9 +13,7 @@ export const getFieldsArr = (state: RootState) => {
                 : state.app.fixturesPropertiesScreenWindow === 'dynamic'
                     ? state.fields.fireMachines.dynamicFields
                     : state.fields.fireMachines.longFields;
-        case 'fireWorksT1':
-            return state.fields.fireWorks.fields;
-        case 'fireWorksT2':
+        case 'fireWorks':
             return state.fields.fireWorks.fields;
         default:
             return [];

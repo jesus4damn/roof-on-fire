@@ -1,23 +1,36 @@
 import { Reducer } from 'redux';
-import {RootActions} from "../rootActions";
+import { RootActions } from '../rootActions';
 import {
     IFixture,
-    IFixturesGroup,
+    IFixturesGroup, IPattern, TFixturesTypes
 } from '../../../types/fixtureTypes';
-import { DELETE_FIXTURE, PATCH_FIXTURES, UPDATE_FIXTURE } from './fixturesActions';
+import {
+    DELETE_FIXTURE,
+    PATCH_FIXTURES,
+    SET_FIXTURE_PATTERN,
+    SET_FIXTURES_STATE,
+    UPDATE_FIXTURE
+} from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
 
 export interface IFixturesState {
+    readonly patterns: {
+        readonly [Fixture in TFixturesTypes]: IPattern[]
+    },
     readonly fixtures: IFixture[],
     readonly groups: IFixturesGroup[],
-    readonly fixtureTypes: TFixtureType[],
+    readonly fixtureTypes: TFixturesTypes[],
 }
-export type TFixtureType = 'fireMachine'| 'fireWorksT1'| 'fireWorksT2'| 'dimmer';
 
 const defaultState: IFixturesState = {
+    patterns: {
+        fireMachine: [],
+        fireWorks: [],
+        dimmer: []
+    },
     fixtures: generateMockFixtures(8),
     groups: [],
-    fixtureTypes: ['fireMachine', 'fireWorksT1', 'fireWorksT2', 'dimmer'],
+    fixtureTypes: ['fireMachine', 'fireWorks', 'dimmer']
 };
 
 export const fixturesReducer: Reducer<IFixturesState> = (
@@ -37,8 +50,33 @@ export const fixturesReducer: Reducer<IFixturesState> = (
         case UPDATE_FIXTURE:
             return {
                 ...state,
-                fixtures: [...state.fixtures.map(f => f.id === action.fixture.id ? action.fixture : f)]
+                fixtures: [...state.fixtures.map(f => f.id === action.fixture.id
+                    ? action.fixture
+                    : f)
+                ]
             };
+        case SET_FIXTURE_PATTERN:
+            const toUpdate = {
+                ...state.patterns,
+                [action.pattern.fixtureType]: state.patterns[action.pattern.fixtureType].map(pat =>
+                    pat.id === action.pattern.id
+                        ? action.pattern
+                        : pat
+                )
+            };
+            return {
+                ...state,
+                fixtures: state.fixtures.map(f => f.selected
+                    ? {
+                        ...f,
+                        active: true,
+                        activePattern: action.pattern
+                    }
+                    : f),
+                patterns: toUpdate
+            };
+        case SET_FIXTURES_STATE:
+            return action.payload;
         default:
             return state;
     }
