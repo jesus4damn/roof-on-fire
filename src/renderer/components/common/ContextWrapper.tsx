@@ -2,11 +2,17 @@ import * as React from 'react';
 require('./contextMenu.scss');
 
 
-export class ContextMenu extends React.Component<any> {
-    root: this.props.root;
+interface IProps {
+    options: {
+        title: string,
+        callback: () => void
+    }
+}
+
+export class ContextMenu extends React.Component<IProps, any, any> {
+    root: HTMLDivElement | null | undefined;
     constructor(props: any) {
         super(props);
-        this.root = this.props.element;
         this.state = {
             visible: false,
         };
@@ -33,27 +39,25 @@ export class ContextMenu extends React.Component<any> {
         const clickY = event.clientY;
         const screenW = window.innerWidth;
         const screenH = window.innerHeight;
-        const rootW = this.root.offsetWidth;
-        const rootH = this.root.offsetHeight;
+        // @ts-ignore
+        const { offsetWidth: rootW, offsetHeight: rootH } = this.root;
 
         const right = (screenW - clickX) > rootW;
         const left = !right;
         const top = (screenH - clickY) > rootH;
         const bottom = !top;
 
-        if (right) {
+        if (right && this.root) {
             this.root.style.left = `${clickX + 5}px`;
         }
-
-        if (left) {
+        if (left && this.root) {
             this.root.style.left = `${clickX - rootW - 5}px`;
         }
-
-        if (top) {
+        if (top && this.root) {
             this.root.style.top = `${clickY + 5}px`;
         }
 
-        if (bottom) {
+        if (bottom && this.root) {
             this.root.style.top = `${clickY - rootH - 5}px`;
         }
     };
@@ -74,15 +78,20 @@ export class ContextMenu extends React.Component<any> {
     render() {
         const { visible } = this.state;
 
-        return(visible || null) &&
-            <div ref={ref => {this.root = ref}} className="contextMenu">
-                <div className="contextMenu--option">Share this</div>
-                <div className="contextMenu--option">New window</div>
-                <div className="contextMenu--option">Visit official site</div>
-                <div className="contextMenu--option contextMenu--option__disabled">View full version</div>
-                <div className="contextMenu--option">Settings</div>
-                <div className="contextMenu--separator" />
-                <div className="contextMenu--option">About this app</div>
-            </div>
+        return(
+            <>
+                {(visible || null) && <div ref={ref => {this.root = ref}} className="contextMenu">
+                    <div className="contextMenu--option">Share this</div>
+                    <div className="contextMenu--option">New window</div>
+                    <div className="contextMenu--option">Visit official site</div>
+                    <div className="contextMenu--option contextMenu--option__disabled">View full version</div>
+                    <div className="contextMenu--option">Settings</div>
+                    <div className="contextMenu--separator" />
+                    <div className="contextMenu--option">About this app</div>
+                </div>}
+                {this.props.children}
+            </>
+        )
+
     };
 }

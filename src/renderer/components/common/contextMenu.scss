@@ -1,6 +1,7 @@
 .contextMenu {
   position: fixed;
-  background: white;
+  z-index: 22;
+  background-color: black;
   box-shadow: 0px 2px 10px #999999;
 
   &--option {

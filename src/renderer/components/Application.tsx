@@ -11,6 +11,7 @@ import { sETFixturesSateAC } from '../store/fixturesReducer/fixturesActions';
 import { IFixturesState } from '../store/fixturesReducer/fixturesReducer';
 import { loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
+import { ContextMenu } from './common/ContextWrapper';
 
 require('./App.scss');
 
@@ -44,10 +45,12 @@ const Application = ({ sETFixturesSateAC, setInitialFields, fixtures, fields }: 
         };
     return (
         <div className="appWrapper">
+            <ContextMenu>
             <div className="headerWrapper"><Header resetData={resetData} loadData={loadData} saveData={saveData} /></div>
             <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
             <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
             <div className="timeLineWorkspaceWrapper"><TimeLine/></div>
+            </ContextMenu>
         </div>
     );
 };

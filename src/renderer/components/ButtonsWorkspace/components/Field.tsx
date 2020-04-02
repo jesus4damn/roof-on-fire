@@ -26,7 +26,7 @@ const Field: React.FC<IProps> = ({id, connected, setFixturePattern}) => {
     };
     return (
         <div className="totalWrap" style={{borderColor: connected && connected.active ? 'orange' : 'inherit'}}>
-            <div className="wrap" onClick={onClick}>
+            <div className="wrap" onClick={onClick} onContextMenu={() => {alert(item.name)}}>
                 <div className="imgWrap">
                     <div className="image">
                         <img className="preview__img" src={item.img} alt=""/>

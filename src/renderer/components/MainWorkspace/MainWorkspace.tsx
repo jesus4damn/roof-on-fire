@@ -32,9 +32,9 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
         <div className="navGroup">
         <div className="navGroupButton">
             <button onClick={() => {
-                switchMainScreenAction('visualiser') ;             
-                                  
-                 
+                switchMainScreenAction('visualiser') ;
+
+
             }}>
                 Визуализация
             </button>
@@ -58,7 +58,7 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                     </button>
                 </div>
             </div>
-           
+
         <div className="workspaceContent">
             <div className="workspaceContainer">
                 {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}
