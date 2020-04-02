@@ -1,7 +1,20 @@
 .timelineCue {
-  color: green;
-  width: 10%;
-  height: 10%;
-  display: flex;
-  flex-direction: row;
+    background: rgba(39, 174, 96, 0.25);
+    border: 1px solid #27AE60;
+    box-sizing: border-box;
+    border-radius: 4px;
+    min-height: 20px;
+    position: relative;
+    top: 20px;
+    left: 20%;
+    margin: 6px;
+}
+
+.timelineCue-triangle {
+    border: 5px solid transparent;
+    border-bottom: 10px solid #27AE60;
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    cursor: pointer;
 }

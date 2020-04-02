@@ -1,19 +1,85 @@
+.FrameAccordion,
+.FrameAccordion h2 {
+    color: #fff;
+    font-size: 13px;
+    line-height: 12px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.FrameAccordionImg {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #444444;
+    color: #fff;
+    padding: 2px;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    top: 11px;
+    left: -5px;
+}
+
+.FrameAccordionImg::before {
+    content: '';
+    width: 2px;
+    height: 423px;
+    background: #444444;
+    border-radius: 2px;
+    position: absolute;
+    top: 25px;
+    left: 5px;
+}
+
 .fixtureRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 5px;
-  border: green solid 1px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    // border: green solid 1px;
+    // border-radius: 4px;
+    cursor: pointer;
+    // width: 95%;
+    margin: 5px 5px 7px 13px;
 }
+
+// .fixtureRow img {
+//     width: 42px;
+//     background: #4F4F4F;
+//     border-radius: 5px;
+//     height: 41px;
+//     margin-right: 2px;
+//     padding: 7px;
+// }
 .title {
-  font-size: xx-small;
+    font-size: xx-small;
+    padding-bottom: 5px;
 }
+
 .paramBlock {
-  display: flex;
-  flex-direction: column;
-  max-width: 14%;
+    display: flex;
+    flex-direction: column;
+    // max-width: 14%;
+    width: 42px;
+    background: #4F4F4F;
+    border-radius: 5px;
+    height: 33px;
+    margin-right: 2px;
+    padding: 7px;
+    text-align: center;
+}
+
+.paramBlock-active {
+    background: #27AE60;
+}
+
+.WrapFixtures {
+    width: 99.5%;
+    height: 99.7%;
+    margin-top: 2px;
+    border-radius: 5px;
+    border: 2px solid #444444;
+    box-sizing: border-box;
 }

@@ -30,27 +30,35 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
     return (
     <div className='mainWorkspaceContent'>
         <div className="navGroup">
+        <div className="navGroupButton">
             <button onClick={() => {
-                switchMainScreenAction('visualiser');
+                switchMainScreenAction('visualiser') ;             
+                                  
+                 
             }}>
-                visualiser
+                Визуализация
             </button>
             <button onClick={() => {
                 switchMainScreenAction('cueListWindow');
             }}>
-                cueListWindow
+                Список Кью
             </button>
-            <button onClick={() => {
-                switchMainRightPartAction('fixtures');
-            }}>
-                fixtures
-            </button>
-            <button onClick={() => {
-                switchMainRightPartAction('cuesWindow');
-            }}>
-                cues
-            </button>
-        </div>
+            </div>
+
+                <div className="navGroupButton">
+                    <button onClick={() => {
+                        switchMainRightPartAction('fixtures');
+                    }}>
+                        Список Приборов
+                    </button>
+                    <button onClick={() => {
+                        switchMainRightPartAction('cuesWindow');
+                    }}>
+                        Все Кью
+                    </button>
+                </div>
+            </div>
+           
         <div className="workspaceContent">
             <div className="workspaceContainer">
                 {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}

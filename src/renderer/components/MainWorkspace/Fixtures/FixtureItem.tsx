@@ -22,8 +22,9 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
 
     return (
         <div className={"fixtureRow"}
-            style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}>
-            <div><img src={fixture.img ? fixture.img  : ''}/></div>
+            // style={{backgroundColor: fixture.active ? 'red' : fixture.selected ? 'green' : 'rgb(35, 35, 35)'}}
+            >
+            <div ><img src={fixture.img ? fixture.img  : ''} className={"paramBlock paramBlock-active"}/></div>
             <div onClick={select} className={"paramBlock"}>
                 <span className={"title"}>№</span>
                 <span>{fixture.number}</span>
@@ -51,7 +52,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                         onBlur={edit}
                     />
                     : <span className={'title'}
-                            style={{width: '150px'}}
+                            // style={{width: '150px'}}
                             onDoubleClick={() => {
                                 setInputValue(fixture.name !== null ? fixture.name : '');
                                 setEditMode('name');

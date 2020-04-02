@@ -1,0 +1,27 @@
+.WrapCues {
+    padding-top: 2px;
+    border-radius: 5px;
+    border: 2px solid #444444;
+    border-top: 0;
+    box-sizing: border-box;
+}
+
+.TableCues {
+    color: #fff;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.headerTableCues {
+    background: #444444;
+    border-radius: 5px;
+}
+
+.TableCues td {
+    text-align: center;
+    padding: 12px;
+}
+
+.headerTableCues-active {
+    color: #27AE60;
+}
