@@ -69,8 +69,12 @@ export const getInitialState = ():IInitialData => {
 
 export const resetState = (): IInitialData => {
     const initialData = getInitialState();
-    dataStorage.set('showData', initialData);
+    //dataStorage.set('showData', initialData);
     return initialData;
+};
+
+export const saveState = (state: IInitialData) => {
+    dataStorage.set('showData', state);
 };
 
 export const loadPrevious = (): IInitialData => {
