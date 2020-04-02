@@ -37,9 +37,12 @@ export const fieldsReducer: Reducer<IFieldsState> = (
                 ...state
             };
         case SET_INITIAL_FIELDS:
+            const asd = {
+            ...state,
+            ...action.payload.fields
+        };
             return {
-                ...state,
-                ...action.payload.fields
+                ...asd
             };
         case SET_NEW_FIELDS:
             return state;

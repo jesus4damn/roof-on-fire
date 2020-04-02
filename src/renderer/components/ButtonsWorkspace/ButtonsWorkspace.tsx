@@ -6,22 +6,22 @@ import {
     switchFixtureTypesButtonsScreen
 } from '../../store/appReducer/appActions';
 import { IActionsScreenSwitchers } from '../../../types/appTypes';
-import Properties from './Properties/Properties';
+import Properties from './Patterns/Patterns';
 import Cues from './Cues/Cues';
 import { getFixturesTypes } from '../../store/fixturesReducer/fixturesSelector';
-import { TFixtureType } from '../../store/fixturesReducer/fixturesReducer';
+import { TFixturesTypes } from '../../../types/fixtureTypes';
 
-require('./CuesWorkspace.scss');
+require('./ButtonsWorkspace.scss');
 
 export interface IProps {
     fixtureTypesScreenWindow: string,
     fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
-    fixturesTypes: TFixtureType[],
+    fixturesTypes: TFixturesTypes[],
     switchFixturePropertiesButtonsScreen: (val: IActionsScreenSwitchers) => void
     switchFixtureTypesButtonsScreen: (val: string) => void
 }
 
-const CuesWorkspace: React.FunctionComponent<IProps> = ({
+const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                                                             fixturesTypes,
                                                             fixtureTypesScreenWindow,
                                                             fixturesPropertiesScreenWindow,
@@ -96,4 +96,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(mapStateToProps, {
     switchFixturePropertiesButtonsScreen,
     switchFixtureTypesButtonsScreen
-})(CuesWorkspace);
+})(ButtonsWorkspace);

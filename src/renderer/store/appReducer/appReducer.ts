@@ -7,12 +7,12 @@ import {
     SWITCH_MAIN_SCREEN
 } from './appActions';
 import { RootActions } from '../rootActions';
-import { TFixtureType } from '../fixturesReducer/fixturesReducer';
+import { TFixturesTypes } from '../../../types/fixtureTypes';
 
 export interface IAppState {
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
-    readonly fixtureTypesScreenWindow: TFixtureType,
+    readonly fixtureTypesScreenWindow: TFixturesTypes,
     readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
 }
 

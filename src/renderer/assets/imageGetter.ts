@@ -1,6 +1,6 @@
-const img = require('./fire_mashin.svg');
-const timelineBack = require('./timecode.svg');
-const reactPng = require(`./react.png`);
+const img = require('./images/fire_mashin.svg');
+const timelineBack = require('./images/timecode.svg');
+const reactPng = require(`./images/react.png`);
 
 export const getFixtureIcon = () => {
     return img;

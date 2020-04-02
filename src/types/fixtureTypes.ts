@@ -5,6 +5,7 @@ export interface IFixtureBase {
     selected: boolean,
     type: TFixturesTypes,
     active: boolean,
+    activePattern: IPattern | null,
     img: string | null,
     name: string | null,
     posX: number,
@@ -13,12 +14,12 @@ export interface IFixtureBase {
     params: IParamsDMX[]
 }
 
-export type TFixturesTypes = 'fire-machine' | 'fireworks' | 'dimmer'
+export type TFixturesTypes = 'fireMachine' | 'fireWorks' | 'dimmer'
 
 export interface IParamsDMX {
     dmxOutput: number,
     physicalOutput: number | string,
-    parts: IPattern[] | null,
+    parts: IPattern | null,
     dmxAddress: number,
     name: string
 }
@@ -30,6 +31,7 @@ export interface IPattern {
     img: string,
     name: string | null,
     offset: number | null,
+    fixtureType: TFixturesTypes,
     type: TPatternType,
     steps: IPatternStep[],
     dmxStart: number,

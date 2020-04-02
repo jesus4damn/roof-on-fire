@@ -1,27 +1,18 @@
 import { RootState } from '../rootReducer';
 import { createSelector } from "reselect";
-import { IFixture, IPattern } from '../../../types/fixtureTypes';
+import { IFixture, IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import { getSelectedFixtureTypesScreenWindow } from '../appReducer/appSelectors';
-import { TFixtureType } from './fixturesReducer';
 
 export const getFixtures = (state:RootState):IFixture[] => state.fixtures.fixtures;
+export const getPatterns = (state:RootState):IPattern[] => state.fixtures.patterns.fireMachine;
 export const getFixtureGroups = (state:RootState) => state.fixtures.groups;
+export const getFixturesTypes = (state:RootState):TFixturesTypes[] => state.fixtures.fixtureTypes;
+
 
 export const getSelectedGroupFixtures = createSelector(getFixtures, getFixtureGroups, (fixtures, fixturesGroups) => {
     let res: IFixture[] = [];
     fixturesGroups.filter(gr => gr.selected).forEach(gr => {
        res = [...res, ...fixtures.filter(f => gr.fixturesIds.includes(f.id))]
     });
-    return res;
-});
-export const getFixturesTypes = (state:RootState):TFixtureType[] => state.fixtures.fixtureTypes;
-
-export const getPatternsByFixtureType = createSelector(
-    getFixtures,
-    getSelectedFixtureTypesScreenWindow,
-    (fixtures, selectedFixType):IPattern[] => {
-    let res: IPattern[] = [];
-    let fixtureTypeItem = fixtures.filter(f=> f.type === selectedFixType && f.params.filter(p => p.parts))[0];
-        fixtureTypeItem && fixtureTypeItem.params.forEach(p => p.parts && p.parts.forEach(par => res.push(par)));
     return res;
 });

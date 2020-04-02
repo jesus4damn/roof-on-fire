@@ -1,9 +1,9 @@
 import { IFixture, IPattern, IPatternStep } from '../../types/fixtureTypes';
 import { v4 as uuid } from 'uuid';
 import { getFixtureIcon, getReactPng } from '../assets/imageGetter';
-import { IField } from '../../types/fieldsTypes';
+import { IField, TPatternType } from '../../types/fieldsTypes';
 
-export const generateMockPatterns = (quan: number):IPattern[] => {
+export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[] => {
     const steps:IPatternStep[] = [
         {
             delay: 15,
@@ -21,23 +21,23 @@ export const generateMockPatterns = (quan: number):IPattern[] => {
         },
     ];
     let addr = 0;
-    let res = [];
+    let res:IPattern[] = [];
     for (let i = 0; i < quan; i++) {
         addr = addr + 5;
         res.push({
             id: uuid(),
             selected: false,
             active: false,
+            fixtureType: 'fireMachine',
             img: getReactPng(),
-            name: `patt ${i % 2 === 0 ? 'long' : 'static'}`,
+            name: `patt ${i + type}`,
             offset: 15,
-            type: i % 2 === 0 ? 'long' : 'static',
+            type: type,
             steps: steps,
             dmxStart: addr,
             dmxEnd: addr + 5,
         });
     }
-    // @ts-ignore
     return res;
 };
 
@@ -49,8 +49,9 @@ export const generateMockFixtures = (count: number): IFixture[] => {
             id: uuid(),
             number: i + 1,
             selected: false,
-            type: 'fire-machine',
+            type: 'fireMachine',
             active: false,
+            activePattern: null,
             img: getFixtureIcon(),
             name: `fire-machine ${i}`,
             posX: 0,
@@ -81,7 +82,7 @@ export const generateMockFixtures = (count: number): IFixture[] => {
                 {
                     dmxOutput: 0,
                     physicalOutput: 0,
-                    parts: generateMockPatterns(13),
+                    parts: null,
                     dmxAddress: prevAddres + 3,
                     name: 'patterns'
                 },

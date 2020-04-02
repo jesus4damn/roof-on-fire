@@ -3,94 +3,62 @@ import * as React from 'react';
 import TimeLine from './TimeLineWorkspace/TimeLine';
 import Header from './Header/Header';
 import MainWorkspace from './MainWorkspace/MainWorkspace';
-import CuesWorkspace from './CuesWorkspace/CuesWorkspace';
-import { useEffect } from 'react';
-import { generateFields, generateMockFixtures } from '../store/mockDataGenerators';
+import CuesWorkspace from './ButtonsWorkspace/ButtonsWorkspace';
 import { IFieldsState } from '../store/fieldsReducer/fieldsReducer';
-import { IFixture } from '../../types/fixtureTypes';
 import { connect } from 'react-redux';
 import { RootState } from '../store/rootReducer';
-import { patchFixturesAC } from '../store/fixturesReducer/fixturesActions';
+import { sETFixturesSateAC } from '../store/fixturesReducer/fixturesActions';
+import { IFixturesState } from '../store/fixturesReducer/fixturesReducer';
+import { loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
 
 require('./App.scss');
-const Storage = require('../../main/StoreData');
-
-const dataStorage = new Storage({
-    configName: 'initialAppData',
-    defaults: {
-        showData: {
-            fields: {
-                fireMachines: {
-                    staticFields: [],
-                    dynamicFields: [],
-                    longFields: []
-                },
-                fireWorks: {
-                    fields: []
-                }
-            },
-            fixtures: []
-        }
-    }
-});
-
-interface IInitialData {
-    fields: IFieldsState
-    fixtures: IFixture[]
-}
 
 interface IProps {
-    patchFixturesAC: (fixtures: IFixture[]) => void
+    sETFixturesSateAC: (payload: IFixturesState) => void
     setInitialFields: (fields: IFieldsState) => void
+    fixtures: IFixturesState
+    fields: IFieldsState
 }
 
-const Application = ({ patchFixturesAC, setInitialFields }: IProps) => {
-    useEffect(() => {
+const Application = ({ sETFixturesSateAC, setInitialFields, fixtures, fields }: IProps) => {
+    const loadData = () => {
         try {
-            const commonData: IInitialData = dataStorage.get('showData');
-            if (commonData.fields.fireMachines.staticFields.length) {
+            const getData = () => {
+                const commonData = loadPrevious();
+                sETFixturesSateAC(commonData.fixtures);
                 setInitialFields(commonData.fields);
-            }
-            if (commonData.fixtures.length) {
-                patchFixturesAC(commonData.fixtures);
-            }
-        } catch (e) {
-            const fixtures = generateMockFixtures(10);
-            const parts = fixtures[0].params[3].parts !== null
-            && fixtures[0].params[3].parts.length
-                ? fixtures[0].params[3].parts
-                : [];
-            let initialData: IInitialData = {
-                fields: {
-                    cuesFields: generateFields(null),
-                    fireMachines: {
-                        staticFields: generateFields(parts.filter(p => p.type === 'static')),
-                        dynamicFields: generateFields(parts.filter(p => p.type === 'dynamic')),
-                        longFields: generateFields(parts.filter(p => p.type === 'long'))
-                    },
-                    fireWorks: {
-                        fields: generateFields(null)
-                    }
-                },
-                fixtures: fixtures
             };
-            dataStorage.set('showData', initialData);
+            getData();
+        } catch (e) {
+            resetState()
         }
-    }, []);
+    }
+    const resetData = () => {
+        const common = resetState();
+        sETFixturesSateAC(common.fixtures);
+        setInitialFields(common.fields);
+    };
+    const saveData = () => {
+            saveState({fixtures, fields});
+        };
     return (
         <div className="appWrapper">
-            <div className="headerWrapper"><Header/></div>
+            <div className="headerWrapper"><Header resetData={resetData} loadData={loadData} saveData={saveData} /></div>
             <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
             <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
             <div className="timeLineWorkspaceWrapper"><TimeLine/></div>
-        </div>);
+        </div>
+    );
 };
 
-const mapStateToProps = (state: RootState) => ({});
+const mapStateToProps = (state: RootState) => ({
+    fixtures: state.fixtures,
+    fields: state.fields
+});
 
 const ApplicationContainer = connect(mapStateToProps, {
-    patchFixturesAC, setInitialFields
+    sETFixturesSateAC, setInitialFields
 })(Application);
 
 export default hot(ApplicationContainer);
