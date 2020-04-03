@@ -13,6 +13,7 @@ const CueList:React.FC = () => {
                 <td>Total time</td>
                 <td>Offset</td>
                 <td>Type</td>
+                <td>Type 9 ne mogu zvonit'</td>
             </tr>
             <tr>
                 <td>1</td>
