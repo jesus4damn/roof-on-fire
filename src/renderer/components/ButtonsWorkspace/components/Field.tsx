@@ -5,10 +5,11 @@ import { IPattern } from '../../../../types/fixtureTypes';
 import { setFixturePattern, updateFixturePattern } from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import Modal from '../../common/ModalWrapper';
 import {  useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
+import Modal from '../../common/ModalWrapper';
+import { IField } from '../../../../types/fieldsTypes';
 
 require('./Field.scss');
 
@@ -72,7 +73,6 @@ const Field: React.FC<IProps> = ({id, connected, setFixturePattern, setContextMe
             title: 'Set color',
             disabled: connected === null,
             callback: () => {
-                // @ts-ignore TODO set color to Field
                 showSelectModal('color')}
         },
         {
@@ -104,7 +104,7 @@ const Field: React.FC<IProps> = ({id, connected, setFixturePattern, setContextMe
                  onClick={setActivePattern}
                  onContextMenu={() => {setContextMenuOptions(contextOptions)}}
             >
-                <div className="imgWrap">
+                <div className="imgWrap" style={{borderColor: connected && connected.color ? connected.color : '#666666'}}>
                     <div className="image">
                         <img className="preview__img" src={item.img} alt=""/>
                     </div>

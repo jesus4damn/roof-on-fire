@@ -33,6 +33,7 @@ export interface IPattern {
     offset: number | null,
     fixtureType: TFixturesTypes,
     type: TPatternType,
+    color: string,
     steps: IPatternStep[],
     dmxStart: number,
     dmxEnd: number,

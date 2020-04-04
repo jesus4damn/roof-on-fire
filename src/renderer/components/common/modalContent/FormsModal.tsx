@@ -41,7 +41,7 @@ const FormsModal:React.FC<IProps> = ({ fields, onSubmit }: IProps) => {
                     onChange={(e) => onChange(e, i)}
                 />
             ))}
-            <button onClick={() => onSubmit(fields)}>OK</button>
+            <button onClick={() => onSubmit(editable)}>OK</button>
         </div>
     ) : null;
 };
