@@ -9,7 +9,7 @@ import {
     PATCH_FIXTURES,
     SET_FIXTURE_PATTERN,
     SET_FIXTURES_STATE,
-    UPDATE_FIXTURE
+    UPDATE_FIXTURE, UPDATE_PATTERN
 } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
 
@@ -52,6 +52,19 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                 ...state,
                 fixtures: [...state.fixtures.map(f => f.id === action.fixture.id
                     ? action.fixture
+                    : f)
+                ]
+            };
+        case UPDATE_PATTERN:
+            return {
+                ...state,
+                [action.pattern.fixtureType]: state.patterns[action.pattern.fixtureType].map(pat =>
+                    pat.id === action.pattern.id
+                        ? action.pattern
+                        : pat
+                ),
+                fixtures: [...state.fixtures.map(f => f.activePattern && f.activePattern.id === action.pattern.id
+                    ? {...f, activePattern: action.pattern}
                     : f)
                 ]
             };

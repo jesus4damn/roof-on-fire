@@ -1,6 +1,12 @@
 import { Reducer } from 'redux';
-import { IActionsScreenSwitchers, IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
 import {
+    IActionsScreenSwitchers,
+    IContextMenuOption,
+    IMainRightScreenSwitchers,
+    IMainScreenSwitchers
+} from '../../../types/appTypes';
+import {
+    SET_CONTEXT_MENU_OPTIONS,
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
     SWITCH_MAIN_RIGHT_PART,
@@ -14,19 +20,21 @@ export interface IAppState {
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
     readonly fixtureTypesScreenWindow: TFixturesTypes,
     readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
+    readonly contextMenuOptions: IContextMenuOption[],
 }
 
 const defaultState: IAppState = {
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,
     fixtureTypesScreenWindow: 'fireMachine',
-    fixturesPropertiesScreenWindow: 'cues'
+    fixturesPropertiesScreenWindow: 'cues',
+    contextMenuOptions: []
 };
 
 export const appReducer: Reducer<IAppState> = (
     state = defaultState,
     action: RootActions
-):IAppState => {
+): IAppState => {
     switch (action.type) {
         case SWITCH_MAIN_SCREEN:
             return {
@@ -35,7 +43,7 @@ export const appReducer: Reducer<IAppState> = (
                 mainRightScreenSwitcher: state.mainLeftScreenSwitcher === 'visualiser'
                 && action.payload === 'visualiser'
                     ? null
-                    : action.payload === 'cueListWindow' ? "cuesWindow" : state.mainRightScreenSwitcher,
+                    : action.payload === 'cueListWindow' ? 'cuesWindow' : state.mainRightScreenSwitcher
             };
         case SWITCH_MAIN_RIGHT_PART:
             return {
@@ -54,6 +62,11 @@ export const appReducer: Reducer<IAppState> = (
             return {
                 ...state,
                 fixtureTypesScreenWindow: action.payload
+            };
+        case SET_CONTEXT_MENU_OPTIONS:
+            return {
+                ...state,
+                contextMenuOptions: action.payload
             };
         default:
             return state;
