@@ -30,6 +30,7 @@ npm run start-main-dev
 ## Packaging
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default you can run the following to package for your current platform:
 
+This command create installation package.
 ```bash
 npm run dist
 ```

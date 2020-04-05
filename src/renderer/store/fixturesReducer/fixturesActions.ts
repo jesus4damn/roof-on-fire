@@ -7,11 +7,12 @@ export const SET_FIXTURES_STATE = 'fixtures/SET_FIXTURES_STATE';
 export const DELETE_FIXTURE = 'fixtures/DELETE_FIXTURE';
 export const UPDATE_FIXTURE = 'fixtures/UPDATE_FIXTURE';
 export const SET_FIXTURE_PATTERN = 'fixtures/SET_FIXTURE_PATTERN';
-export const UPDATE_PATTERN = 'fixtures/UPDATE_PATTERN';
+export const UPDATE_SELECTED_FIXTURES_PATTERN = 'fixtures/UPDATE_SELECTED_FIXTURES_PATTERN';
+export const UPDATE_FIXTURE_PATTERN = 'fixtures/UPDATE_FIXTURE_PATTERN';
 
 export type IFixtureActions = IPatchFixturesAC | IDeleteFixtureAC
     | IUpdateFixtureAC | ISetFixturePatternAC | ISETFixturesSateAC
-    | IUpdateFixturePattern;
+    | IUpdateSelectedFixturesPattern | IUpdateFixturePattern;
 
 export interface IPatchFixturesAC extends Action {
     type: typeof PATCH_FIXTURES, payload: IFixture[]
@@ -28,8 +29,11 @@ export interface IUpdateFixtureAC extends Action {
 export interface ISetFixturePatternAC extends Action {
     type: typeof SET_FIXTURE_PATTERN, pattern: IPattern
 }
+export interface IUpdateSelectedFixturesPattern extends Action {
+    type: typeof UPDATE_SELECTED_FIXTURES_PATTERN, pattern: IPattern
+}
 export interface IUpdateFixturePattern extends Action {
-    type: typeof UPDATE_PATTERN, pattern: IPattern
+    type: typeof UPDATE_FIXTURE_PATTERN, pattern: IPattern, fixtureId: string
 }
 
 export const patchFixturesAC: ActionCreator<IPatchFixturesAC> = (payload: IFixture[]) =>
@@ -47,6 +51,9 @@ export const setFixturePattern = (pattern: IPattern):ISetFixturePatternAC =>
 export const sETFixturesSateAC = (payload: IFixturesState):ISETFixturesSateAC =>
     ({ type: SET_FIXTURES_STATE, payload });
 
-export const updateFixturePattern = (pattern: IPattern):IUpdateFixturePattern =>
-    ({ type: UPDATE_PATTERN, pattern });
+export const updateSelectedFixturesPattern = (pattern: IPattern):IUpdateSelectedFixturesPattern =>
+    ({ type: UPDATE_SELECTED_FIXTURES_PATTERN, pattern });
+
+export const updateFixturePattern = (pattern: IPattern, fixtureId: string):IUpdateFixturePattern =>
+    ({ type: UPDATE_FIXTURE_PATTERN, pattern, fixtureId });
 
