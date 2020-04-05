@@ -4,8 +4,9 @@ import { RootState } from '../../../store/rootReducer';
 import { IPattern } from '../../../../types/fixtureTypes';
 import {
     setFixturePattern,
-    updateFixturePattern,
-    updateSelectedFixturesPattern
+    setSelectedFixturesPattern,
+    updatePattern
+
 } from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
@@ -20,19 +21,19 @@ require('./Field.scss');
 interface IProps {
     id: string,
     connected: IPattern | null
-    setFixturePattern: (pattern: IPattern) => void
-    updateSelectedFixturesPattern: (pattern: IPattern) => void
-    updateFixturePattern: (pattern: IPattern, fixtureId: string) => void
+    updatePattern: (pattern: IPattern) => void
+    setSelectedFixturesPattern: (pattern: IPattern) => void
+    setFixturePattern: (pattern: IPattern, fixtureId: string) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
 }
 type PatternKeys = keyof IPattern;
 
 const Field: React.FC<IProps> = ({id,
                                      connected,
-                                     setFixturePattern,
+                                     updatePattern,
                                      setContextMenuOptions,
-                                     updateFixturePattern,
-                                     updateSelectedFixturesPattern}) => {
+                                     setFixturePattern,
+                                     setSelectedFixturesPattern}) => {
     const [modalContent, setModalContent] = useState<any | null>();
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const [{ isDragging }, drag, preview] = useDrag({
@@ -41,7 +42,7 @@ const Field: React.FC<IProps> = ({id,
             | undefined, monitor: DragSourceMonitor) => {
             const dropResult = monitor.getDropResult();
             if (item && dropResult && connected) {
-                updateFixturePattern(connected, dropResult.fixtureId);
+                setFixturePattern(connected, dropResult.fixtureId);
                 //console.log(`You dropped ${item.name} into ${dropResult.fixtureId}!`)
             }
         },
@@ -81,11 +82,13 @@ const Field: React.FC<IProps> = ({id,
             }} />
         )
     };
+
     const itemBase = {
         name: '',
         id: '',
         img: ''
     };
+
     const item = {...itemBase, ...connected};
 
     const contextOptions = [
@@ -109,7 +112,7 @@ const Field: React.FC<IProps> = ({id,
 
     const setActivePattern = () => {
         if(connected !== null) {
-            setFixturePattern({...connected, active: true})
+            setSelectedFixturesPattern({...connected, active: true})
         }
     };
 
@@ -117,7 +120,7 @@ const Field: React.FC<IProps> = ({id,
         if(connected !== null) {
             const toUpdate = {...connected, [key]: value};
             console.log(toUpdate);
-            updateSelectedFixturesPattern(toUpdate)
+            updatePattern(toUpdate)
         }
     };
 
@@ -132,8 +135,8 @@ const Field: React.FC<IProps> = ({id,
                  onContextMenu={() => {setContextMenuOptions(contextOptions)}}
             >
                 <div className="imgWrap" style={{borderColor: connected && connected.color ? connected.color : '#666666'}}>
-                    <div className="image">
-                        <img ref={drag} className="preview__img" src={item.img} alt=""/>
+                    <div ref={drag} className="image" style={{ minHeight: "30px", minWidth: "30px" }}>
+                        <img className="preview__img" src={item.img} alt=""/>
                     </div>
                 </div>
                 <div className="titleWrap" style={{borderColor: item.id ? '#FFF' : '#666666'}}>
@@ -154,8 +157,8 @@ const Field: React.FC<IProps> = ({id,
 const mapStateToProps = (state: RootState) => ({});
 
 export default connect(mapStateToProps,{
-    setFixturePattern,
+    updatePattern,
     setContextMenuOptions,
-    updateSelectedFixturesPattern,
-    updateFixturePattern
+    setSelectedFixturesPattern,
+    setFixturePattern
 })(Field);

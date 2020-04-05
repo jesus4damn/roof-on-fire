@@ -1,15 +1,14 @@
 import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
-import {
-    IFixture,
-    IFixturesGroup, IPattern, TFixturesTypes
-} from '../../../types/fixtureTypes';
+import { IFixture, IFixturesGroup, IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import {
     DELETE_FIXTURE,
     PATCH_FIXTURES,
     SET_FIXTURE_PATTERN,
     SET_FIXTURES_STATE,
-    UPDATE_FIXTURE, UPDATE_FIXTURE_PATTERN, UPDATE_SELECTED_FIXTURES_PATTERN
+    SET_SELECTED_FIXTURES_PATTERN,
+    UPDATE_FIXTURE,
+    UPDATE_PATTERN
 } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
 
@@ -55,7 +54,7 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                     : f)
                 ]
             };
-        case UPDATE_SELECTED_FIXTURES_PATTERN:
+        case SET_SELECTED_FIXTURES_PATTERN:
             return {
                 ...state,
                 [action.pattern.fixtureType]: state.patterns[action.pattern.fixtureType].map(pat =>
@@ -63,17 +62,21 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                         ? action.pattern
                         : pat
                 ),
-                fixtures: [...state.fixtures.map(f => f.activePattern && f.activePattern.id === action.pattern.id
-                    ? {...f, activePattern: action.pattern}
-                    : f)
+                fixtures: [...state.fixtures.map(f =>
+                    f.selected
+                        ? { ...f, activePattern: action.pattern }
+                        : f)
                 ]
             };
-        case UPDATE_FIXTURE_PATTERN:
+        case SET_FIXTURE_PATTERN:
             return {
                 ...state,
-                fixtures: state.fixtures.map( f => f.id === action.fixtureId ? {...f, activePattern: action.pattern} : f)
+                fixtures: state.fixtures.map(f => f.id === action.fixtureId ? {
+                    ...f,
+                    activePattern: action.pattern
+                } : f)
             };
-        case SET_FIXTURE_PATTERN:
+        case UPDATE_PATTERN:
             const toUpdate = {
                 ...state.patterns,
                 [action.pattern.fixtureType]: state.patterns[action.pattern.fixtureType].map(pat =>
@@ -84,13 +87,14 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
             return {
                 ...state,
-                fixtures: state.fixtures.map(f => f.selected
-                    ? {
-                        ...f,
-                        active: true,
-                        activePattern: action.pattern
-                    }
-                    : f),
+                fixtures: state.fixtures.map(f =>
+                    f.activePattern && f.activePattern.id === action.pattern.id
+                        ? {
+                            ...f,
+                            active: true,
+                            activePattern: action.pattern
+                        }
+                        : f),
                 patterns: toUpdate
             };
         case SET_FIXTURES_STATE:
