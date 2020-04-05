@@ -9,7 +9,7 @@ import {
     PATCH_FIXTURES,
     SET_FIXTURE_PATTERN,
     SET_FIXTURES_STATE,
-    UPDATE_FIXTURE, UPDATE_PATTERN
+    UPDATE_FIXTURE, UPDATE_FIXTURE_PATTERN, UPDATE_SELECTED_FIXTURES_PATTERN
 } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
 
@@ -55,7 +55,7 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                     : f)
                 ]
             };
-        case UPDATE_PATTERN:
+        case UPDATE_SELECTED_FIXTURES_PATTERN:
             return {
                 ...state,
                 [action.pattern.fixtureType]: state.patterns[action.pattern.fixtureType].map(pat =>
@@ -67,6 +67,11 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                     ? {...f, activePattern: action.pattern}
                     : f)
                 ]
+            };
+        case UPDATE_FIXTURE_PATTERN:
+            return {
+                ...state,
+                fixtures: state.fixtures.map( f => f.id === action.fixtureId ? {...f, activePattern: action.pattern} : f)
             };
         case SET_FIXTURE_PATTERN:
             const toUpdate = {

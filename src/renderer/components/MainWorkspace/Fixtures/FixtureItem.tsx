@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IFixture } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
+import { useDrop } from 'react-dnd';
 
 require('./FixtureItem.scss');
 
@@ -15,6 +16,19 @@ type TFixtureParams = keyof IFixture
 const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
     const [inputValue, setInputValue] = useState<string | number>('');
+    const [{ isOver, canDrop }, drop] = useDrop({
+        accept: 'PATTERN_FIELD',
+        drop: () => ({ fixtureId: fixture.id }),
+        //canDrop: () => onDropPattern(),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop(),
+        }),
+    });
+
+    const onDropPattern = () => {
+
+    };
 
     const select = () => {
         update({ ...fixture, selected: !fixture.selected });
@@ -81,12 +95,13 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                         </div>
                     );
                 })}
-            <div className={`${fixture.activePattern && fixture.activePattern.img ? '' :'paramBlock'}`}>
-                {/*<span className={'title'}>{fixture.activePattern && fixture.activePattern.type}</span>*/}
-                {/*<span>{fixture.activePattern && fixture.activePattern.name}</span>*/}
+            <div
+                className={`${fixture.activePattern && fixture.activePattern.img ? '' :'paramBlock'}`}
+                ref={drop}
+            >
                 {fixture.activePattern && <img alt={'pattern'}
                      src={fixture.activePattern.img ? fixture.activePattern.img : ''}
-                     className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
+                     className={`paramBlock ${fixture.selected || (canDrop && isOver) ? 'paramBlock-active' : ''}`}
                 />}
             </div>
         </div>
