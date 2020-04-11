@@ -1,15 +1,15 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import Field from '../components/Field';
+import Field from './PatternFieldWrapper';
 import { RootState } from '../../../store/rootReducer';
 import { IPattern } from '../../../../types/fixtureTypes';
-import { useEffect } from 'react';
 import { setNewFields } from '../../../store/fieldsReducer/fieldsActions';
-import { IField, TPatternType } from '../../../../types/fieldsTypes';
+import { IField, IPatternField, TPatternType } from '../../../../types/fieldsTypes';
 import { getFieldsArr } from '../../../store/fieldsReducer/fieldsSelectors';
+import { isPatternField } from '../../../store/fieldsReducer/fieldsReducer';
 
 interface IProps {
-    fieldsArr: IField[]
+    fieldsArr: Array<IField | IPatternField>
     patternsType: TPatternType | 'cues',
     setNewFields: (patterns: IPattern[], patternsType: TPatternType) => void
 }
@@ -22,7 +22,7 @@ const Patterns:React.FC<IProps> = ({patternsType, setNewFields, fieldsArr}) => {
                 <Field
                     key={f.id}
                     id={f.id}
-                    connected={f.connected}
+                    connected={isPatternField(f) ? f.connected : null}
                 />
             ))}
         </React.Fragment>

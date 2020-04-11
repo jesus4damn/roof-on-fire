@@ -1,15 +1,15 @@
 import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
-import { IField } from '../../../types/fieldsTypes';
-import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS } from './fieldsActions';
+import { ICueField, IField, IPatternField } from '../../../types/fieldsTypes';
+import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS, UPDATE_FIELD } from './fieldsActions';
 import { UPDATE_PATTERN } from '../fixturesReducer/fixturesActions';
 
 export interface IFieldsState {
-    readonly cuesFields: IField[],
+    readonly cuesFields: Array<IField | ICueField>,
     readonly fireMachines: {
-        readonly staticFields: IField[],
-        readonly dynamicFields: IField[],
-        readonly longFields: IField[],
+        readonly staticFields: Array<IField | IPatternField>,
+        readonly dynamicFields: Array<IField | IPatternField>,
+        readonly longFields: Array<IField | IPatternField>,
     },
     readonly fireWorks: {
         readonly fields: IField[]
@@ -28,6 +28,12 @@ const defaultState: IFieldsState = {
     }
 };
 
+export function isCueField(field: IField | ICueField | IPatternField): field is ICueField {
+    return (field as ICueField).connected && (field as ICueField).connected.actions !== undefined;
+}
+export function isPatternField(field: IField | ICueField | IPatternField): field is IPatternField {
+    return (field as IPatternField).connected && (field as IPatternField).connected.dmxStart !== undefined;
+}
 export const fieldsReducer: Reducer<IFieldsState> = (
     state = defaultState,
     action: RootActions
@@ -55,11 +61,18 @@ export const fieldsReducer: Reducer<IFieldsState> = (
                 fireMachines: {
                     ...state.fireMachines,
                     [key]: state.fireMachines[key].map( f =>
-                        f.connected && f.connected.id === action.pattern.id
+                        isPatternField(f) && f.connected.id === action.pattern.id
                             ? {...f, connected: action.pattern} : f
                     )
                 }
             };
+        case UPDATE_FIELD:
+            if (isCueField(action.field)) {
+                return {
+                    ...state,
+                    cuesFields: state.cuesFields.map(f => f.id === action.field.id ? action.field : f)
+                }
+            } else return state;
         case SET_NEW_FIELDS:
             return state;
         default:
