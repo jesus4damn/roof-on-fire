@@ -21,3 +21,6 @@ export const rootReducer = combineReducers<RootState>({
     fields: fieldsReducer,
     cues: cuesReducer
 });
+
+
+export type GetStateType = () => RootState;

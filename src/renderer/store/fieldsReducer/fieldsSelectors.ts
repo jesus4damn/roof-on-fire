@@ -18,5 +18,6 @@ export const getFieldsArr = (state: RootState) => {
         default:
             return [];
     }
-
 };
+
+export const getCuesFields = (state: RootState) => state.fields.cuesFields;

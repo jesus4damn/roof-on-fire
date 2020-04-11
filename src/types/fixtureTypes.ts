@@ -19,7 +19,7 @@ export type TFixturesTypes = 'fireMachine' | 'fireWorks' | 'dimmer'
 export interface IParamsDMX {
     dmxOutput: number,
     physicalOutput: number | string,
-    parts: IPattern | null,
+    parts: IPattern[] | null,
     dmxAddress: number,
     name: string
 }

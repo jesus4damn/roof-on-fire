@@ -6,7 +6,7 @@ import { IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/
 import Visualizer from './Visualizer/VisualizerContainer';
 import Fixtures from './Fixtures/Fixtures';
 import CueList from './CueList/CueList';
-import Cues from './Cues/Cues';
+import Cues from './Cues/CueEditor';
 
 require('./MainWorkspace.scss');
 
@@ -66,7 +66,7 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
             </div>
             {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{borderLeft: '1px solid grey'}}>
                 {mainRightScreenSwitcher === 'fixtures' && <Fixtures/>}
-                {mainRightScreenSwitcher === 'cuesWindow' && <Cues/>}
+                {mainRightScreenSwitcher === 'cuesWindow' && <Cues />}
             </div>}
         </div>
     </div>

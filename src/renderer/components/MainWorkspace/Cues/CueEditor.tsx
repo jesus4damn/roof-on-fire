@@ -1,0 +1,40 @@
+import * as React from "react";
+import { updateCue } from '../../../store/cuesReducer/cuesActions';
+import { connect } from 'react-redux';
+import { RootState } from '../../../store/rootReducer';
+import { getSelectedCue } from '../../../store/cuesReducer/cuesSelector';
+import { ICue } from '../../../../types/cuesTypes';
+import ActionRow from './ActionRow';
+
+
+require('./CueEditor.scss');
+
+interface IProps {
+    selectedCue: ICue | null,
+    updateCue: (cue: ICue) => void
+}
+
+const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
+    return (
+        <div className="WrapCues">
+            <table className="TableCues">
+                <tr className="headerTableCues">
+                    <td>№</td>
+                    <td>Fixture</td>
+                    <td>IMG pattern</td>
+                    <td>Pattern</td>
+                    <td>Time</td>
+                    <td>Time between</td>
+                    <td>Prefire</td>
+                </tr>
+                {selectedCue ? selectedCue.actions.map(a => <ActionRow key={a.id} action={a} />) : null}
+            </table>
+        </div>
+    )
+};
+
+const mapStateToProps = (state: RootState) => ({
+    selectedCue: getSelectedCue(state)
+});
+
+export default connect(mapStateToProps, { updateCue })(CueEditor)

@@ -1,7 +1,7 @@
 import { IFixture, IPattern, IPatternStep } from '../../types/fixtureTypes';
 import { v4 as uuid } from 'uuid';
 import { getFixtureIcon, getReactPng } from '../assets/imageGetter';
-import { IField, TPatternType } from '../../types/fieldsTypes';
+import { IField, IPatternField, TPatternType } from '../../types/fieldsTypes';
 
 export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[] => {
     const steps:IPatternStep[] = [
@@ -94,10 +94,16 @@ export const generateMockFixtures = (count: number): IFixture[] => {
     return res
 };
 
-const generateField = (pattern: IPattern | null ):IField => {
-    return {
+const generateField = (pattern: IPattern | null ):IField | IPatternField => {
+    return pattern !== null ? {
         id: uuid(),
-        connected: pattern ? pattern : null,
+        color: '',
+        connected: pattern,
+        img: ''
+    } : {
+        id: uuid(),
+        color: '',
+        img: ''
     }
 };
 export const generateFields = (fixturePatterns: IPattern[] | null):IField[] => {
