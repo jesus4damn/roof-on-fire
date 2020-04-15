@@ -26,19 +26,16 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                                                             mainRightScreenSwitcher,
                                                             switchMainScreenAction,
                                                             switchMainRightPartAction }) => {
-
     return (
     <div className='mainWorkspaceContent'>
         <div className="navGroup">
         <div className="navGroupButton">
-            <button onClick={() => {
+            <button className={mainLeftScreenSwitcher === "visualiser" ? "navGroupButtonActive" : ''}  onClick={() => {
                 switchMainScreenAction('visualiser') ;
-
-
             }}>
                 Визуализация
             </button>
-            <button onClick={() => {
+            <button  className={mainLeftScreenSwitcher === "cueListWindow" ? "navGroupButtonActive" : ''} onClick={() => {
                 switchMainScreenAction('cueListWindow');
             }}>
                 Список Кью
@@ -46,12 +43,12 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
             </div>
 
                 <div className="navGroupButton">
-                    <button onClick={() => {
+                    <button className={mainRightScreenSwitcher === "fixtures" ? "navGroupButtonActive" : ''} onClick={() => {
                         switchMainRightPartAction('fixtures');
                     }}>
                         Список Приборов
                     </button>
-                    <button onClick={() => {
+                    <button className={mainRightScreenSwitcher === "cuesWindow" ? "navGroupButtonActive" : ''} onClick={() => {
                         switchMainRightPartAction('cuesWindow');
                     }}>
                         Все Кью
@@ -64,7 +61,7 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                 {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}
                 {mainLeftScreenSwitcher === 'cueListWindow' && <CueList/>}
             </div>
-            {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{borderLeft: '1px solid grey'}}>
+            {mainRightScreenSwitcher && <div  className="workspaceContainer" >
                 {mainRightScreenSwitcher === 'fixtures' && <Fixtures/>}
                 {mainRightScreenSwitcher === 'cuesWindow' && <Cues />}
             </div>}
