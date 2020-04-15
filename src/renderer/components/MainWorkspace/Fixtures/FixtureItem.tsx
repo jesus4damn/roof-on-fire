@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IFixture } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
+import { dragTypes } from '../../../../types/dragTypes';
 
 require('./FixtureItem.scss');
 
@@ -17,7 +18,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
     const [inputValue, setInputValue] = useState<string | number>('');
     const [{ isOver, canDrop }, drop] = useDrop({
-        accept: 'PATTERN_FIELD',
+        accept: dragTypes.PATTERN_FIELD,
         drop: () => ({ fixtureId: fixture.id }),
         //canDrop: () => onDropPattern(),
         collect: (monitor) => ({

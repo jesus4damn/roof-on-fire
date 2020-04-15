@@ -1,12 +1,34 @@
-import * as React from "react";
-import {connect} from "react-redux";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { RootState } from '../../../store/rootReducer';
+import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
+import { ICue } from '../../../../types/cuesTypes';
+import { dragTypes } from '../../../../types/dragTypes';
+import CueListItem from './CueListItem';
+import { useDrop } from 'react-dnd';
+
 require('./CueList.scss');
 
-const CueList:React.FC = () => {
+interface IProps {
+    cues: ICue[]
+    selectedCue: ICue | null,
+}
+
+const CueList:React.FC<IProps> = ({cues, selectedCue}) => {
+    const [{ isOver, canDrop }, drop] = useDrop({
+        accept: dragTypes.CUE_FIELD,
+        drop: () => ({ cueList: 'CUELIST' }),
+        //canDrop: () => onDropPattern(),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop(),
+        }),
+    });
+
     return (
-        <div className="WrapCuesList">
-        <div className="WrapCuesListTable">
-        <table className="TableCuesList">
+        <div className="WrapCuesList" ref={drop}>
+            <table className="WrapCuesListTable">
+                <tbody className={`TableCuesList ${canDrop && isOver ? 'TableCuesList-active' : ''}`}>
                     <tr className="headerTableCuesList">
                         <td>№</td>
                         <td>Cue</td>
@@ -15,42 +37,13 @@ const CueList:React.FC = () => {
                         <td>Offset</td>
                         <td>Type</td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Global offset</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>2s</td>
-                        <td className="headerTableCuesList-dmx">dmx</td>
-                    </tr>
-                    <tr >
-                        <td>1</td>
-                        <td>Fire 1</td>
-                        <td>5</td>
-                        <td>22</td>
-                        <td>1s</td>
-                        <td className="headerTableCuesList-dmx">dmx</td>
-                    </tr>
-                    <tr >
-                        <td>1</td>
-                        <td>Fire 1</td>
-                        <td>3</td>
-                        <td>22</td>
-                        <td>1s</td>
-                        <td className="headerTableCuesList-dmx">dmx</td>
-                    </tr>
-                    <tr className="headerTableCuesList-active">
-                        <td>1</td>
-                        <td>Fire 1</td>
-                        <td>1</td>
-                        <td>22</td>
-                        <td>1s</td>
-                        <td className="headerTableCuesList-hex">hex</td>
-                    </tr>
-                </table>
-        </div>
+                    {cues && cues.length && cues.map((c, i) =>
+                        <CueListItem key={c.id} cue={c} index={i} selected={selectedCue && selectedCue.id === c.id} />
+                        )}
+                </tbody>
+            </table>
 
-        <div className="WrapEffect">
+            <div className="WrapEffect">
                 <button className="EffectBt">Effect</button>
                 <div className="EffectItem">
                     <span>
@@ -78,21 +71,25 @@ const CueList:React.FC = () => {
                     Test
                     </span>
                     <div className="Effecttest">
-                         <span className="Effecttest-active"></span>
-                         <span></span>
-                         <span></span>
-                         <span className="Effecttest-active"></span>
-                         <span className="Effecttest-error"></span>
-                         <span></span>
-                         <span className="Effecttest-active"></span>
-                         <span></span>
-                     </div>
+                        <span className="Effecttest-active"></span>
+                        <span></span>
+                        <span></span>
+                        <span className="Effecttest-active"></span>
+                        <span className="Effecttest-error"></span>
+                        <span></span>
+                        <span className="Effecttest-active"></span>
+                        <span></span>
+                    </div>
 
                 </div>
             </div>
-    </div>
-
-    )
+        </div>
+    );
 };
 
-export default connect(null, null)(CueList)
+const mapStateToProps = (state: RootState) => ({
+    cues: getTimelineCues(state),
+    selectedCue: getSelectedCue(state)
+});
+
+export default connect(mapStateToProps, null)(CueList);

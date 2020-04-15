@@ -1,21 +1,48 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import CueLine from './CueLine/CueLine';
-import { getTimeLineBackground } from '../../assets/imageGetter';
-
+import * as React from 'react';
+import { connect } from 'react-redux';
+import CueTimeLineItem from './CueTimeLineItem/CueLine';
+import { RootState } from '../../store/rootReducer';
+import { getSelectedCue, getTimelineCues } from '../../store/cuesReducer/cuesSelector';
+import { ICue } from '../../../types/cuesTypes';
+import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
 require('./TimeLine.scss');
 
-const TimeLine:React.FC = () => {
-    let cues = [{},{},{},{}];
-    return (
-        <div style={{backgroundImage: `url(${getTimeLineBackground()})`}} className={'timelineBlock'}>
+interface ICommonProps {
+    position: {x: number, y: number},
+}
 
-                TIMELINE
-            {cues.map((c, i) =>
-                <CueLine key={'cue' + i} />
+interface IConnectedProps {
+    cues: ICue[]
+    selectedCue: ICue | null,
+    setSelectedCue: (cue: ICue) => void
+}
+type TProps = ICommonProps
+    & IConnectedProps & any & any;
+
+const TimeLine: React.FC<TProps> = ({position, cues, selectedCue, setSelectedCue}) => {
+
+    return (
+        <div
+            style={{ backgroundColor: 'black' }} //`url(${getTimeLineBackground()})`
+            className={'timelineBlock'}>
+            <span>{` x = ${position.x} + y${position.y}`}</span>
+            {cues.map((c:ICue, i:number) =>
+                <CueTimeLineItem
+                    select={() => {setSelectedCue(c)}}
+                    key={c.id}
+                    cueItem={c}
+                    selected={selectedCue}
+                    index={i}
+                    mousePosition={position}
+                />
             )}
         </div>
-    )
+    );
 };
 
-export default connect(null, null)(TimeLine);
+const mapStateToProps = (state: RootState) => ({
+    cues: getTimelineCues(state),
+    selectedCue: getSelectedCue(state)
+});
+
+export default connect(mapStateToProps, {setSelectedCue})(TimeLine);

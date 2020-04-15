@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const Cues:React.FC<IProps> = ({fieldsArr}) => {
-
     return (
         <React.Fragment>
             {fieldsArr.map((f) => (

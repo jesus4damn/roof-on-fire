@@ -2,7 +2,7 @@ import { TFixturesTypes } from './fixtureTypes';
 
 export interface ICue {
     id: string,
-    startTime: number | null,
+    startTime: number,
     endTime: number | null,
     fixtureType: TFixturesTypes,
     name: string,

@@ -9,6 +9,7 @@ import { updateField } from '../fieldsReducer/fieldsActions';
 import { IField } from '../../../types/fieldsTypes';
 
 export const CREATE_CUE = 'cues/CREATE_CUE';
+export const CREATE_CUE_TIMELINE = 'cues/CREATE_CUE_TIMELINE';
 export const DELETE_CUE = 'cues/DELETE_CUE';
 export const UPDATE_CUE = 'cues/UPDATE_CUE';
 export const SET_SELECTED_CUE = 'cues/SET_SELECTED_CUE';
@@ -23,6 +24,12 @@ export interface ICreateCueAction extends Action {
     cue: ICue
 }
 
+export interface ICreateTimelineCueAction extends Action {
+    type: typeof CREATE_CUE_TIMELINE,
+    cue: ICue
+    startTime: number
+}
+
 export interface IDeleteCueAction extends Action {
     type: typeof DELETE_CUE;
 }
@@ -35,12 +42,16 @@ export const createCue: ActionCreator<ICreateCueAction> = (cue: ICue) => ({
     type: CREATE_CUE, cue
 });
 
-export const deleteCue: ActionCreator<IDeleteCueAction> = () => ({
-    type: DELETE_CUE
+export const createTimelineCue: ActionCreator<ICreateTimelineCueAction> = (cue: ICue, startTime: number) => ({
+    type: CREATE_CUE_TIMELINE, cue: {...cue, id: uuid()}, startTime
 });
 
-export const updateCue: ActionCreator<IUpdateCueAction> = () => ({
-    type: UPDATE_CUE
+export const deleteCue: ActionCreator<IDeleteCueAction> = (cueId: string) => ({
+    type: DELETE_CUE, cueId
+});
+
+export const updateCue: ActionCreator<IUpdateCueAction> = (cue: ICue) => ({
+    type: UPDATE_CUE, cue
 });
 
 export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue | null) => ({
@@ -49,15 +60,16 @@ export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue | null)
 
 const cueBase: ICue = {
     id: uuid(),
-    startTime: null,
+    startTime: 1,
     endTime: null,
     fixtureType: 'fireMachine',
     name: 'new cue',
     active: false,
     actions: []
 };
+
 const cueActionBase: ICueAction = {
-    id: uuid(),
+    id: '',
     fixtureId: '',
     patternId: '',
     fixtureType: 'fireMachine',
@@ -73,6 +85,7 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
             if (f.activePattern !== null) {
                 return {
                     ...cueActionBase,
+                    id: uuid(),
                     fixtureId: f.id,
                     fixtureType: f.type,
                     patternId: f.activePattern ? f.activePattern.id : '',
@@ -81,7 +94,7 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
                     totalTime: 2,
                     active: false
                 };
-            } else return { ...cueActionBase, fixtureId: f.id };
+            } else return { ...cueActionBase, id: uuid(), fixtureId: f.id };
         });
         const newCue: ICue = {
             ...cueBase,
@@ -92,4 +105,5 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
     };
 
 
-export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection;
+export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
+    | ICreateTimelineCueAction;

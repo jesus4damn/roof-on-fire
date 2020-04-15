@@ -29,6 +29,7 @@ export interface IPattern {
     selected: boolean,
     active: boolean,
     img: string,
+    number: number,
     name: string | null,
     offset: number | null,
     fixtureType: TFixturesTypes,
