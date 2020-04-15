@@ -27,8 +27,9 @@ const CueList:React.FC<IProps> = ({cues, selectedCue}) => {
 
     return (
         <div className="WrapCuesList" ref={drop}>
-            <table className="WrapCuesListTable">
-                <tbody className={`TableCuesList ${canDrop && isOver ? 'TableCuesList-active' : ''}`}>
+            <div className="WrapCues">
+                <table className="WrapCuesListTable">
+                    <tbody className={`TableCuesList ${canDrop && isOver ? 'TableCuesList-active' : ''}`}>
                     <tr className="headerTableCuesList">
                         <td>№</td>
                         <td>Cue</td>
@@ -39,9 +40,11 @@ const CueList:React.FC<IProps> = ({cues, selectedCue}) => {
                     </tr>
                     {cues && cues.length && cues.map((c, i) =>
                         <CueListItem key={c.id} cue={c} index={i} selected={selectedCue && selectedCue.id === c.id} />
-                        )}
-                </tbody>
-            </table>
+                    )}
+                    </tbody>
+                </table>
+            </div>
+
 
             <div className="WrapEffect">
                 <button className="EffectBt">Effect</button>

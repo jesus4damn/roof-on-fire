@@ -14,8 +14,11 @@ interface IProps {
 const CueTimeLineItem:React.FC<IProps> = ({cueItem, selected, select}) => {
     const [cueWidth, setCueWidth] = React.useState(100);
     const isOpen = selected && selected.id === cueItem.id;
-    const asd = () => {
-        setCueWidth(cueWidth + 200)
+    const add = () => {
+        setCueWidth(cueWidth + 20)
+    };
+    const minus = () => {
+        setCueWidth(cueWidth - 20)
     };
 
     const classnameForOpen = isOpen ? '' : '';
@@ -24,11 +27,12 @@ const CueTimeLineItem:React.FC<IProps> = ({cueItem, selected, select}) => {
         <div className={classnameForOpen} style={{marginLeft: `${cueItem.startTime}px`, width: `${cueWidth}px`}} onClick={select}>
             {isOpen
                 ? <div className={'timelineCue'}>
-                    {cueItem.name} closed <span onClick={asd}>X</span>
+                    {cueItem.name} closed <span onClick={add}>X</span>
+                    {cueItem.name} closed <span onClick={minus}>-</span>
                     {cueItem.actions.map(a => <span className={'timelineCue-triangle'}>aa</span>)}
                 </div>
-                : <div >
-                    {cueItem.name}
+                : <div className={'timelineCue'} >
+
                 </div>
             }
         </div>

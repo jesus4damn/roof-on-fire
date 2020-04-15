@@ -23,6 +23,7 @@
     width: 100%;
     padding: 0 6px 0 2px;
     box-sizing: border-box;
+    height: 30px;
 }
 
 .selectionButtonsTop,
@@ -94,12 +95,12 @@
 
 .selectionButtonsTop button:nth-child(1),
 .selectionButtonsTop button:nth-child(4) {
-    width: 20%;
+   // width: 20%;
 }
 
 .selectionButtonsTop button:nth-child(2),
 .selectionButtonsTop button:nth-child(3) {
-    width: 30%;
+    //width: 30%;
 }
 
 .selectionButtonsTop button:nth-child(4):before {
@@ -160,8 +161,8 @@
 }
 
 .cuesWrapperContent {
-    width: 99%;
-    min-height: 64vh;
+    width: 29.5vw;
+    height: 65.5vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     flex-wrap: wrap;
@@ -170,6 +171,16 @@
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
     margin: 0 2px 2px 2px;
+    @media screen and (max-width: 1300px){
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 29vw;
+        height: 65.7vh;
+    }
+    @media (min-width: 320px) and (max-width: 950px){
+        grid-template-columns: 1fr 1fr ;
+        height: 61.7vh;
+        width: 28vw;
+    }
 }
 
 .cuesWrapperContent::-webkit-scrollbar-track {
@@ -179,12 +190,11 @@
 }
 
 .cuesWrapperContent::-webkit-scrollbar {
-    width: 12px;
-    background-color: #F5F5F5;
+    width: 8px;
 }
 
 .cuesWrapperContent::-webkit-scrollbar-thumb {
     border-radius: 10px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #444444;
+    background-color: #C4C4C4;
 }
