@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
-import TimeLine from './TimeLineWorkspace/TimeLine';
+import TimeLine from './TimeLineWorkspace/TimeLineContainer';
 import Header from './Header/Header';
 import MainWorkspace from './MainWorkspace/MainWorkspace';
 import CuesWorkspace from './ButtonsWorkspace/ButtonsWorkspace';
@@ -12,8 +12,8 @@ import { IFixturesState } from '../store/fixturesReducer/fixturesReducer';
 import { loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
 import { ContextMenu } from './common/ContextWrapper';
-import { useState } from 'react';
-import Modal from './common/ModalWrapper';
+// @ts-ignore
+import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 
@@ -70,7 +70,11 @@ const Application = ({
                 </div>
                 <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                 <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                <div className="timeLineWorkspaceWrapper"><TimeLine/></div>
+                <div className="timeLineWorkspaceWrapper">
+                    <ReactCursorPosition style={{width: '100%', height: '100%'}}>
+                        <TimeLine />
+                    </ReactCursorPosition>
+                </div>
             </ContextMenu>
         </div>
     );

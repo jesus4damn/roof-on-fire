@@ -130,7 +130,7 @@ const PatternFieldWrapper: React.FC<IProps> = ({
     };
 
     return (
-        <div>
+        <div ref={drag}>
             <Field
                 active={connected && connected.active}
                 color={connected && connected.color}

@@ -19,18 +19,25 @@ import Field from '../components/Field';
 import { ICue } from '../../../../types/cuesTypes';
 import { ICueField, IField, IPatternField } from '../../../../types/fieldsTypes';
 import { getSelectedFixtures } from '../../../store/fixturesReducer/fixturesSelector';
-import { createCue, createNewCue, setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
+import {
+    createCue,
+    createNewCue,
+    createTimelineCue,
+    setSelectedCue,
+    updateCue
+} from '../../../store/cuesReducer/cuesActions';
 import { isCueField } from '../../../store/fieldsReducer/fieldsReducer';
 import { updateField } from '../../../store/fieldsReducer/fieldsActions';
 
 interface IProps {
     field: ICueField | IField,
     selectedFixtures: IFixture[]
-    createNewCue: (fixtures:IFixture[], field: IField) => void,
+    createNewCue: (fixtures: IFixture[], field: IField) => void,
     updateCue: (cue: ICue) => void
     updateField: (field: IPatternField | ICueField) => void,
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     setSelectedCue: (cue: ICue | null) => void
+    createTimelineCue: (cue: ICue, startTime: number) => void
 }
 
 const CueFieldWrapper: React.FC<IProps> = ({
@@ -41,17 +48,19 @@ const CueFieldWrapper: React.FC<IProps> = ({
                                                updateField,
                                                setContextMenuOptions,
                                                setSelectedCue,
+                                               createTimelineCue
                                            }) => {
     const [modalContent, setModalContent] = useState<any | null>();
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const connected = isCueField(field) ? field.connected : null;
     const [{ isDragging }, drag, preview] = useDrag({
-        item: { name: connected ? connected.name : 'noname', type: 'CUE_FIELD' },
-        end: (item: { name: string }
+        item: { id: connected ? connected.id : 'noId', type: 'CUE_FIELD' },
+        end: (item: { id: string }
             | undefined, monitor: DragSourceMonitor) => {
             const dropResult = monitor.getDropResult();
             if (item && dropResult && connected) {
-                console.log(`You dropped ${item.name} into ${dropResult}!`)
+                createTimelineCue(connected, 0);
+                console.log(`You dropped ${item.id} into ${dropResult.cueList}!`);
             }
         },
         collect: (monitor) => ({
@@ -143,7 +152,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
     };
 
     return (
-        <div>
+        <div ref={drag}>
             <Field
                 active={connected && connected.active}
                 color={connected && field.color}
@@ -174,5 +183,6 @@ export default connect(mapStateToProps, {
     createNewCue,
     updateCue,
     updateField,
-    setSelectedCue
+    setSelectedCue,
+    createTimelineCue
 })(CueFieldWrapper);

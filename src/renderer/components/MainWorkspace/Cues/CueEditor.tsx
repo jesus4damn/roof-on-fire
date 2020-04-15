@@ -27,7 +27,7 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
                     <td>Time between</td>
                     <td>Prefire</td>
                 </tr>
-                {selectedCue ? selectedCue.actions.map(a => <ActionRow key={a.id} action={a} />) : null}
+                {selectedCue ? selectedCue.actions.map((a, i) => <ActionRow key={a.id} index={i} action={a} />) : null}
             </table>
         </div>
     )

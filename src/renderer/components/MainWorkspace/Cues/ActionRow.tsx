@@ -9,6 +9,7 @@ require('./CueEditor.scss');
 
 interface ICommonProps {
     action: ICueAction
+    index: number
 }
 
 interface IConnectedProps {
@@ -19,13 +20,13 @@ interface IConnectedProps {
 type TProps = ICommonProps
     & IConnectedProps & any & any;
 
-const ActionRow: React.FC<TProps> = ({action, fixture, pattern}) => {
+const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index}) => {
     return (
         <tr className="headerTableCues-active">
-            <td>1</td>
+            <td>{index}</td>
             <td>{fixture.name}</td>
             <td><img src={action.img} alt=""/></td>
-            <td>{pattern && pattern.dmxStart}</td>
+            <td>{pattern && pattern.number}</td>
             <td>{action.startTime}</td>
             <td>{action.startTime + action.totalTime}</td>
             <td>{pattern && pattern.offset}</td>
