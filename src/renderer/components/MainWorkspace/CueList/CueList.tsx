@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
 import { ICue } from '../../../../types/cuesTypes';
@@ -14,7 +14,7 @@ interface IProps {
     selectedCue: ICue | null,
 }
 
-const CueList:React.FC<IProps> = ({cues, selectedCue}) => {
+const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue}:IProps) => {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: dragTypes.CUE_FIELD,
         drop: () => ({ cueList: 'CUELIST' }),
