@@ -3,7 +3,7 @@ import { updateCue } from '../../../store/cuesReducer/cuesActions';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getSelectedCue } from '../../../store/cuesReducer/cuesSelector';
-import { ICue } from '../../../../types/cuesTypes';
+import { ICue, ICueAction } from '../../../../types/cuesTypes';
 import ActionRow from './ActionRow';
 
 
@@ -15,6 +15,7 @@ interface IProps {
 }
 
 const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
+
     return (
         <div className="WrapCues">
             <table className="TableCues">
@@ -27,7 +28,20 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
                     <td>Time between</td>
                     <td>Prefire</td>
                 </tr>
-                {selectedCue ? selectedCue.actions.map((a, i) => <ActionRow key={a.id} index={i} action={a} />) : null}
+                {selectedCue ? selectedCue.actions.map((a, i) =>
+                    <ActionRow
+                        key={a.id}
+                        index={i}
+                        action={a}
+                        onUpdate={(toUpdate: ICueAction) => {
+                            updateCue({
+                                ...selectedCue,
+                                actions: selectedCue.actions
+                                    .map(ac => ac.id === toUpdate.id ? toUpdate : ac)
+                            })
+                        }}
+                    />
+                    ) : null}
             </table>
         </div>
     )

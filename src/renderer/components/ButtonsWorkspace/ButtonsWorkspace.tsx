@@ -80,7 +80,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                 {fixturesPropertiesScreenWindow === 'static' && <Properties />}
                 {fixturesPropertiesScreenWindow === 'dynamic' && <Properties />}
                 {fixturesPropertiesScreenWindow === 'long' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'cues' && <Cues/>}
+                {fixturesPropertiesScreenWindow === 'cues' && <Cues />}
             </div>
         </div>
     );

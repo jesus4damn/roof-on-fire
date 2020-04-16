@@ -1,5 +1,5 @@
 import * as React from "react";
-import {connect} from "react-redux";
+import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getCuesFields } from '../../../store/fieldsReducer/fieldsSelectors';
 import { ICueField } from '../../../../types/fieldsTypes';
@@ -9,10 +9,10 @@ interface IProps {
     fieldsArr: ICueField[]
 }
 
-const Cues:React.FC<IProps> = ({fieldsArr}) => {
+const Cues:React.FC<ConnectedProps<IProps>> = ({fieldsArr}:IProps) => {
     return (
         <React.Fragment>
-            {fieldsArr.map((f) => (
+            {fieldsArr.map((f:ICueField) => (
                 <CueFieldWrapper field={f} key={f.id} />
             ))}
         </React.Fragment>

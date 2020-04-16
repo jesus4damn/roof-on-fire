@@ -10,7 +10,7 @@ import {
 } from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
@@ -22,7 +22,7 @@ import { getSelectedFixtures } from '../../../store/fixturesReducer/fixturesSele
 import {
     createCue,
     createNewCue,
-    createTimelineCue,
+    createTimelineCue, deleteCue,
     setSelectedCue,
     updateCue
 } from '../../../store/cuesReducer/cuesActions';
@@ -33,8 +33,9 @@ interface IProps {
     field: ICueField | IField,
     selectedFixtures: IFixture[]
     createNewCue: (fixtures: IFixture[], field: IField) => void,
-    updateCue: (cue: ICue) => void
-    updateField: (field: IPatternField | ICueField) => void,
+    updateCue: (cue: ICue) => void,
+    deleteCue: (cueId: string, isTimeline: boolean) => void,
+    updateField: (field: IField | ICueField, fieldType: string) => void,
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     setSelectedCue: (cue: ICue | null) => void
     createTimelineCue: (cue: ICue, startTime: number) => void
@@ -45,6 +46,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
                                                selectedFixtures,
                                                createNewCue,
                                                updateCue,
+                                               deleteCue,
                                                updateField,
                                                setContextMenuOptions,
                                                setSelectedCue,
@@ -81,8 +83,9 @@ const CueFieldWrapper: React.FC<IProps> = ({
                 onSubmit={(fields: IInputField[]) => {
                     fields.forEach(f => {
                         if (connected && Object.keys(connected).includes(f.title)) {
-
-                            //onUpdatePattern(f.title, f.value);
+                            let newCue = {...connected, [f.title]: f.value};
+                            updateCue(newCue);
+                            updateField({...field, connected: newCue}, 'cue');
                         }
                     });
                     closeModal();
@@ -95,18 +98,14 @@ const CueFieldWrapper: React.FC<IProps> = ({
         setIsModalShown(true);
         setModalContent(
             <PickerModal type={type} onSubmit={(value: string) => {
+                updateField({...field, [type]: value}, 'cue');
+                if (connected && Object.keys(connected).includes(type)) {
+                    updateCue({...connected, [type]: value});
+                }
                 closeModal();
             }}/>
         );
     };
-
-    const itemBase = {
-        name: '',
-        id: '',
-        img: ''
-    };
-
-    const item = { ...itemBase, ...connected };
 
     const contextOptions = [
         {
@@ -136,6 +135,20 @@ const CueFieldWrapper: React.FC<IProps> = ({
             callback: () => {
                 createNewCue(selectedFixtures, field);
             }
+        },
+        {
+            title: 'Delete cue',
+            disabled: connected === null,
+            callback: () => {
+                if (connected) {
+                    deleteCue(connected.id, false);
+                    updateField({
+                        id: field.id,
+                        color: '',
+                        img: ''
+                    }, 'cue')
+                }
+            }
         }
     ];
 
@@ -156,20 +169,20 @@ const CueFieldWrapper: React.FC<IProps> = ({
             <Field
                 active={connected && connected.active}
                 color={connected && field.color}
-                name={item.name}
-                img={item.img}
+                name={connected && connected.name}
+                img={connected && field.img}
                 select={setActiveCue}
                 callContext={() => {
                     setContextMenuOptions(contextOptions);
                 }}
             />
-            <Modal
+            {isModalShown && <Modal
                 isShown={isModalShown}
                 closeModal={closeModal}
                 noActions={true}
             >
                 {modalContent}
-            </Modal>
+            </Modal>}
         </div>
     );
 };
@@ -184,5 +197,6 @@ export default connect(mapStateToProps, {
     updateCue,
     updateField,
     setSelectedCue,
+    deleteCue,
     createTimelineCue
 })(CueFieldWrapper);

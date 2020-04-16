@@ -18,14 +18,14 @@ export interface ISetInitialFields extends Action {
     type: typeof SET_INITIAL_FIELDS, payload: {fields: IFieldsState}
 }
 export interface IUpdateField extends Action {
-    type: typeof UPDATE_FIELD, field: IField | IPatternField | ICueField
+    type: typeof UPDATE_FIELD, field: IField | IPatternField | ICueField, fieldType: string
 }
 
 export const pickUpField: ActionCreator<IPickUpField> = (payload):IPickUpField => ({
     type: PICK_UP_FIELD, payload
 });
-export const updateField: ActionCreator<IUpdateField> = (field: IField | IPatternField | ICueField):IUpdateField => ({
-    type: UPDATE_FIELD, field
+export const updateField: ActionCreator<IUpdateField> = (field: IField | IPatternField | ICueField, fieldType: string):IUpdateField => ({
+    type: UPDATE_FIELD, field, fieldType
 });
 export const setNewFields: ActionCreator<ISetNewFields> = (patterns, patternsType):ISetNewFields => ({
     type: SET_NEW_FIELDS, payload: {patterns, patternsType}

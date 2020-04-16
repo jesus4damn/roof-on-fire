@@ -3,6 +3,7 @@ import { RootActions } from '../rootActions';
 import { ICueField, IField, IPatternField } from '../../../types/fieldsTypes';
 import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS, UPDATE_FIELD } from './fieldsActions';
 import { UPDATE_PATTERN } from '../fixturesReducer/fixturesActions';
+import { UPDATE_CUE } from '../cuesReducer/cuesActions';
 
 export interface IFieldsState {
     readonly cuesFields: Array<IField | ICueField>,
@@ -67,10 +68,18 @@ export const fieldsReducer: Reducer<IFieldsState> = (
                 }
             };
         case UPDATE_FIELD:
-            if (isCueField(action.field)) {
+            if (!isPatternField(action.field) && action.fieldType === 'cue') {
                 return {
                     ...state,
                     cuesFields: state.cuesFields.map(f => f.id === action.field.id ? action.field : f)
+                }
+            } else return state;
+        case UPDATE_CUE:
+            let fieldIndex = state.cuesFields.map(f => isCueField(f) ? f.connected.id : null).indexOf(action.cue.id);
+            if (fieldIndex >= 0) {
+                return {
+                    ...state,
+                    cuesFields: state.cuesFields.map((f, i) => i === fieldIndex ? {...f, connected: action.cue} : f)
                 }
             } else return state;
         case SET_NEW_FIELDS:

@@ -16,7 +16,7 @@ export const SET_SELECTED_CUE = 'cues/SET_SELECTED_CUE';
 
 export interface IOnCueSelection {
     type: typeof SET_SELECTED_CUE,
-    cue: ICue | null
+    cue: ICue
 }
 
 export interface ICreateCueAction extends Action {
@@ -31,11 +31,11 @@ export interface ICreateTimelineCueAction extends Action {
 }
 
 export interface IDeleteCueAction extends Action {
-    type: typeof DELETE_CUE;
+    type: typeof DELETE_CUE, cueId: string, isTimeline: boolean
 }
 
 export interface IUpdateCueAction extends Action {
-    type: typeof UPDATE_CUE;
+    type: typeof UPDATE_CUE, cue: ICue
 }
 
 export const createCue: ActionCreator<ICreateCueAction> = (cue: ICue) => ({
@@ -46,20 +46,20 @@ export const createTimelineCue: ActionCreator<ICreateTimelineCueAction> = (cue: 
     type: CREATE_CUE_TIMELINE, cue: {...cue, id: uuid()}, startTime
 });
 
-export const deleteCue: ActionCreator<IDeleteCueAction> = (cueId: string) => ({
-    type: DELETE_CUE, cueId
+export const deleteCue: ActionCreator<IDeleteCueAction> = (cueId: string, isTimeline: boolean) => ({
+    type: DELETE_CUE, cueId, isTimeline
 });
 
 export const updateCue: ActionCreator<IUpdateCueAction> = (cue: ICue) => ({
     type: UPDATE_CUE, cue
 });
 
-export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue | null) => ({
+export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue) => ({
     type: SET_SELECTED_CUE, cue
 });
 
 const cueBase: ICue = {
-    id: uuid(),
+    id: '',
     startTime: 1,
     endTime: null,
     fixtureType: 'fireMachine',
@@ -98,10 +98,11 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
         });
         const newCue: ICue = {
             ...cueBase,
+            id: uuid(),
             actions: newActions.length ? newActions : []
         };
         dispatch(createCue(newCue));
-        dispatch(updateField({ ...field, connected: newCue }));
+        dispatch(updateField({ ...field, connected: newCue }, 'cue'));
     };
 
 
