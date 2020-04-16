@@ -16,6 +16,7 @@ import { ContextMenu } from './common/ContextWrapper';
 import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
+import { ICuesState } from '../store/cuesReducer/cuesReducer';
 
 require('./App.scss');
 
@@ -26,6 +27,7 @@ interface IProps {
     contextOptions: IContextMenuOption[]
     fixtures: IFixturesState
     fields: IFieldsState
+    cues: ICuesState
 }
 
 const Application = ({
@@ -33,6 +35,7 @@ const Application = ({
                          setInitialFields,
                          fixtures,
                          fields,
+                         cues,
                          setContextMenuOptions,
                          contextOptions
                     }: IProps) => {
@@ -61,7 +64,7 @@ const Application = ({
     };
 
     const saveData = () => {
-        saveState({ fixtures, fields });
+        saveState({ fixtures, fields, cues });
     };
     return (
         <div className="appWrapper">
@@ -83,6 +86,7 @@ const Application = ({
 const mapStateToProps = (state: RootState) => ({
     fixtures: state.fixtures,
     fields: state.fields,
+    cues: state.cues,
     contextOptions: state.app.contextMenuOptions
 });
 

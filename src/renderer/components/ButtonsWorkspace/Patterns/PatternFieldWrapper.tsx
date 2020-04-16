@@ -16,6 +16,7 @@ import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
 import { useDrag, DragSourceMonitor } from 'react-dnd';
 import Field from '../components/Field';
+import { dragTypes } from '../../../../types/dragTypes';
 
 interface IProps {
     id: string,
@@ -37,7 +38,7 @@ const PatternFieldWrapper: React.FC<IProps> = ({
     const [modalContent, setModalContent] = useState<any | null>();
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const [{ isDragging }, drag, preview] = useDrag({
-        item: { name: connected ? connected.name : 'noname', type: 'PATTERN_FIELD' },
+        item: { pattern: connected ? connected : null, type: dragTypes.PATTERN_FIELD },
         end: (item: { name: string }
             | undefined, monitor: DragSourceMonitor) => {
             const dropResult = monitor.getDropResult();

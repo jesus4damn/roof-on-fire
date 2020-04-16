@@ -34,6 +34,7 @@ const FormsModal:React.FC<IProps> = ({ fields, onSubmit }: IProps) => {
         <div>
             {editable.map((f: IInputField, i: number) => (
                 <input
+                    key={'field' + f.title + i}
                     ref={refs[f.title]}
                     type={f.type}
                     value={f.value}

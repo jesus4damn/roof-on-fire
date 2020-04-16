@@ -1,6 +1,7 @@
 import { generateFields, generateMockFixtures, generateMockPatterns } from './mockDataGenerators';
 import { IFieldsState } from './fieldsReducer/fieldsReducer';
 import { IFixturesState } from './fixturesReducer/fixturesReducer';
+import { ICuesState } from './cuesReducer/cuesReducer';
 
 const Storage = require('../../main/StoreData');
 
@@ -35,10 +36,11 @@ const dataStorage = new Storage({
 export interface IInitialData {
     fields: IFieldsState
     fixtures: IFixturesState
+    cues: ICuesState
 }
 
 export const getInitialState = ():IInitialData => {
-    const fixtures = generateMockFixtures(3);
+    const fixtures = generateMockFixtures(5);
     const patternsS = generateMockPatterns(1, 'static');
     const patternsD = generateMockPatterns(2, 'dynamic');
     const patternsL = generateMockPatterns(1, 'long');
@@ -63,6 +65,11 @@ export const getInitialState = ():IInitialData => {
             fixtures: fixtures,
             groups: [],
             fixtureTypes: ['fireMachine', 'fireWorks', 'dimmer'],
+        },
+        cues: {
+            selectedCue: null,
+            cues: [],
+            timelineCues: [],
         }
     };
 };
