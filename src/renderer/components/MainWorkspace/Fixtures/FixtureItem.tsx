@@ -40,7 +40,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     };
 
     return (
-        <div className={'fixtureRow'} style={{ boxShadow: fixture.selected ? '0 0 10px 0 green' : 'none' }}>
+        <div className={'fixtureRow'} style={{ boxShadow: fixture.selected ? ' 0px 0px 8px 0px #a3b767' : 'none' }}>
             <div onClick={select}>
                 <img alt={'fixture'}
                      src={fixture.img ? fixture.img : ''}
@@ -86,6 +86,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                                 setEditMode('name');
                             }}>{fixture.name}</span>}
             </div>
+
             {fixture.params
                 .filter(p => !p.parts && p.name !== 'patterns')
                 .map(p => {
