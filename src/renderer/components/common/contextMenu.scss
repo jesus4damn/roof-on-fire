@@ -145,8 +145,23 @@
   color: #ccc !important;
   cursor: not-allowed;
 }
-.renameInput{
+.renameInput {
   color: #fff;
+  padding-bottom: 20px;
+}
+.renameInput p{
+  margin: 10px 0 15px 0;
+  text-align: center;
+  position: relative;
+}
+.renameInput p:before{
+  content: "";
+  position: absolute;
+  width: 162px;
+  height: 2px;
+  background: #585454;
+  bottom: -7px;
+  left: 38px;
 }
 .renameInput input{
   text-align: center;
@@ -160,10 +175,10 @@
   font-size: 11px;
   margin: 5px;
   position: relative;
-  right: 25px;
+  right: 31px;
   border-radius: 4px;
-  padding: 6px 4px 4px 4px;
-  border: 0 solid #C4C4C4;
+  padding: 6px 6px 4px 5px;
+  border: 0.5px solid #C4C4C4;
   font-weight: 100;
 }
 @keyframes scaleIn {

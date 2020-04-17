@@ -40,60 +40,62 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
     };
 
     return (
-        <div className={'fixtureRow'} style={{ boxShadow: fixture.selected ? ' 0px 0px 8px 0px #a3b767' : 'none' }}>
+        <div className={'fixtureRow'} style={{ background: fixture.selected ? ' rgba(39, 174, 96, 0.4)' : 'none' }}>
             <div onClick={select}>
                 <img alt={'fixture'}
                      src={fixture.img ? fixture.img : ''}
                      className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
                 />
             </div>
-
-            <div onClick={select} className={'paramBlock'}>
+            <div onClick={select} className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}>
                 <span className={'title'}>№</span>
-                <span>{fixture.number}</span>
+                <span className={'titleParameters'}>{fixture.number}</span>
             </div>
-            <div className={'paramBlock'}>
-                <span className={'title'}>DMX</span>
-                {editMode === 'startAddress'
-                    ? <input
-                        onChange={(e) => {
-                            setInputValue(e.target.value);
-                        }}
-                        value={inputValue}
-                        onBlur={edit}
-                    />
-                    : <span onDoubleClick={() => {
-                        setInputValue(fixture.startAddress !== null ? fixture.startAddress : '');
-                        setEditMode('startAddress');
-                    }
-                    }>{fixture.startAddress}
+            <div className={`paramBlock  paramDmx ${fixture.selected ? 'paramBlock-active' : ''}`}>
+
+                <div className={'blockDmx'}>
+                    <span className={'title '}>DMX</span>
+                    {editMode === 'startAddress'
+                        ? <input
+                            onChange={(e) => {
+                                setInputValue(e.target.value);
+                            }}
+                            value={inputValue}
+                            onBlur={edit}
+                        />
+                        : <span className={'titleParameters'} onDoubleClick={() => {
+                            setInputValue(fixture.startAddress !== null ? fixture.startAddress : '');
+                            setEditMode('startAddress');
+                        }
+                        }>{fixture.startAddress}
                 </span>}
-            </div>
-            <div className={'paramBlock'}>
-                <span className={'title'}>name</span>
-                {editMode === 'name'
-                    ? <input
-                        onChange={(e) => {
-                            setInputValue(e.target.value);
-                        }}
-                        value={inputValue}
-                        onBlur={edit}
-                    />
-                    : <span className={'title'}
-                        // style={{width: '150px'}}
-                            onDoubleClick={() => {
-                                setInputValue(fixture.name !== null ? fixture.name : '');
-                                setEditMode('name');
-                            }}>{fixture.name}</span>}
+                </div>
+                <div className={'blockFireMachine'}>
+                    <span className={'title '}>ARM adress</span>
+                    {editMode === 'name'
+                        ? <input
+                            onChange={(e) => {
+                                setInputValue(e.target.value);
+                            }}
+                            value={inputValue}
+                            onBlur={edit}
+                        />
+                        : <span className={'titleParameters'}
+                                onDoubleClick={() => {
+                                    setInputValue(fixture.name !== null ? fixture.name : '');
+                                    setEditMode('name');
+                                }}>{fixture.name}</span>}
+                </div>
+
             </div>
 
             {fixture.params
                 .filter(p => !p.parts && p.name !== 'patterns')
                 .map(p => {
                     return (
-                        <div key={'Parametr' + p.name} className={'paramBlock'}>
+                        <div key={'Parametr' + p.name} className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}>
                             <span className={'title'}>{p.name}</span>
-                            <span>{p.physicalOutput}</span>
+                            <span className={'titleParameters'}>{p.physicalOutput}</span>
                         </div>
                     );
                 })}
@@ -107,6 +109,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                 />}
             </div>
         </div>
+
     );
 };
 

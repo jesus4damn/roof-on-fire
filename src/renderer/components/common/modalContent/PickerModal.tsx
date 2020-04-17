@@ -94,15 +94,16 @@ const imagesFields:IPickerField[] = [
 
 const PickerModal:React.FC<IProps> = ({ type, onSubmit }: IProps) => {
     const [editable, setEditable] = useState(imagesFields);
+    let isImg = type === 'img';
 
     return editable.length ? (
-        <div className={'headerUploadPicture'}>
-            <span >Задать Картинку</span>
+        <div className={isImg ? 'headerUploadPicture' : 'headerUploadColor'}>
+            <span >{isImg ? "Задать Картинку" : "Задать Цвет"}</span>
             <div className={'grid'}>
 
                 {editable.map((f: IPickerField, i: number) => (
                     <div
-                        className={'element'}
+                        className={ "element"}
                         style={{backgroundColor: type === 'img' ? 'black' : f.color}}
                         key={'imageSelector' + i}
                         onClick={() => onSubmit( type === 'img' ? f.title : f.color)}
@@ -112,9 +113,10 @@ const PickerModal:React.FC<IProps> = ({ type, onSubmit }: IProps) => {
                     </div>
                 ))}
             </div>
-            <div className={"uploadPictureWrap"}>
+            {isImg ?  <div className={"uploadPictureWrap"}>
                 <button className={"uploadPicture"}>Загрузить с компьютера</button>
-            </div>
+            </div>: ""}
+
 
         </div>
 

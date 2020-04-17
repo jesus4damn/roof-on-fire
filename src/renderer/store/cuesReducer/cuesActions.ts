@@ -61,7 +61,7 @@ export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue) => ({
 const cueBase: ICue = {
     id: '',
     startTime: 1,
-    endTime: null,
+    endTime: 1000,
     fixtureType: 'fireMachine',
     name: 'new cue',
     active: false,

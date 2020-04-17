@@ -3,14 +3,23 @@
     border: 1px solid #27AE60;
     box-sizing: border-box;
     border-radius: 4px;
-    min-height: 20px;
+    min-height: 8px;
     position: relative;
     top: 20px;
-    left: 20%;
-    margin: 6px;
-    z-index: 100;
+    margin: 6px 0;
+    display: flex;
+    flex-direction: row;
 }
-
+.timelineCue.open {
+    height: 45px;
+}
+.actionMarker {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: black;
+    cursor: col-resize;
+}
 .timelineCue-triangle {
     border: 5px solid transparent;
     border-bottom: 10px solid #27AE60;

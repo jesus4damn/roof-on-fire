@@ -13,7 +13,15 @@
   align-items: center;
   border-radius: 3px;
 }
-.headerUploadPicture span{
+.headerUploadColor .element{
+  width: 30px;
+  height: 30px;
+}
+.headerUploadColor{
+  padding: 0 3px 6px 3px;
+}
+.headerUploadPicture span,
+.headerUploadColor span{
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
