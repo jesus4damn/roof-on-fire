@@ -27,9 +27,9 @@ const CueTimeLineItem:React.FC<IProps> = ({cueItem, selected, select}) => {
         <div className={classnameForOpen} style={{marginLeft: `${cueItem.startTime}px`, width: `${cueWidth}px`}} onClick={select}>
             {isOpen
                 ? <div className={'timelineCue'}>
-                    {cueItem.name} closed <span onClick={add}>X</span>
-                    {cueItem.name} closed <span onClick={minus}>-</span>
-                    {cueItem.actions.map(a => <span className={'timelineCue-triangle'}>aa</span>)}
+                    {cueItem.name}<span onClick={add}>X</span>
+                    <span  className={'timelineCue'} onClick={minus}>-</span>
+                    {cueItem.actions.map(a => <span className={'timelineCue-triangle'}></span>)}
                 </div>
                 : <div className={'timelineCue'} >
 

@@ -56,16 +56,17 @@
 
 .modal-content {
   position: relative;
-  min-width: 250px;
-  width: auto;
-  max-width: 90%;
-  max-height: 90vh;
+  //min-width: 250px;
+  //width: auto;
+  //max-width: 90%;
+  //max-height: 90vh;
   background: #333333;
-  padding: 20px 20px 20px;
+  //padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border-radius: 5px;
 }
 
 .modal-content.scale-in {
@@ -80,27 +81,36 @@
 
 .modal-child-content {
   overflow: auto;
-  margin-bottom: 15px;
-  padding: 0 10px;
+  //margin-bottom: 15px;
+  //padding: 0 10px;
 }
 
 .modal-close-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: absolute;
-  top: -20px;
-  right: -20px;
-  background: #222222;
-  border: 1px solid #888888;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  color: #888888;
-  font-weight: bold;
-  font-size: 28px;
+  top: 15px;
+  right: 7px;
+  border: 0;
 }
-
+.modal-close-button:before{
+   content: '';
+  top: 0;
+  right: 0;
+   position: absolute;
+   width: 12.37px;
+   height: 1.77px;
+   background: #C4C4C4;
+   transform: rotate(135deg);
+ }
+.modal-close-button:after{
+  content: '';
+  top: 0;
+  right: 0;
+  position: absolute;
+  width: 12.37px;
+  height: 1.77px;
+  background: #C4C4C4;
+  transform: rotate(-135deg);
+}
 .modal-actions {
   text-align: right;
 }
@@ -135,7 +145,27 @@
   color: #ccc !important;
   cursor: not-allowed;
 }
-
+.renameInput{
+  color: #fff;
+}
+.renameInput input{
+  text-align: center;
+  color: #fff;
+  position: relative;
+  margin: 3px 27px 3px 5px;
+  padding: 5px 0;
+}
+.renameInputBt{
+  color: #C4C4C4;
+  font-size: 11px;
+  margin: 5px;
+  position: relative;
+  right: 25px;
+  border-radius: 4px;
+  padding: 6px 4px 4px 4px;
+  border: 0 solid #C4C4C4;
+  font-weight: 100;
+}
 @keyframes scaleIn {
   0% {
     opacity: 0;

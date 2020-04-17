@@ -82,7 +82,9 @@
         width: auto;
     }
 }
-
+.paramBlock:last-child{
+    width: 28px;
+}
 .paramBlock-active {
     background: #27AE60;
 }
