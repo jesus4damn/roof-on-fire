@@ -52,6 +52,13 @@ module.exports = merge.smart(baseConfig, {
                     }
                 ]
             },
+            {
+                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]'
+                }
+            },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             {
                 enforce: 'pre',
