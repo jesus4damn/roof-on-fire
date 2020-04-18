@@ -31,7 +31,8 @@ const FormsModal:React.FC<IProps> = ({ fields, onSubmit }: IProps) => {
     };
 
     return fields.length ? (
-        <div>
+        <div className={"renameInput"}>
+            <p>Edit {editable[0] && editable[0].title}</p>
             {editable.map((f: IInputField, i: number) => (
                 <input
                     key={'field' + f.title + i}
@@ -42,7 +43,7 @@ const FormsModal:React.FC<IProps> = ({ fields, onSubmit }: IProps) => {
                     onChange={(e) => onChange(e, i)}
                 />
             ))}
-            <button onClick={() => onSubmit(editable)}>OK</button>
+            <button className={"renameInputBt"} onClick={() => onSubmit(editable)}>OK</button>
         </div>
     ) : null;
 };

@@ -1,8 +1,8 @@
 .WrapCues {
     border-radius: 5px;
     border: 2px solid #444444;
-    //box-sizing: border-box;
     width: 100%;
+    background:#252424;
 }
 
 .TableCues {
@@ -10,6 +10,7 @@
     border-collapse: collapse;
     font-size: 14px;
     width: 100%;
+    position: relative;
 }
 .TableCues td img{
     width: 24px;
@@ -19,7 +20,19 @@
     background: #444444;
     border-radius: 5px;
 }
-
+.TableCues tr{
+    position: relative;
+}
+.TableCues .lineDecorate{
+    position: absolute;
+    left: 6px;
+    width: 93%;
+    height: 0;
+    border: 1px solid #000;
+    border-radius: 14px;
+    transform: scaleY(0.08);
+    bottom: -5%;
+}
 .TableCues td {
     text-align: center;
     padding: 9px;
@@ -27,5 +40,5 @@
 }
 
 .headerTableCues-active {
-    color: #27AE60;
-}
+     color: #27AE60;
+ }

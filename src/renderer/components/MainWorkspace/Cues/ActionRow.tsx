@@ -48,7 +48,9 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
             <td>{action.startTime}</td>
             <td>{action.startTime + action.totalTime}</td>
             <td>{pattern && pattern.offset}</td>
+            <td colSpan="7"  className="lineDecorate"></td>
         </tr>
+
     );
 };
 
