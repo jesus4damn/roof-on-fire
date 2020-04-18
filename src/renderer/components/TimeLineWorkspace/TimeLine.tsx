@@ -6,6 +6,7 @@ import { getSelectedCue, getTimelineCues } from '../../store/cuesReducer/cuesSel
 import { ICue } from '../../../types/cuesTypes';
 import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
 import { useState } from 'react';
+import Waveform from './Music/Waveform';
 require('./TimeLine.scss');
 
 interface ICommonProps {
@@ -24,9 +25,11 @@ const TimeLine: React.FC<TProps> = ({position, cues, selectedCue, setSelectedCue
     const [audioLength, setAudioLength] = useState(240000);
 
     return (
+
         <div
              //`url(${getTimeLineBackground()})`
             className={'timelineBlock'}>
+                        <Waveform/>
             <div
                 className={'timelineTrack'}
                 style={{ width: `${audioLength / 100}px`}}

@@ -96,6 +96,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/react-rnd": "^8.0.0",
     "@types/react-test-renderer": "^16.8.1",
+    "@types/wavesurfer": "git+https://github.com/d10221/wavesurfer-typescript.git",
     "@types/webdriverio": "^4.8.7",
     "@types/webpack-env": "^1.13.3",
     "@typescript-eslint/eslint-plugin": "^2.4.0",
@@ -153,6 +154,7 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "wavesurfer.js": "^3.3.3"
   }
 }
