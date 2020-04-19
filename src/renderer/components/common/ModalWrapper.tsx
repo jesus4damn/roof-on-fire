@@ -65,7 +65,7 @@ const Modal = ({ isShown, closeModal, noActions, children }: any) => {
             <div className="modal-background" onClick={hideModal} />
             <div className={`modal-content ${isVisible ? 'scale-in' : 'scale-out'}`}>
                 <button className="modal-close-button" onClick={hideModal}>
-                    X
+
                 </button>
                 <div className="modal-child-content">{children}</div>
                 {noActions ? null : (

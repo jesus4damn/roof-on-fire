@@ -1,13 +1,56 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 5px;
+  grid-gap: 2px;
+  margin: 0 3px;
 }
 
 .element {
   display: flex;
-  width: 50px;
-  height: 50px;
+  width: 100%;
+  height: 45px;
   justify-content: center;
   align-items: center;
+  border-radius: 3px;
+}
+.headerUploadColor .element{
+  width: 30px;
+  height: 30px;
+}
+.headerUploadColor{
+  padding: 0 3px 6px 3px;
+}
+.headerUploadPicture span,
+.headerUploadColor span{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 10px 0;
+  display: block;
+}
+.uploadPictureWrap{
+  display: flex;
+  justify-content: center;
+  margin: 4px auto 0;
+  width: 194px;
+  padding: 4px 0;
+  background: #0D0C0C;
+  border-radius: 4px;
+}
+.uploadPicture{
+  background: #2F80ED;
+  border-radius: 12px;
+  width: 170px;
+  height: 24px;
+  color: #fff;
+  border: 0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 9px;
 }

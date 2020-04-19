@@ -17,23 +17,71 @@ interface IProps {
 const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture }) => {
     return (
         <div className="WrapFixtures">
-            <div className="FrameAccordion">
-                <h2>
-                    Crazy Flame Mod 1
-                </h2>
-                <span className="FrameAccordionImg">-</span>
+            <div className="WrapFixturesScroll">
+                <div className="FrameAccordion">
+                    <h2>
+                        Crazy Flame Mod 1
+                    </h2>
+                    <span className="FrameAccordionImg">-</span>
 
-                <div className="fixtures">
-                    <div>
-                        {fixtures.map(f => {
-                            return (
-                                <FixtureItem key={f.id} fixture={f} update={updateFixture}/>
-                            );
-                        })}
+                    <div className="fixtures">
+                        <div>
+                            {fixtures.map(f => {
+                                return (
+                                    <FixtureItem key={f.id} fixture={f} update={updateFixture}/>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className={"positionPach"}>
+                        <div className={"positionPachItem"}>
+                            <div className={"PachItemOne"}>12</div>
+                            <div className={"PachItemTwo"}>Все</div>
+                            <div className={"PachItemThree"}>12</div>
+                        </div>
+                        <div className={"positionPachItem"}>
+                            <div className={"PachItemOne"}>12</div>
+                            <div className={"PachItemTwo"}>Чётные</div>
+                            <div className={"PachItemThree"}>6</div>
+                        </div>
+                        <div className={"positionPachItem"}>
+                            <div className={"PachItemOne"}>11</div>
+                            <div className={"PachItemTwo"}>Нечётные</div>
+                            <div className={"PachItemThree"}>6</div>
+                        </div><div className={"positionPachItem"}>
+                        <div className={"PachItemOne"}>11</div>
+                        <div className={"PachItemTwo"}>Левые</div>
+                        <div className={"PachItemThree"}>6</div>
+                    </div>
+                        <div className={"positionPachItem"}>
+                            <div className={"PachItemOne"}>11</div>
+                            <div className={"PachItemTwo"}>Правые</div>
+                            <div className={"PachItemThree"}>6</div>
+                        </div>
                     </div>
                 </div>
+                <div className="FrameAccordionBottom">
+                    <h2>
+                        Flame Jet
+                    </h2>
+                    <span className="FrameAccordionImg">+</span>
+                </div>
+                <div className="FrameAccordionBottom">
+                    <h2>
+                        Switch
+                    </h2>
+                    <span className="FrameAccordionImg">+</span>
+                </div>
+                <div className="FrameAccordionBottom">
+                    <h2>
+                        Piro Block
+                    </h2>
+                    <span className="FrameAccordionImg">+</span>
+                </div>
             </div>
+
         </div>
+
     );
 };
 
