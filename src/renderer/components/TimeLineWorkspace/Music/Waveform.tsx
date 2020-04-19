@@ -3,69 +3,139 @@ import * as WaveSurfer from 'wavesurfer.js';
 import { getMp3 } from '../../../assets/musicGetter';
 
 interface IProps {
-
+  children: any
 }
 
 interface IState {
+  loaded: boolean,
   playing: boolean,
-  // wave: WaveSurfer
-  pos: number
+  pos: number,
+  duration: number,
+  speed: number,
+  volume: number,
+  currentTrackTime: number,
+  zoomValue: number,
 }
 
 class Waveform extends React.Component<IProps, IState> {
-  aud: any;
-  wavesurfer: any | WaveSurfer;
   waveform: any | React.Ref<any>;
 
-  state: IState = {
-    playing: false,
-    pos: 0,
-    //waw: WaveSurfer
-  };
+  wavesurfer: any | WaveSurfer;
+  setWaveFormRef: (element: HTMLDivElement) => void;
 
+  constructor(props: IProps) {
+    super(props);
+    this.waveform = null;
+
+    this.setWaveFormRef = element => {
+      this.waveform = element;
+    };
+    this.state = {
+      loaded: false,
+      duration: 0,
+      playing: false,
+      pos: 0,
+      speed: 0,
+      volume: 0,
+      currentTrackTime: 0,
+      zoomValue: 0
+    };
+  }
 
   componentDidMount() {
-    this.aud = React.createRef();
-    this.waveform = React.createRef();
-
     this.wavesurfer = WaveSurfer.create({
       barWidth: 0,
       cursorWidth: 1,
-      container: '#waveform',
-      //container: this.waveform.current,
+      container: this.waveform,
       backend: 'WebAudio',
-      height: 120,
+      height: 170,
       progressColor: '#2D5BFF',
+      //scrollParent: true,
+      fillParent: true,
       // @ts-ignore
       responsive: true,
-      waveColor: '#EFEFEF',
+      waveColor: '#031109',
       cursorColor: 'transparent'
     });
-    //
+
+    this.setState({
+      duration: this.wavesurfer.getDuration(),
+      speed: this.wavesurfer.getPlaybackRate(),
+      volume: this.wavesurfer.getVolume(),
+    });
+
+    this.wavesurfer.on('ready', () => {
+      this.setState({loaded: true})
+    });
+
+    this.wavesurfer.on('audioprocess', () => {
+      this.handleTrackTimeChange(this.wavesurfer.getCurrentTime())
+    });
+
+    this.wavesurfer.on('zoom', (dd: number) => {
+      //console.log('zoom ===>' + dd);
+      this.setState({
+        zoomValue: dd
+      });
+    });
+
     this.wavesurfer.load(getMp3('guanoApes'));
-    // this.setState({waw: wav});
   };
+
+  componentWillUnmount(): void {
+    this.wavesurfer.un('audioprocess', () => {});
+    this.wavesurfer.un('zoom', () => {});
+  }
 
   handlePlay = () => {
     this.setState({ playing: !this.state.playing });
     this.wavesurfer.playPause();
-    //waveform.playPause();
   };
-  handlePosChange(e: any) {
+
+  handleZoom = (val: number, dec: boolean) => {
+    let dd = dec ? this.state.zoomValue - val : this.state.zoomValue + val;
+    //console.log(dd);
+    this.wavesurfer.zoom(dd)
+  };
+
+  handlePlaybackRate = (speed: number) => {
+    this.setState({ speed: speed });
+    this.wavesurfer.setPlaybackRate();
+  };
+
+  setVolume = (vol: number) => {
+    this.setState({ volume: vol });
+    this.wavesurfer.setVolume(vol);
+  };
+
+  handleTrackTimeChange(time: number) {
     this.setState({
-      pos: e.originalArgs[0]
+      currentTrackTime: time
     });
   }
-  render() {
 
+  render() {
     return (
-        <>
-          <button onClick={() => {this.handlePlay()}}>
-            {!this.state.playing ? 'Play' : 'Pause'}
-          </button>
-          <div ref={this.waveform} id="waveform"/>
-          <audio ref={this.aud} src={getMp3('guanoApes')}/>
-        </>
+        <div className='timelineBlock'>
+          <div className={"timelinePlayerActionsContainer"}>
+            <button onClick={() => {this.handlePlay()}} disabled={!this.state.loaded}>
+              {!this.state.playing ? 'Play' : 'Pause'}
+            </button>
+            <input type={"range"}
+                   value={this.state.volume * 100}
+                   onChange={(e)=> {
+                     this.setVolume(+e.currentTarget.value/100)
+                   }}
+                   min={0} max={100} />
+          </div>
+          <div ref={this.setWaveFormRef} className='waveWrapper'>
+          {this.props.children}
+        </div>
+          <div className={"timelineNavContainer"}>
+            <button onClick={() => {this.handleZoom(5, false)}}>+</button>
+            <button onClick={() => {this.handleZoom(5, true)}}>-</button>
+          </div>
+        </div>
     );
   }
 };
