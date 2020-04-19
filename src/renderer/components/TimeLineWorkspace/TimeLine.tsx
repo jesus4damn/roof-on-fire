@@ -6,6 +6,7 @@ import { getSelectedCue, getTimelineCues } from '../../store/cuesReducer/cuesSel
 import { ICue } from '../../../types/cuesTypes';
 import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
 import { useState } from 'react';
+// @ts-ignore
 import Waveform from './Music/Waveform';
 
 require('./TimeLine.scss');

@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as WaveSurfer from 'wavesurfer.js';
 import { getMp3 } from '../../../assets/musicGetter';
 
+// @ts-ignore
+const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
+
 interface IProps {
   children: any
 }
@@ -19,9 +22,12 @@ interface IState {
 
 class Waveform extends React.Component<IProps, IState> {
   waveform: any | React.Ref<any>;
+  waveformTimeLine :  any | React.Ref<any>
 
   wavesurfer: any | WaveSurfer;
   setWaveFormRef: (element: HTMLDivElement) => void;
+
+  setWaveFormTimelineRef: (element: HTMLDivElement) => void;
 
   constructor(props: IProps) {
     super(props);
@@ -30,6 +36,11 @@ class Waveform extends React.Component<IProps, IState> {
     this.setWaveFormRef = element => {
       this.waveform = element;
     };
+
+    this.setWaveFormTimelineRef = element => {
+      this.waveformTimeLine = element;
+    };
+
     this.state = {
       loaded: false,
       duration: 0,
@@ -55,7 +66,18 @@ class Waveform extends React.Component<IProps, IState> {
       // @ts-ignore
       responsive: true,
       waveColor: '#031109',
-      cursorColor: 'transparent'
+      cursorColor: 'transparent',
+      plugins: [
+        TimelinePlugin.create({
+          container: this.waveformTimeLine,
+          formatTimeCallback: this.handljjjy,
+          primaryFontColor : 'white',
+          primaryColor : 'white',
+          fontSize: 20,
+
+          // plugin options ...
+        })
+      ]
     });
 
     this.setState({
@@ -91,6 +113,31 @@ class Waveform extends React.Component<IProps, IState> {
     this.setState({ playing: !this.state.playing });
     this.wavesurfer.playPause();
   };
+
+ handljjjy = (seconds: any,pxPerSec : any) => {
+   seconds = Number(seconds);
+   let minutes = Math.floor(seconds / 60);
+   seconds = seconds % 60;
+
+   // fill up seconds with zeroes
+   let secondsStr = Math.round(seconds).toString();
+   if (pxPerSec >= 25 * 10) {
+     secondsStr = seconds.toFixed(2);
+   } else if (pxPerSec >= 25 * 1) {
+     secondsStr = seconds.toFixed(1);
+   }
+
+   if (minutes > 0) {
+     if (seconds < 10) {
+       secondsStr = '0' + secondsStr;
+     }
+     console.log(`${minutes}:${secondsStr}`);
+     return `${minutes}:${secondsStr}`;
+   }
+   console.log(secondsStr);
+   return secondsStr;
+
+ }
 
   handleZoom = (val: number, dec: boolean) => {
     let dd = dec ? this.state.zoomValue - val : this.state.zoomValue + val;
@@ -130,11 +177,13 @@ class Waveform extends React.Component<IProps, IState> {
           </div>
           <div ref={this.setWaveFormRef} className='waveWrapper'>
           {this.props.children}
+            <div ref={this.setWaveFormTimelineRef}></div>
         </div>
           <div className={"timelineNavContainer"}>
             <button onClick={() => {this.handleZoom(5, false)}}>+</button>
             <button onClick={() => {this.handleZoom(5, true)}}>-</button>
           </div>
+
         </div>
     );
   }
