@@ -19,7 +19,6 @@ const ImgLib = {
 };
 
 export const getSvg = (key: keyof svg) => {
-    console.log(ImgLib.svg[key]);
     const toReturn = require(`${ImgLib.svg[key]}`);
     return toReturn;
 };
