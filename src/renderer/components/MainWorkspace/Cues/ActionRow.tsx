@@ -39,6 +39,7 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
         }),
     });
 
+
     return (
         <tr className="headerTableCues-active" style={{backgroundColor: (canDrop && isOver) ? 'green' : 'inherit'}}>
             <td>{index}</td>
@@ -48,7 +49,9 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
             <td>{action.startTime}</td>
             <td>{action.startTime + action.totalTime}</td>
             <td>{pattern && pattern.offset}</td>
-            <td colSpan="7"  className="lineDecorate"></td>
+            {/*
+            // @ts-ignore*/}
+            <td colSpan={"7"}  className="lineDecorate"/>
         </tr>
 
     );

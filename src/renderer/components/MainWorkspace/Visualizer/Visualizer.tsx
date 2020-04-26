@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 let bgImage: any;
-bgImage = require('../../../assets/images/visualiser.png');
+bgImage = require('../../../../assets/images/visualiser.png');
 
 require('./Visualizer.scss');
 

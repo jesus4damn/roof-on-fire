@@ -6,6 +6,7 @@ import {
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import {
+    SELECT_MUSIC_FILE,
     SET_CONTEXT_MENU_OPTIONS,
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
@@ -14,6 +15,7 @@ import {
 } from './appActions';
 import { RootActions } from '../rootActions';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
+import { getMp3 } from '../../../assets/musicGetter';
 
 export interface IAppState {
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
@@ -21,6 +23,7 @@ export interface IAppState {
     readonly fixtureTypesScreenWindow: TFixturesTypes,
     readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
     readonly contextMenuOptions: IContextMenuOption[],
+    readonly musicFilePath: string,
 }
 
 const defaultState: IAppState = {
@@ -28,7 +31,8 @@ const defaultState: IAppState = {
     mainRightScreenSwitcher: null,
     fixtureTypesScreenWindow: 'fireMachine',
     fixturesPropertiesScreenWindow: 'cues',
-    contextMenuOptions: []
+    contextMenuOptions: [],
+    musicFilePath: getMp3('guanoApes'),
 };
 
 export const appReducer: Reducer<IAppState> = (
@@ -67,6 +71,11 @@ export const appReducer: Reducer<IAppState> = (
             return {
                 ...state,
                 contextMenuOptions: action.payload
+            };
+        case SELECT_MUSIC_FILE:
+            return {
+                ...state,
+                musicFilePath: action.payload
             };
         default:
             return state;

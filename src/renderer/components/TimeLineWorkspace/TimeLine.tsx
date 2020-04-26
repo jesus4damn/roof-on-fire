@@ -17,6 +17,7 @@ interface ICommonProps {
 
 interface IConnectedProps {
     cues: ICue[]
+    musicFilePath: string
     selectedCue: ICue | null,
     setSelectedCue: (cue: ICue) => void
 }
@@ -24,7 +25,7 @@ interface IConnectedProps {
 type TProps = ICommonProps
     & IConnectedProps & any & any;
 
-const TimeLine: React.FC<TProps> = ({ position, cues, selectedCue, setSelectedCue }) => {
+const TimeLine: React.FC<TProps> = ({ position, cues, selectedCue, setSelectedCue, musicFilePath }) => {
     const [audioLength, setAudioLength] = useState(240000);
 ///TODO(Victor) think about how better to tranfer position props between waveForm and cues
     return (
@@ -33,7 +34,7 @@ const TimeLine: React.FC<TProps> = ({ position, cues, selectedCue, setSelectedCu
                 //style={{ width: `${audioLength / 100}px` }}
             >
                 <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
-                <Waveform>
+                <Waveform musicFilePath={musicFilePath}>
                     {cues.map((c: ICue, i: number) =>
                         <CueTimeLineItem
                             select={() => {
@@ -54,7 +55,8 @@ const TimeLine: React.FC<TProps> = ({ position, cues, selectedCue, setSelectedCu
 
 const mapStateToProps = (state: RootState) => ({
     cues: getTimelineCues(state),
-    selectedCue: getSelectedCue(state)
+    selectedCue: getSelectedCue(state),
+    musicFilePath: state.app.musicFilePath
 });
 
 export default connect(mapStateToProps, { setSelectedCue })(TimeLine);
