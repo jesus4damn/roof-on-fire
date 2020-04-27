@@ -23,19 +23,24 @@ input {
 .appWrapper {
     background-color: #1e1d1e;
     margin: 0 auto;
-    height: 98vh;
+    height: 100%;
     display: grid;
-    grid-template-areas: "head head" "main cues" "time time";
-    grid-template-rows: 5% 1fr 20%;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-areas:
+            "main cues"
+            "time time";
+    grid-template-rows: 1fr 20%;
+    grid-template-columns: 1.2fr 1fr;
     color: #ffffff;
-    max-height: 99vh;
+    max-height: 100%;
     font-family: Roboto;
 }
 
 .headerWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    grid-area: head;
     align-content: center;
     justify-content: center;
     align-items: center;
