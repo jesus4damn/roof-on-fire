@@ -28,6 +28,11 @@ const dataStorage = new Storage({
                 fixtures: generateMockFixtures(8),
                 groups: [],
                 fixtureTypes: ['fireMachine', 'fireWorksT1', 'dimmer'],
+            },
+            cues: {
+                selectedCue: null,
+                cues: [],
+                timelineCues: [],
             }
         }
     }

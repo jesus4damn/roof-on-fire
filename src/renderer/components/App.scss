@@ -23,6 +23,7 @@ input {
 .appWrapper {
     background-color: #1e1d1e;
     margin: 0 auto;
+    min-height: 98vh;
     height: 100%;
     display: grid;
     grid-template-areas:

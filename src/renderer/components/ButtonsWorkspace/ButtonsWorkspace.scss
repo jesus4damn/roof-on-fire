@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .selectionButtons {
@@ -23,7 +24,6 @@
     width: 100%;
     padding: 0 6px 0 2px;
     box-sizing: border-box;
-    height: 30px;
 }
 
 .selectionButtonsTop,
@@ -129,6 +129,7 @@
     color: #fff;
     border-radius: 5px 5px 0 0;
     margin-bottom: 0;
+    max-height: 40%;
 }
 
 .selectionButtonsBottom .activeButtonsBottom::before {
@@ -158,11 +159,12 @@
     box-sizing: border-box;
     position: relative;
     line-height: 26px;
+    max-height: 34px;
 }
 
 .cuesWrapperContent {
     width: 29.5vw;
-    height: 65.5vh;
+    //height: 65.5vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     flex-wrap: wrap;
@@ -171,14 +173,15 @@
     box-sizing: border-box;
     border-radius: 0 0 2px 2px;
     margin: 0 2px 2px 2px;
+    height: -webkit-fill-available;
     @media screen and (max-width: 1300px){
         grid-template-columns: 1fr 1fr 1fr;
         width: 29vw;
-        height: 65.7vh;
+        //height: 65.7vh;
     }
     @media (min-width: 320px) and (max-width: 950px){
         grid-template-columns: 1fr 1fr ;
-        height: 61.7vh;
+        //height: 61.7vh;
         width: 28vw;
     }
 }
