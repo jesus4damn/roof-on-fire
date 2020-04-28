@@ -11,16 +11,17 @@ interface IProps {
     index: number,
     mousePosition: { x: number, y: number },
     select: () => void
+    parentRef: any
 }
 
-const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select, mousePosition }) => {
+const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select, mousePosition, parentRef }) => {
     const isOpen = selected && selected.id === cueItem.id;
     const [cueState, setState] = React.useState(
         {
             width: selected && selected.endTime ? selected.startTime + selected.endTime : 100,
             height: isOpen ? 8 : 45,
             x: selected && selected.startTime ? selected.startTime : 1,
-            y: 10
+            y: 10,
         }
     );
     const [isDragging, setIsDragging] = React.useState(false);
@@ -38,8 +39,10 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select, mousePos
                 x: cueState.x,
                 y: cueState.y,
                 width: cueState.width,
-                height: cueState.height
+                height: cueState.height,
             }}
+            parent={"timelineBlock"}
+            isResizable={{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
             resizeHandleComponent={{topRight : <span>O</span>}}
             size={{ width: cueState.width,  height: cueState.height }}
             position={{ x: cueState.x, y: cueState.y }}

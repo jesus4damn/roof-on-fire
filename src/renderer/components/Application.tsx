@@ -17,12 +17,14 @@ import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
+import { setCuesData } from '../store/cuesReducer/cuesActions';
 
 require('./App.scss');
 
 interface IProps {
     sETFixturesSateAC: (payload: IFixturesState) => void
     setInitialFields: (fields: IFieldsState) => void
+    setCuesData: (state: ICuesState) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     contextOptions: IContextMenuOption[]
     fixtures: IFixturesState
@@ -37,7 +39,8 @@ const Application = ({
                          fields,
                          cues,
                          setContextMenuOptions,
-                         contextOptions
+                         contextOptions,
+                         setCuesData
                     }: IProps) => {
 
     const hideContextMenu = () => {
@@ -51,6 +54,7 @@ const Application = ({
                 const commonData = loadPrevious();
                 sETFixturesSateAC(commonData.fixtures);
                 setInitialFields(commonData.fields);
+                setCuesData(commonData.cues)
             };
             getData();
         } catch (e) {
@@ -97,7 +101,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-    sETFixturesSateAC, setInitialFields, setContextMenuOptions
+    sETFixturesSateAC, setInitialFields, setContextMenuOptions, setCuesData
 })(Application);
 
 export default hot(ApplicationContainer);

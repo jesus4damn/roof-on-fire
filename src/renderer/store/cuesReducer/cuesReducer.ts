@@ -1,7 +1,14 @@
 import { Reducer } from 'redux';
 import { v4 as uuid } from 'uuid';
 import { RootActions } from '../rootActions';
-import { CREATE_CUE, CREATE_CUE_TIMELINE, DELETE_CUE, SET_SELECTED_CUE, UPDATE_CUE } from './cuesActions';
+import {
+    CREATE_CUE,
+    CREATE_CUE_TIMELINE,
+    DELETE_CUE,
+    SET_LOADED_CUES_DATA,
+    SET_SELECTED_CUE,
+    UPDATE_CUE
+} from './cuesActions';
 import { ICue } from '../../../types/cuesTypes';
 
 export interface ICuesState {
@@ -22,6 +29,8 @@ export const cuesReducer: Reducer<ICuesState> = (
     action: RootActions
 ) => {
     switch (action.type) {
+        case SET_LOADED_CUES_DATA:
+            return action.state;
         case CREATE_CUE:
             return {
                 ...state,
