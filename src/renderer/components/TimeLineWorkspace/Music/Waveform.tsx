@@ -10,6 +10,8 @@ const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js')
 interface IProps {
     children: any
     musicFilePath: string
+    setCurrentTime: (time: number) => void
+    setTotalTime: (time: number) => void
 }
 
 interface IState {
@@ -113,7 +115,13 @@ class Waveform extends React.Component<IProps, IState> {
         });
 
         this.wavesurfer.on('ready', () => {
-            this.setState({ loaded: true });
+            this.setState({
+                loaded: true,
+                duration: this.wavesurfer.getDuration(),
+                speed: this.wavesurfer.getPlaybackRate(),
+                volume: this.wavesurfer.getVolume()
+            });
+            this.props.setTotalTime(this.wavesurfer.getDuration());
         });
 
         this.wavesurfer.on('audioprocess', () => {
@@ -135,7 +143,11 @@ class Waveform extends React.Component<IProps, IState> {
             console.log(this.props.musicFilePath);
             this.wavesurfer.load(this.props.musicFilePath);
             this.wavesurfer.on('ready', () => {
-                this.setState({ loaded: true });
+                this.props.setTotalTime(this.wavesurfer.getDuration());
+                this.setState({
+                    loaded: true,
+                    duration: this.wavesurfer.getDuration()
+                });
             });
         }
     }
@@ -194,6 +206,7 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleTrackTimeChange = (time: number) => {
+        this.props.setCurrentTime(time);
         this.setState({
             currentTrackTime: time
         });
