@@ -45,6 +45,7 @@ const Application = ({
     };
 
     const loadData = () => {
+        console.log('load ==========>');
         try {
             const getData = () => {
                 const commonData = loadPrevious();
@@ -69,7 +70,12 @@ const Application = ({
     return (
         <div className="appWrapper">
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
-                <div className="headerWrapper"><Header resetData={resetData} loadData={loadData} saveData={saveData}/>
+                <div className="headerWrapper">
+                    <Header
+                        hideContextMenu={hideContextMenu}
+                        resetData={resetData}
+                        loadData={loadData}
+                        saveData={saveData}/>
                 </div>
                 <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                 <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>

@@ -1,6 +1,6 @@
 import { IFixture, IPattern, IPatternStep } from '../../types/fixtureTypes';
 import { v4 as uuid } from 'uuid';
-import { getFixtureIcon, getReactPng } from '../assets/imageGetter';
+import { getFixtureIcon, getReactPng } from '../../assets/imageGetter';
 import { IField, IPatternField, TPatternType } from '../../types/fieldsTypes';
 
 export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[] => {

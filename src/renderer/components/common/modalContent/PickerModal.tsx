@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { getSvg } from '../../../assets/imageGetter';
+import { getSvg } from '../../../../assets/imageGetter';
 require('./modalContent.scss');
 
 interface IProps {

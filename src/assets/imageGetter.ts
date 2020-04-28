@@ -1,6 +1,6 @@
 const img = require('./images/fire_mashin.svg');
 const timelineBack = require('./images/timecode.svg');
-const reactPng = require(`./images/react.png`);
+const reactPng = require(`./images/redux.png`);
 
 export type svg = typeof ImgLib.svg;
 
