@@ -17,6 +17,7 @@ import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
+import { MusicContextProvider } from '../misicContext/musicContext';
 
 require('./App.scss');
 
@@ -70,20 +71,22 @@ const Application = ({
     return (
         <div className="appWrapper">
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
-                <div className="headerWrapper">
-                    <Header
-                        hideContextMenu={hideContextMenu}
-                        resetData={resetData}
-                        loadData={loadData}
-                        saveData={saveData}/>
-                </div>
-                <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
-                <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                <div className="timeLineWorkspaceWrapper">
-                    <ReactCursorPosition style={{width: '100%', height: '100%'}}>
-                        <TimeLine />
-                    </ReactCursorPosition>
-                </div>
+                <MusicContextProvider>
+                    <div className="headerWrapper">
+                        <Header
+                            hideContextMenu={hideContextMenu}
+                            resetData={resetData}
+                            loadData={loadData}
+                            saveData={saveData}/>
+                    </div>
+                    <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
+                    <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                    <div className="timeLineWorkspaceWrapper">
+                        <ReactCursorPosition style={{width: '100%', height: '100%'}}>
+                            <TimeLine />
+                        </ReactCursorPosition>
+                    </div>
+                </MusicContextProvider>
             </ContextMenu>
         </div>
     );
