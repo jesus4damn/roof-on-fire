@@ -105,6 +105,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                 </div>
             </Modal>
         </div>
+
     )
 };
 
