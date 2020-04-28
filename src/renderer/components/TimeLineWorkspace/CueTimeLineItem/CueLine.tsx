@@ -11,10 +11,9 @@ interface IProps {
     index: number,
     mousePosition: { x: number, y: number },
     select: () => void
-    parentRef: any
 }
 
-const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select, mousePosition, parentRef }) => {
+const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select, mousePosition }) => {
     const isOpen = selected && selected.id === cueItem.id;
     const [cueState, setState] = React.useState(
         {

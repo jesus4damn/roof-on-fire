@@ -25,6 +25,7 @@ const Patterns:React.FC<IProps> = ({patternsType, setNewFields, fieldsArr}) => {
                     connected={isPatternField(f) ? f.connected : null}
                 />
             ))}
+            {!fieldsArr.length ? <h1>No Data Found</h1> : ''}
         </React.Fragment>
     )
 };
