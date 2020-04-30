@@ -13,7 +13,6 @@ import { loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
 import { ContextMenu } from './common/ContextWrapper';
 // @ts-ignore
-import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
@@ -86,9 +85,7 @@ const Application = ({
                     <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                     <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
                     <div className="timeLineWorkspaceWrapper">
-                        <ReactCursorPosition style={{width: '100%', height: '100%'}}>
                             <TimeLine />
-                        </ReactCursorPosition>
                     </div>
                 </MusicContextProvider>
             </ContextMenu>

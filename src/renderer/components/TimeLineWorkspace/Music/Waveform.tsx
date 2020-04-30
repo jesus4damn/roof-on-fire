@@ -1,7 +1,10 @@
 import * as React from 'react';
 import * as WaveSurfer from 'wavesurfer.js';
-import { getMp3 } from '../../../../assets/musicGetter';
 
+// @ts-ignore
+import ReactCursorPosition from 'react-cursor-position';
+import CueTimeLine from '../CueTimeLineItem/CueLine';
+import { ICue } from '../../../../types/cuesTypes';
 // @ts-ignore
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
 const CursorPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.cursor.js');
@@ -10,9 +13,12 @@ const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js')
 
 interface IProps {
     children: any
-    musicFilePath: string
     setCurrentTime: (time: number) => void
     setTotalTime: (time: number) => void
+    cues: ICue[]
+    musicFilePath: string
+    selectedCue: ICue | null,
+    setSelectedCue: (cue: ICue) => void
 }
 
 interface IState {
@@ -29,6 +35,7 @@ interface IState {
 
 class Waveform extends React.Component<IProps, IState> {
     waveform: any | React.Ref<any>;
+    wave: any | React.Ref<any>;
     waveformTimeLine: any | React.Ref<any>;
     waveformCursor: any | React.Ref<any>;
     minimapRef: any | React.Ref<any>;
@@ -36,21 +43,22 @@ class Waveform extends React.Component<IProps, IState> {
     cuesWrapperRef: any | React.Ref<any>;
 
     wavesurfer: any | WaveSurfer;
-    setWaveFormRef: (element: HTMLDivElement) => void;
     setWaveFormTimelineRef: (element: HTMLDivElement) => void;
+    setCuesWrapperRef: (element: HTMLDivElement) => void;
     setWaveFormCursorRef: (element: HTMLDivElement) => void;
     setMinimapRef: (element: HTMLDivElement) => void;
     setRegionRef: (element: HTMLDivElement) => void;
-    setCuesWrapperRef: (element: HTMLDivElement) => void;
 
     constructor(props: IProps) {
         super(props);
-        this.waveform = null;
+        this.waveform = React.createRef();
+        this.wave = React.createRef();
+        this.cuesWrapperRef = React.createRef();
 
-        this.setWaveFormRef = element => {
-            this.waveform = element;
-        };
         this.setWaveFormCursorRef = element => {
+            this.waveformCursor = element;
+        };
+        this.setCuesWrapperRef = element => {
             this.waveformCursor = element;
         };
         this.setWaveFormTimelineRef = element => {
@@ -61,9 +69,6 @@ class Waveform extends React.Component<IProps, IState> {
         };
         this.setRegionRef = element => {
             this.regionRef = element;
-        };
-        this.setCuesWrapperRef = element => {
-            this.cuesWrapperRef = element;
         };
 
         this.state = {
@@ -86,7 +91,7 @@ class Waveform extends React.Component<IProps, IState> {
             // @ts-ignore
             barGap: 200,
             cursorWidth: 1,
-            container: this.waveform,
+            container: this.waveform.current,
             backend: 'WebAudio',
             height: 170,
             maxCanvasWidth: 1600,
@@ -94,7 +99,7 @@ class Waveform extends React.Component<IProps, IState> {
             partialRender: true,
             progressColor: '#2D5BFF',
             scrollParent: true,
-            fillParent: false,
+            fillParent: true,
             // @ts-ignore
             responsive: true,
             waveColor: '#031109',
@@ -143,7 +148,22 @@ class Waveform extends React.Component<IProps, IState> {
                 volume: this.wavesurfer.getVolume()
             });
             this.props.setTotalTime(this.wavesurfer.getDuration());
-            this.wavesurfer.enableDragSelection({loop: true, drag: true, resize: true, color: "rgba(0, 0, 255, 0.1)"})
+
+            this.wavesurfer.enableDragSelection({
+                drag: true,
+                resize: true,
+                loop: true,
+                color: "rgba(0, 0, 255, 0.1)"
+            });
+
+        });
+
+        this.wavesurfer.on('scroll', (e:any) => {
+
+            this.setState({
+                parentDivWidth: e.target.width
+            });
+            this.cuesWrapperRef.current.scrollLeft = e.target.scrollLeft;
         });
 
         this.wavesurfer.on('audioprocess', () => {
@@ -152,10 +172,9 @@ class Waveform extends React.Component<IProps, IState> {
 
         this.wavesurfer.on('zoom', (val: number) => {
             console.log('zoom ===>' + val);
-            console.log('width ===' + val * this.state.duration);
+            // console.log('width ===' + val * this.state.duration);
             this.setState({
                 zoomValue: val,
-                parentDivWidth: val * this.state.duration
             });
         });
 
@@ -182,6 +201,7 @@ class Waveform extends React.Component<IProps, IState> {
 
     handleStop = () => {
         this.wavesurfer.stop();
+        this.props.setCurrentTime(0);
         this.wavesurfer.clearRegions();
     };
     handlePause = () => {
@@ -219,18 +239,11 @@ class Waveform extends React.Component<IProps, IState> {
         }
         //console.log(secondsStr);
         return secondsStr;
-
     };
 
     handleZoom = (val: number) => {
-        this.setState({ zoomValue: this.state.zoomValue + val }, () => {
-            this.wavesurfer.zoom(this.state.zoomValue + val);
-        });
+        this.wavesurfer.zoom(this.state.zoomValue + val);
     };
-
-    handleScroll = () => {
-        window.scrollTo(0, this.cuesWrapperRef.current)
-    }
 
     handlePlaybackRate = (speed: number) => {
         this.setState({ speed: speed });
@@ -257,12 +270,24 @@ class Waveform extends React.Component<IProps, IState> {
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
-                    <div ref={this.setWaveFormRef} className='waveWrapper'>
-                        {this.props.children}
-                        <div ref={this.setWaveFormTimelineRef}/>
-                        <div ref={this.setWaveFormCursorRef}/>
-                        <div ref={this.setRegionRef}/>
+                <div ref={this.waveform} className='waveWrapper'>
+                    <div ref={this.cuesWrapperRef} className={"scrollWrap"}>
+                        <ReactCursorPosition className={"cursorContainer"} style={{ width: `${this.state.parentDivWidth}px`}}>
+                            <CueTimeLine
+                                parentDivWidth={this.state.parentDivWidth}
+                                zoom={this.state.zoomValue}
+                                cues={this.props.cues}
+                                selectedCue={this.props.selectedCue}
+                                setSelectedCue={this.props.setSelectedCue}
+                            />
+                            {this.props.children}
+                        </ReactCursorPosition>
                     </div>
+                    <div className={'wave'} ref={this.wave} />
+                    <div ref={this.setWaveFormTimelineRef}/>
+                    <div ref={this.setWaveFormCursorRef}/>
+                    <div ref={this.setRegionRef}/>
+                </div>
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
