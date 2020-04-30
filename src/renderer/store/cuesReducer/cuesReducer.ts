@@ -65,8 +65,8 @@ export const cuesReducer: Reducer<ICuesState> = (
                     : state.selectedCue,
             };
         case SET_SELECTED_CUE:
-            console.log(state.cues);
-            console.log(state.timelineCues);
+            // console.log(state.cues);
+            // console.log(state.timelineCues);
             return {
                 ...state,
                 selectedCue: (state.selectedCue
