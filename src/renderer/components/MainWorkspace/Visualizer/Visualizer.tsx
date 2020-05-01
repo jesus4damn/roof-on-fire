@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useMusicContext } from '../../../misicContext/musicContext';
 import { IFixture } from '../../../../types/fixtureTypes';
+import Fire from './effects/Fire';
 
 let bgImage: any;
 bgImage = require('../../../../assets/images/visualiser.png');
@@ -32,12 +33,16 @@ const Visualizer: React.FC<IProps> = ({ fixtures }) => {
             {/*        Decrement*/}
             {/*    </button>*/}
             {/*</p>*/}
+          
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
                 {fixtures.length ? fixtures.map(fixture => <div key={fixture.id + 'viz'}>
+                <Fire/>
+                    { context.musicContext.currentTime < 10  &&
                     <img alt={'fixture'}
                          src={fixture.img ? fixture.img : ''}
                          className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
                     />
+}
                 </div>) : ''}
             </div>
         </div>
