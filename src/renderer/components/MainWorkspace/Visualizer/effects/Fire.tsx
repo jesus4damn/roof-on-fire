@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Sprite, useTick, Container, Stage } from '@inlet/react-pixi';
 import { IFixture } from '../../../../../types/fixtureTypes';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 
 
 const width = 30;
@@ -10,10 +10,16 @@ const height = 200;
 const Bunny = (props: any) => {
     const [i, setI] = React.useState(0);
 
+    useEffect(() => {
+        if (props.fireOn && i >= 6) {
+            setI(0)
+        }
+    }, [props.fireOn]);
+
     useTick(() => {
+        console.log('tick');
         setI((i: number) => i + 0.1);
-        console.log(props.fireOn);
-    }, props.fireOn);
+    },  i < 6);
 
     return (
         <Sprite
@@ -37,7 +43,7 @@ export const VisStage = React.memo(({ workTime, fixtures }: any) => {
     const renderFixture = (fixture:IFixture, index: number) => {
 
         return (
-            <Container width={50} height={300} x={index*60} key={fixture.id + 'viz'}>
+            <Container width={50} height={300} x={(index + 1) *40} key={fixture.id + 'viz'}>
                 <Bunny workTime={workTime} fireOn={fixture.shot}/>
                 <Sprite
                     y={250}

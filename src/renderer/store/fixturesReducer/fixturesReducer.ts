@@ -56,7 +56,6 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                 ]
             };
         case UPDATE_FIXTURE_SHOT:
-            console.log("update");
             return {
                 ...state,
                 fixtures: [...state.fixtures.map(f => f.id === action.fixture.id

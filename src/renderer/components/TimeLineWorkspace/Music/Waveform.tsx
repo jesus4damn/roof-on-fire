@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as WaveSurfer from 'wavesurfer.js';
-
 // @ts-ignore
 import ReactCursorPosition from 'react-cursor-position';
 import CueTimeLine from '../CueTimeLineItem/CueLine';
@@ -197,6 +196,13 @@ class Waveform extends React.Component<IProps, IState> {
 
     componentWillUnmount(): void {
         this.wavesurfer.unAll();
+    }
+
+    handlePosChange(e: any) {
+        console.log(e);
+        // this.setState({
+        //     pos: e.originalArgs[0]
+        // });
     }
 
     handleStop = () => {
