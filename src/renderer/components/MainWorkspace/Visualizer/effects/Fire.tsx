@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Sprite, useTick, Stage } from "@inlet/react-pixi";
+import { IFixture } from "../../../../../types/fixtureTypes";
 
 
 const width = 30
@@ -23,7 +24,7 @@ const Bunny = () => {
 export interface IProps {
     workTime: number,
     rectangel? : number,
-    
+    fixture :IFixture
 }
 
 const Fire: React.FC<IProps> = (props) => {
