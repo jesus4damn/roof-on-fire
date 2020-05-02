@@ -6,22 +6,22 @@ import { ICursorPosition } from '../TimeLineContainer';
 require('./CueLine.scss');
 
 interface IProps {
-    mousePosition: { x: number, y: number },
+    position: { x: number, y: number },
+    parentDivWidth: number,
+    zoom: number,
+    cues: ICue[],
 }
 
-const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, setSelectedCue, selectedCue, position}) => {
+const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, position}) => {
 
     return (
        <div className={"cueLineContainer"}>
            <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
            {cues.map((c: ICue, i: number) =>
                <CueTimeLineItem
-                   select={() => {
-                       setSelectedCue(c);
-                   }}
                    key={c.id}
+                   zoom={zoom}
                    cueItem={c}
-                   selected={selectedCue}
                    index={i}
                />
            )}

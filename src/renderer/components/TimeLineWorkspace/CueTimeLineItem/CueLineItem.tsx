@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import { Rnd } from 'react-rnd';
-import { ReactElement } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { connect } from 'react-redux';
+import { RootState } from '../../../store/rootReducer';
+import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
+import { setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
 
 require('./CueLine.scss');
 export type Enable = {
@@ -14,60 +18,102 @@ export type Enable = {
     topLeft?: boolean;
     topRight?: boolean;
 }
+
 interface IProps {
     cueItem: ICue,
-    selected: ICue | null,
+    selectedCue: ICue | null,
     index: number,
-    select: () => void
+    zoom: number,
+    setSelectedCue: (cue: ICue) => void
+    updateCue: (cue: ICue) => void
 }
 
-const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select }) => {
-    const isOpen = selected && selected.id === cueItem.id;
+const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCue, zoom, index, updateCue }) => {
     const [cueState, setState] = React.useState(
         {
-            width: selected && selected.endTime ? selected.startTime + selected.endTime : 100,
-            height: isOpen ? 8 : 45,
-            x: selected && selected.startTime ? selected.startTime : 1,
-            y: 40,
+            isOpen: false,
+            width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
+            height: 8,
+            x: selectedCue && selectedCue.startTime ? selectedCue.startTime * zoom : 1,
+            y: 40 + (index * 15),
         }
     );
-    const [isDragging, setIsDragging] = React.useState(false);
+    const calculatePosition = useCallback(() => {
+        setState({
+            ...cueState,
+            width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
+            x: cueItem.startTime * zoom,
+        })
+    }, [zoom]);
 
+    useEffect(() => {
+        // setState({
+        //     ...cueState,
+        //     width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
+        //     x: cueItem.startTime * zoom,
+        // })
+        calculatePosition();
+    }, [zoom]);
+
+    useEffect(() => {
+        let isOpen = selectedCue && selectedCue.id === cueItem.id ? true : false;
+        setState({
+            ...cueState,
+            isOpen: isOpen,
+            height: isOpen ? 40 : 8,
+        })
+    }, [selectedCue]);
 
     const minus = () => {
 
     };
 
     const onDragStop = (e: any, d: any) => {
-        console.log(e);
-        console.log(d);
-
-        setState({...cueState, x: d.x, y: d.y })
+        setState({...cueState, x: d.x, y: d.y });
+        updateCue({
+            ...cueItem,
+            startTime: d.x / zoom,
+            endTime: (d.x + cueState.width) / zoom
+        });
     };
     const onResize = (e: any, direction: any, ref: any, delta: any, position: any) => {
-        console.log(e);
-        console.log(direction);
-        console.log(delta);
-        console.log(position);
         setState({
+            ...cueState,
             width: ref.offsetWidth,
-            height: isOpen ? 45 : 8,
             ...position
         });
     };
+
+    const onResizeEnd = () => {
+        updateCue({
+            ...cueItem,
+            endTime: (cueState.x + cueState.width) / zoom
+        })
+    };
+
+    const onSelect = () => {
+        setSelectedCue(cueItem);
+    };
+
     return (
         <Rnd
             className={'timelineCue'}
-            onClick={() => {select()}}
+            onDoubleClick={onSelect}
             default={{
                 x: cueState.x,
                 y: cueState.y,
                 width: cueState.width,
                 height: cueState.height,
             }}
+            onResizeStop={onResizeEnd}
             //dragAxis={'x'}
             bounds={".cursorContainer"}
-            enableResizing={{ top:false, right:true, bottom:false, left:false, topRight:false, bottomRight:false, bottomLeft:false, topLeft:false }}
+            enableResizing={{
+                top:false,
+                right: cueState.isOpen,
+                bottom:false, left:false,
+                topRight:false, bottomRight:false, bottomLeft:false, topLeft:false
+            }}
             resizeHandleComponent={{topRight : <span>O</span>}}
             size={{ width: cueState.width,  height: cueState.height }}
             position={{ x: cueState.x, y: cueState.y }}
@@ -75,10 +121,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select }) => {
             onResize={onResize}
         >
             <div>
-                {isOpen
+                {cueState.isOpen
                     ? <React.Fragment>
-                        <span>{cueItem.name}</span>
-                        <span onClick={minus}>{cueItem.startTime}{isDragging ? '' : '=>>'}{cueItem.endTime}</span>
+                        <span>{cueItem.startTime} ===> </span>
+                        <span>{cueItem.endTime}</span>
+                        {/*<span onClick={minus}>{cueItem.startTime}{isDragging ? '' : '=>>'}{cueItem.endTime}</span>*/}
                         {cueItem.actions.map(a => <span key={a.id} className={'timelineCue-triangle'}> </span>)}
                     </React.Fragment>
                     : null}
@@ -87,6 +134,10 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selected, select }) => {
     );
 };
 
-export default CueTimeLineItem;
+const mapStateToProps = (state: RootState) => ({
+    selectedCue: getSelectedCue(state),
+});
+
+export default connect(mapStateToProps, {setSelectedCue, updateCue })(CueTimeLineItem);
 
 const HandleComponent: ReactElement = <span className={'actionMarker'} >O</span>;
