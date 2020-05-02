@@ -6,13 +6,14 @@ export const PATCH_FIXTURES = 'fixtures/PATCH_FIXTURE';
 export const SET_FIXTURES_STATE = 'fixtures/SET_FIXTURES_STATE';
 export const DELETE_FIXTURE = 'fixtures/DELETE_FIXTURE';
 export const UPDATE_FIXTURE = 'fixtures/UPDATE_FIXTURE';
+export const UPDATE_FIXTURE_SHOT = 'fixtures/UPDATE_FIXTURE_SHOT';
 export const SET_SELECTED_FIXTURES_PATTERN = 'fixtures/SET_SELECTED_FIXTURES_PATTERN';
 export const UPDATE_PATTERN = 'fixtures/UPDATE_SELECTED_FIXTURES_PATTERN';
 export const SET_FIXTURE_PATTERN = 'fixtures/UPDATE_FIXTURE_PATTERN';
 
 export type IFixtureActions = IPatchFixturesAC | IDeleteFixtureAC
     | IUpdateFixtureAC | IUpdatePattern | ISETFixturesSateAC
-    | ISetSelectedFixturesPattern | ISetFixturePattern;
+    | ISetSelectedFixturesPattern | ISetFixturePattern | IUpdateFixtureShotAC;
 
 export interface IPatchFixturesAC extends Action {
     type: typeof PATCH_FIXTURES, payload: IFixture[]
@@ -25,6 +26,9 @@ export interface IDeleteFixtureAC extends Action {
 }
 export interface IUpdateFixtureAC extends Action {
     type: typeof UPDATE_FIXTURE, fixture: IFixture
+}
+export interface IUpdateFixtureShotAC extends Action {
+    type: typeof UPDATE_FIXTURE_SHOT, fixture: {id: string, shot: boolean}
 }
 export interface IUpdatePattern extends Action {
     type: typeof UPDATE_PATTERN, pattern: IPattern
@@ -44,6 +48,9 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
+
+export const updateFixtureShot = (fixture: {id: string, shot: boolean}):IUpdateFixtureShotAC =>
+    ({ type: UPDATE_FIXTURE_SHOT, fixture });
 
 export const updatePattern = (pattern: IPattern):IUpdatePattern =>
     ({ type: UPDATE_PATTERN, pattern });

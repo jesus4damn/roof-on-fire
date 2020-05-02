@@ -18,6 +18,7 @@ import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
 import { MusicContextProvider } from '../misicContext/musicContext';
 import { setCuesData } from '../store/cuesReducer/cuesActions';
+import ShowRunner from './ShowRunner';
 
 require('./App.scss');
 

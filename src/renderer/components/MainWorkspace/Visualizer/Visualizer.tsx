@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMusicContext } from '../../../misicContext/musicContext';
 import { IFixture } from '../../../../types/fixtureTypes';
-import Fire from './effects/Fire';
+import { VisStage } from './effects/Fire';
 
 let bgImage: any;
 bgImage = require('../../../../assets/images/visualiser.png');
@@ -17,20 +17,13 @@ export interface IProps {
 
 const Visualizer: React.FC<IProps> = ({ fixtures }) => {
     const context = useMusicContext();
+
     return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div className="counter">
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-                {fixtures.length ? fixtures.map(fixture => <div key={fixture.id + 'viz'}>
-             <Fire fixture={fixture} workTime={context.musicContext.currentTime}/>
-                    <img alt={'fixture'}
-                         src={fixture.img ? fixture.img : ''}
-                         className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
-                    />
-                </div>) : ''}
-            </div>
+            <span>{context.musicContext.currentTime}</span>
+            <VisStage fixtures={fixtures} workTime={context.musicContext.currentTime}/>
         </div>
-        <img src={bgImage} className={"bgImage"}/>
     </div>
 )};
 

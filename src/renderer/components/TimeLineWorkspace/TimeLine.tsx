@@ -8,6 +8,7 @@ import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
 import Waveform from './Music/Waveform';
 import { useMusicContext } from '../../misicContext/musicContext';
 import CueTimeLine from './CueTimeLineItem/CueLine';
+import ShowRunner from '../ShowRunner';
 
 require('./TimeLine.scss');
 
@@ -26,6 +27,7 @@ const TimeLine: React.FC<TProps> = ({ cues, musicFilePath }) => {
                 className={'timelineTrack'}
                 //style={{ width: `${audioLength / 100}px` }}
             >
+                <ShowRunner context={context}/>
                 <Waveform
                     musicFilePath={musicFilePath}
                     setCurrentTime={(val: number) => {context.setMusicContext({...context.musicContext, currentTime: val})}}

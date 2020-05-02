@@ -8,6 +8,7 @@ import {
     SET_FIXTURES_STATE,
     SET_SELECTED_FIXTURES_PATTERN,
     UPDATE_FIXTURE,
+    UPDATE_FIXTURE_SHOT,
     UPDATE_PATTERN
 } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
@@ -51,6 +52,15 @@ export const fixturesReducer: Reducer<IFixturesState> = (
                 ...state,
                 fixtures: [...state.fixtures.map(f => f.id === action.fixture.id
                     ? action.fixture
+                    : f)
+                ]
+            };
+        case UPDATE_FIXTURE_SHOT:
+            console.log("update");
+            return {
+                ...state,
+                fixtures: [...state.fixtures.map(f => f.id === action.fixture.id
+                    ? {...f, ...action.fixture}
                     : f)
                 ]
             };

@@ -2,6 +2,7 @@ import * as React from 'react';
 import TimeLine from './TimeLine';
 // @ts-ignore
 import ReactCursorPosition from 'react-cursor-position';
+import ShowRunner from '../ShowRunner';
 
 export interface ICursorPosition {
     detectedEnvironment: {
