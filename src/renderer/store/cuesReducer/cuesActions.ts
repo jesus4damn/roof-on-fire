@@ -72,7 +72,7 @@ export const setCuesData: ActionCreator<ISetCuesData> = (state: ICuesState) => (
 const cueBase: ICue = {
     id: '',
     startTime: 1,
-    endTime: 1000,
+    endTime: 20,
     fixtureType: 'fireMachine',
     name: 'new cue',
     active: false,

@@ -17,8 +17,6 @@ interface IProps {
     setTotalTime: (time: number) => void
     cues: ICue[]
     musicFilePath: string
-    selectedCue: ICue | null,
-    setSelectedCue: (cue: ICue) => void
 }
 
 interface IState {
@@ -94,8 +92,9 @@ class Waveform extends React.Component<IProps, IState> {
             container: this.waveform.current,
             backend: 'WebAudio',
             height: 170,
-            maxCanvasWidth: 1600,
-            //normalize: true,
+            maxCanvasWidth: 15000,
+            minPxPerSec: 20,
+            pixelRatio: 1,
             partialRender: true,
             progressColor: '#2D5BFF',
             scrollParent: true,
@@ -145,7 +144,8 @@ class Waveform extends React.Component<IProps, IState> {
                 loaded: true,
                 duration: this.wavesurfer.getDuration(),
                 speed: this.wavesurfer.getPlaybackRate(),
-                volume: this.wavesurfer.getVolume()
+                volume: this.wavesurfer.getVolume(),
+                parentDivWidth: this.wavesurfer.getDuration() * 20,
             });
             this.props.setTotalTime(this.wavesurfer.getDuration());
 
@@ -163,6 +163,7 @@ class Waveform extends React.Component<IProps, IState> {
             this.setState({
                 parentDivWidth: e.target.width
             });
+
             this.cuesWrapperRef.current.scrollLeft = e.target.scrollLeft;
         });
 
@@ -171,10 +172,9 @@ class Waveform extends React.Component<IProps, IState> {
         });
 
         this.wavesurfer.on('zoom', (val: number) => {
-            console.log('zoom ===>' + val);
-            // console.log('width ===' + val * this.state.duration);
             this.setState({
                 zoomValue: val,
+                parentDivWidth: val * this.state.duration,
             });
         });
 
@@ -245,6 +245,10 @@ class Waveform extends React.Component<IProps, IState> {
         this.wavesurfer.zoom(this.state.zoomValue + val);
     };
 
+    clearSelections = () => {
+        this.wavesurfer.clearRegions();
+    };
+
     handlePlaybackRate = (speed: number) => {
         this.setState({ speed: speed });
         this.wavesurfer.setPlaybackRate();
@@ -277,8 +281,6 @@ class Waveform extends React.Component<IProps, IState> {
                                 parentDivWidth={this.state.parentDivWidth}
                                 zoom={this.state.zoomValue}
                                 cues={this.props.cues}
-                                selectedCue={this.props.selectedCue}
-                                setSelectedCue={this.props.setSelectedCue}
                             />
                             {this.props.children}
                         </ReactCursorPosition>
@@ -309,6 +311,11 @@ class Waveform extends React.Component<IProps, IState> {
                             this.handleStop();
                         }}>
                             {'Stop'}
+                        </button>
+                        <button onClick={() => {
+                            this.clearSelections();
+                        }}>
+                            {'Clear'}
                         </button>
                         <input type={'range'}
                                value={this.state.volume * 100}
