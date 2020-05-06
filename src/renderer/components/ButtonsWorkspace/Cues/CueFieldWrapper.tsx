@@ -2,25 +2,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { IFixture, IPattern } from '../../../../types/fixtureTypes';
-import {
-    setFixturePattern,
-    setSelectedFixturesPattern,
-    updatePattern
 
-} from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
 import { useDrag, DragSourceMonitor } from 'react-dnd';
 import Field from '../components/Field';
 import { ICue } from '../../../../types/cuesTypes';
-import { ICueField, IField, IPatternField } from '../../../../types/fieldsTypes';
+import { ICueField, IField } from '../../../../types/fieldsTypes';
 import { getSelectedFixtures } from '../../../store/fixturesReducer/fixturesSelector';
 import {
-    createCue,
     createNewCue,
     createTimelineCue, deleteCue,
     setSelectedCue,
@@ -61,7 +55,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
             | undefined, monitor: DragSourceMonitor) => {
             const dropResult = monitor.getDropResult();
             if (item && dropResult && connected) {
-                createTimelineCue(connected, 0);
+                createTimelineCue(connected, dropResult.startTime ? dropResult.startTime : 0);
                 console.log(`You dropped ${item.id} into ${dropResult.cueList}!`);
             }
         },
@@ -71,12 +65,12 @@ const CueFieldWrapper: React.FC<IProps> = ({
         canDrag: (monitor => !!(connected && connected.id))
     });
 
-    const closeModal = () => {
+    const closeModal = useCallback(() => {
         setModalContent(null);
         setIsModalShown(false);
-    };
+    }, []);
 
-    const showModal = (fields: IInputField[]) => {
+    const showModal = useCallback((fields: IInputField[]) => {
         setModalContent(
             <FormsModal
                 fields={fields}
@@ -92,7 +86,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
                 }}
             />);
         setIsModalShown(true);
-    };
+    }, [connected]);
 
     const showSelectModal = (type: keyof IField | keyof ICue) => {
         setIsModalShown(true);
@@ -152,9 +146,9 @@ const CueFieldWrapper: React.FC<IProps> = ({
         }
     ];
 
-    const setActiveCue = () => {
+    const setActiveCue = useCallback(() => {
         setSelectedCue(connected);
-    };
+    }, []);
 
     const onUpdateCue = <Key extends keyof ICue, Value extends ICue[Key]>(key: Key, value: Value) => {
         if (connected !== null) {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 
 require('./Field.scss');
 
@@ -11,7 +12,7 @@ interface IProps {
     callContext: () => void
 }
 
-const Field: React.FC<IProps> = ({   active,
+const Field: React.SFC<IProps> = ({   active,
                                      color,
                                      name,
                                      img,
@@ -42,4 +43,4 @@ const Field: React.FC<IProps> = ({   active,
     );
 };
 
-export default Field;
+export default React.memo(Field);

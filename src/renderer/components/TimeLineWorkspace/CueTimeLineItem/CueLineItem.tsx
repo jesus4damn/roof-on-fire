@@ -47,11 +47,6 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     }, [zoom]);
 
     useEffect(() => {
-        // setState({
-        //     ...cueState,
-        //     width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
-        //     x: cueItem.startTime * zoom,
-        // })
         calculatePosition();
     }, [zoom]);
 
@@ -85,9 +80,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     };
 
     const onResizeEnd = () => {
+        let part = (cueState.width / zoom) / (cueItem.actions.length -1);
         updateCue({
             ...cueItem,
-            endTime: (cueState.x + cueState.width) / zoom
+            endTime: (cueState.x + cueState.width) / zoom,
+            actions: cueItem.actions.map( (a, i) => i === 0 ? {...a, startTime: 0} : {...a, startTime: i * part})
         })
     };
 
@@ -123,10 +120,10 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             <div>
                 {cueState.isOpen
                     ? <React.Fragment>
-                        <span>{cueItem.startTime} ===> </span>
-                        <span>{cueItem.endTime}</span>
+                        <span>{cueItem.startTime.toFixed(2)} ===> </span>
+                        <span>{cueItem.endTime.toFixed(2)}</span>
                         {/*<span onClick={minus}>{cueItem.startTime}{isDragging ? '' : '=>>'}{cueItem.endTime}</span>*/}
-                        {cueItem.actions.map(a => <span key={a.id} className={'timelineCue-triangle'}> </span>)}
+                        {cueItem.actions.map(a => <span key={a.id} style={{left: `${a.startTime * zoom -5}px`}} className={'timelineCue-triangle'}> </span>)}
                     </React.Fragment>
                     : null}
             </div>

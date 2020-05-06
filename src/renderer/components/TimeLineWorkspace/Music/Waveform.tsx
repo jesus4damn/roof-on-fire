@@ -329,9 +329,16 @@ class Waveform extends React.Component<IProps, IState> {
                                    this.setVolume(+e.currentTarget.value / 100);
                                }}
                                min={0} max={100}/>
-                        <span className={'trackTimeSpan'}>
-                                 {this.state.currentTrackTime}
-                               </span>
+                        <div className={'trackTimeSpan'}>
+                            <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                            <div>{
+                                this.state.currentTrackTime > 60
+                                ? (this.state.currentTrackTime - (this.state.currentTrackTime > 60 && this.state.currentTrackTime < 120 ? 60 : 120)).toFixed(0)
+                                : this.state.currentTrackTime.toFixed(0)
+                            }</div>
+                            <span> . </span>
+                            <div>{`${this.state.currentTrackTime.toFixed(4)}`.split('.')[1]}</div>
+                        </div>
                     </div>
                     <div className={'timelineNavContainer'}>
                         <div ref={this.setMinimapRef}/>

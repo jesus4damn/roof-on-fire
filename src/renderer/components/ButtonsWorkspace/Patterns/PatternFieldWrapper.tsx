@@ -10,7 +10,7 @@ import {
 } from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
@@ -53,10 +53,11 @@ const PatternFieldWrapper: React.FC<IProps> = ({
         canDrag: (monitor => !!(connected && connected.id))
     });
 
-    const closeModal = () => {
+    const closeModal = useCallback(() => {
         setModalContent(null);
         setIsModalShown(false);
-    };
+    }, []);
+
     const showModal = (fields: IInputField[]) => {
         setModalContent(
             <FormsModal
@@ -74,7 +75,7 @@ const PatternFieldWrapper: React.FC<IProps> = ({
         setIsModalShown(true);
     };
 
-    const showSelectModal = (type: keyof IPattern) => {
+    const showSelectModal = useCallback((type: keyof IPattern) => {
         setIsModalShown(true);
         setModalContent(
             <PickerModal type={type} onSubmit={(value: string) => {
@@ -82,7 +83,7 @@ const PatternFieldWrapper: React.FC<IProps> = ({
                 closeModal();
             }}/>
         );
-    };
+    }, []);
 
     const itemBase = {
         name: '',
@@ -116,19 +117,19 @@ const PatternFieldWrapper: React.FC<IProps> = ({
         }
     ];
 
-    const setActivePattern = () => {
+    const setActivePattern = useCallback(() => {
         if (connected !== null) {
             setSelectedFixturesPattern({ ...connected, active: true });
         }
-    };
+    }, [connected]);
 
-    const onUpdatePattern = <Key extends keyof IPattern, Value extends IPattern[Key]>(key: Key, value: Value) => {
+    const onUpdatePattern = useCallback(<Key extends keyof IPattern, Value extends IPattern[Key]>(key: Key, value: Value) => {
         if (connected !== null) {
             const toUpdate = { ...connected, [key]: value };
             console.log(toUpdate);
             updatePattern(toUpdate);
         }
-    };
+    }, [connected]);
 
     return (
         <div ref={drag}>

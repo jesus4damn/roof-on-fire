@@ -72,9 +72,14 @@
     margin-right: 15px;
     align-items: center;
     display: flex;
-    width: 500px;
+    width: 200px;
     background: black;
     color: green;
+}
+.trackTimeSpan > div {
+    margin-left: 5px;
+    padding: 2px;
+    border: 1px solid #201010;
 }
 .SoundWaveBlock {}
 .cuesWrapperInside {
