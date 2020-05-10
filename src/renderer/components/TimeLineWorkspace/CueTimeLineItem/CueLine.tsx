@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import CueTimeLineItem from './CueLineItem';
 import { ICursorPosition } from '../TimeLineContainer';
+import { useDrop } from 'react-dnd';
+import { dragTypes } from '../../../../types/dragTypes';
 
 require('./CueLine.scss');
 
@@ -13,9 +15,18 @@ interface IProps {
 }
 
 const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, position}) => {
+    const [{ isOver, canDrop }, drop] = useDrop({
+        accept: dragTypes.CUE_FIELD,
+        drop: () => ({ cueList: 'CUE_TIMELINE', startTime: position.x / zoom }),
+        //canDrop: () => onDropPattern(),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop(),
+        }),
+    });
 
     return (
-       <div className={"cueLineContainer"}>
+       <div ref={drop} className={"cueLineContainer"} style={isOver ? {zIndex: 14} : {}}>
            <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
            {cues.map((c: ICue, i: number) =>
                <CueTimeLineItem

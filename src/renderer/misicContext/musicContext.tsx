@@ -18,7 +18,7 @@ const defaultContext = {
 
 const MusicContext = React.createContext<IMusicContextHook>(defaultContext);
 
-export const MusicContextProvider = ({children}: any) =>{
+export const MusicContextProvider = ({children}: any) => {
     const [musicContext, setMusicContext] = useState<IMusicContext>({currentTime: 0, totalTime: 20000});
 
     return (

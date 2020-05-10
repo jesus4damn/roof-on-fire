@@ -1,41 +1,84 @@
-import * as React from "react"
-import { Sprite, useTick, Stage } from "@inlet/react-pixi";
-import { IFixture } from "../../../../../types/fixtureTypes";
+import * as React from 'react';
+import { Sprite, useTick, Stage, PixiComponent, Container } from '@inlet/react-pixi';
+import { IFixture } from '../../../../../types/fixtureTypes';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+
+const height = 200;
+const reducer = ({}, { data }:any) => data;
 
 
-const width = 30
-const height = 200
-
-const Bunny = () => {
-    const [i, setI] = React.useState(0)
-    
-    useTick(() => {
-        setI((i: number) => i + 0.1);
-    },i < 6)
-
+const Bunny = ({index, motion}: any) => {
     return (
         <Sprite
-            y={height / 2 + Math.cos(i / 5) * 100}
             image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
+            {...motion}
+            x={index + 40}
         />
-    )
-}
-
-export interface IProps {
-    workTime: number,
-    rectangel? : number,
-    fixture :IFixture
-}
-
-const Fire: React.FC<IProps> = (props) => {
-    
-    return (
-        <Stage width={width} height={height}>
-            {(props.workTime > 3 && props.workTime < 4) &&
-            <Bunny/>           
-            }
-        </Stage>
     )
 };
 
-export default Fire;
+export interface IProps {
+    workTime: number,
+    rectangel?: number,
+    enabled: boolean,
+    fixtures: IFixture[]
+}
+
+export const VisStage = ({ fixtures, enabled }: any) => {
+    const [motion, update] = useReducer(reducer, {});
+    const iter = useRef(0);
+
+    useTick((delta: any) => {
+        const i = (iter.current += 0.05 * delta);
+
+        update({
+            type: 'update',
+            data: {
+                y: height / 2 + Math.sin(i / 1.5) * 100,
+                rotation: Math.sin(i) * Math.PI,
+                anchor: 0.5,
+            },
+        })
+    }, enabled);
+
+    const renderFixture = (fixture:IFixture, index: number) =>  {
+        return  (
+            <Container width={50} height={300} x={(index + 1) *40} key={fixture.id + 'viz'}>
+                {/*<Bunny index={index + 1} motion={motion}/>*/}
+                <Sprite
+                    y={350}
+                    tint={Math.random() * 0xE8D4CD}
+                    image={fixture.img ? fixture.img : ''}
+                />
+            </Container>
+        )
+    };
+
+    const renderFixtures = () => {
+        if (fixtures && fixtures.length) {
+            return fixtures.map( (f:IFixture, i: number) => renderFixture(f, i))
+        } else {
+            return (
+                <Sprite
+                    y={250}
+                    tint={Math.random() * 0xE8D4CD}
+                    image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"
+                />
+            )
+        }
+    };
+
+    return (
+        <>
+            {fixtures.map((f: IFixture, i: number) => renderFixture(f, i))}
+        </>
+    );
+};
+
+export const StageWrapper = ({ fixtures, enabled }: any) => {
+    return (
+        <Stage width={500} height={500}>
+            <VisStage fixtures={fixtures} enabled={enabled}/>
+        </Stage>
+    );
+};

@@ -19,3 +19,23 @@
     left: 0px;
     right: 0px;
 }
+.fixture {
+    display: flex;
+    position: relative;
+}
+.fixtureShot {
+    display: flex;
+    position: relative;
+}
+.fixture::before {
+    content: ' ';
+    display: flex;
+    height: 50px;
+    position: absolute;
+    top: -53px;
+    width: 5px;
+    color: orange;
+    left: 11px;
+    z-index: 15;
+    background-color: red;
+}

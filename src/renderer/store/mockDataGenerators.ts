@@ -55,6 +55,7 @@ export const generateMockFixtures = (count: number): IFixture[] => {
             active: false,
             activePattern: null,
             img: getFixtureIcon(),
+            shot: false,
             name: `fire-machine ${i}`,
             posX: 0,
             posY: 0,

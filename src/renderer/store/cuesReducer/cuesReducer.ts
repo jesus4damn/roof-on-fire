@@ -51,14 +51,14 @@ export const cuesReducer: Reducer<ICuesState> = (
         case CREATE_CUE_TIMELINE:
             return {
                 ...state,
-                timelineCues: [...state.timelineCues, {...action.cue, id: uuid(), startTime: action.startTime}]
+                timelineCues: [...state.timelineCues, {...action.cue, id: uuid(), startTime: action.startTime, endTime: action.startTime + 2}]
                     .sort((a,b) => a.startTime - b.startTime)
             };
         case UPDATE_CUE:
             return {
                 ...state,
                 cues: state.cues.map(c => c.id === action.cue.id ? action.cue : c),
-                timelineCues: state.timelineCues.map(c => c.id === action.cue.id ? action.cue : c),
+                timelineCues: state.timelineCues.map(c => c.id === action.cue.id ? action.cue : c).sort((a, b) => a.startTime - b.startTime),
                 selectedCue: (state.selectedCue
                     && state.selectedCue.id === action.cue.id)
                     ? action.cue

@@ -1,0 +1,86 @@
+import * as React from 'react';
+import { IMusicContext } from '../misicContext/musicContext';
+import { connect } from 'react-redux';
+import { RootState } from '../store/rootReducer';
+import { getTimelineCues } from '../store/cuesReducer/cuesSelector';
+import { getFixtures } from '../store/fixturesReducer/fixturesSelector';
+import { updateFixture, updateFixtureShot } from '../store/fixturesReducer/fixturesActions';
+import { ICue, ICueAction } from '../../types/cuesTypes';
+import { IFixture } from '../../types/fixtureTypes';
+
+interface IState {
+    events: {[key: number]: {id: string, shot: boolean}[]}
+}
+
+class ShowRunner extends React.Component<IMusicContext & any> {
+
+    state: IState = {
+        events: {}
+    };
+
+    componentDidMount(): void {
+        const { cues } = this.props;
+        this.createTimeEvents(cues);
+    }
+
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (prevProps.context.musicContext.currentTime.toFixed(1) !== this.props.context.musicContext.currentTime.toFixed(1)) {
+            this.timeListner(this.props.context.musicContext.currentTime);
+        }
+        if (prevProps.cues !== this.props.cues) {
+            this.createTimeEvents(this.props.cues)
+        }
+    }
+
+    createTimeEvents = (cues:ICue[]) => {
+        console.log('createTimeEvents ====>');
+        let events: {[key: number]: {id: string, shot: boolean}[]} = {};
+        cues.forEach((c: ICue) => {
+            c.actions.forEach((a:ICueAction, i: number) => {
+                let timeOn = +(+c.startTime + a.startTime).toFixed(1);
+                let timeOff = +(+c.startTime + a.startTime + 0.2).toFixed(1);
+
+                if (events[timeOn]) {
+                    events[timeOn].push({id: a.fixtureId, shot: true});
+
+                } else {
+                    events[timeOn] = [{id: a.fixtureId, shot: true}];
+                }
+                if(events[timeOff]) {
+                    events[timeOff].push({id: a.fixtureId, shot: false});
+                } else {
+                    events[timeOff] = [{id: a.fixtureId, shot: false}];
+                }
+            })
+        });
+        console.log(events);
+        this.setState({
+            events: events
+        })
+    };
+
+    timeListner = (time: number) => {
+        if (this.state.events[+time.toFixed(1)]) {
+            console.log('UPDATE ====>');
+            console.log(this.state.events[+time.toFixed(1)]);
+            this.state.events[+time.toFixed(1)].forEach(e => this.props.updateFixtureShot(e))
+        }
+    };
+
+    onTimeComes = () => {
+
+    };
+
+    render(): React.ReactElement<any, string | React.JSXElementConstructor<any>>
+        | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
+        //this.timeListner(this.props.context.musicContext.currentTime, this.props.cues);
+        return null;
+    }
+}
+
+const mapStateToProps = (state: RootState) => ({
+    cues: getTimelineCues(state),
+    fixtures: getFixtures(state)
+});
+
+export default connect(mapStateToProps, {updateFixtureShot})(ShowRunner);
