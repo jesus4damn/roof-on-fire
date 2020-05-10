@@ -16,6 +16,7 @@ interface IProps {
     setTotalTime: (time: number) => void
     cues: ICue[]
     musicFilePath: string
+    setMusicFileLength: (length: number) => void
 }
 
 interface IState {
@@ -147,6 +148,7 @@ class Waveform extends React.Component<IProps, IState> {
                 parentDivWidth: this.wavesurfer.getDuration() * 20,
             });
             this.props.setTotalTime(this.wavesurfer.getDuration());
+            this.props.setMusicFileLength(this.wavesurfer.getDuration());
 
             this.wavesurfer.enableDragSelection({
                 drag: true,

@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
-import { getSelectedCue, getTimelineCues } from '../../store/cuesReducer/cuesSelector';
+import { getTimelineCues } from '../../store/cuesReducer/cuesSelector';
 import { ICue } from '../../../types/cuesTypes';
-import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
 // @ts-ignore
 import Waveform from './Music/Waveform';
 import { useMusicContext } from '../../misicContext/musicContext';
-import CueTimeLine from './CueTimeLineItem/CueLine';
 import ShowRunner from '../ShowRunner';
+import { setMusicFileLength } from '../../store/appReducer/appActions';
 
 require('./TimeLine.scss');
 
 interface IConnectedProps {
     cues: ICue[]
-    musicFilePath: string
+    musicFilePath: string,
+    setMusicFileLength: (length: number) => void
 }
 
 type TProps = IConnectedProps & any & any;
 
-const TimeLine: React.FC<TProps> = ({ cues, musicFilePath }) => {
+const TimeLine: React.FC<TProps> = ({ cues, musicFilePath, setMusicFileLength }) => {
     const context = useMusicContext();
 ///TODO(Victor) think about how better to tranfer position props between waveForm and cues
     return (
@@ -33,6 +33,7 @@ const TimeLine: React.FC<TProps> = ({ cues, musicFilePath }) => {
                     setCurrentTime={(val: number) => {context.setMusicContext({...context.musicContext, currentTime: val})}}
                     setTotalTime={(val: number) => {context.setMusicContext({...context.musicContext, totalTime: val})}}
                     cues={cues}
+                    setMusicFileLength={setMusicFileLength}
                 >
                     <span> </span>
                 </Waveform>
@@ -45,4 +46,4 @@ const mapStateToProps = (state: RootState) => ({
     musicFilePath: state.app.musicFilePath
 });
 
-export default connect(mapStateToProps, {} )(TimeLine);
+export default connect(mapStateToProps, {setMusicFileLength} )(TimeLine);

@@ -6,15 +6,20 @@ import { ICue } from '../../../../types/cuesTypes';
 import { dragTypes } from '../../../../types/dragTypes';
 import CueListItem from './CueListItem';
 import { useDrop } from 'react-dnd';
+import { setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
+import { useCallback } from 'react';
 
 require('./CueList.scss');
 
 interface IProps {
-    cues: ICue[]
+    cues: ICue[],
+    musicTotalTime: number,
     selectedCue: ICue | null,
+    setSelectedCue: (cue: ICue) => void
+    updateCue: (cue: ICue) => void
 }
 
-const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue}:IProps) => {
+const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue, setSelectedCue, updateCue}:IProps) => {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: dragTypes.CUE_FIELD,
         drop: () => ({ cueList: 'CUELIST' }),
@@ -24,6 +29,9 @@ const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue}:IProps) =>
             canDrop: !!monitor.canDrop(),
         }),
     });
+
+    const setSelectedCueCallback = useCallback( cue => setSelectedCue(cue), []);
+    const updateCueCallback = useCallback( cue => updateCue(cue), []);
 
     return (
         <div className="WrapCuesList" ref={drop}>
@@ -39,7 +47,13 @@ const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue}:IProps) =>
                         <td>Type</td>
                     </tr>
                     {cues && cues.length && cues.map((c, i) =>
-                        <CueListItem key={c.id} cue={c} index={i} selected={selectedCue && selectedCue.id === c.id} />
+                        <CueListItem
+                            key={c.id}
+                            cue={c} index={i}
+                            selected={selectedCue && selectedCue.id === c.id}
+                            setSelectedCue={setSelectedCueCallback}
+                            updateCue={updateCueCallback}
+                        />
                     )}
                     </tbody>
                 </table>
@@ -92,7 +106,8 @@ const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue}:IProps) =>
 
 const mapStateToProps = (state: RootState) => ({
     cues: getTimelineCues(state),
-    selectedCue: getSelectedCue(state)
+    selectedCue: getSelectedCue(state),
+    musicTotalTime: state.app.musicTotalTime
 });
 
-export default connect(mapStateToProps, null)(CueList);
+export default connect(mapStateToProps, {setSelectedCue, updateCue})(CueList);
