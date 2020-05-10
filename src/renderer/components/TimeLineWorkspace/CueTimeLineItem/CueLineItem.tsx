@@ -44,11 +44,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
             x: cueItem.startTime * zoom,
         })
-    }, [zoom]);
+    }, [zoom, cueItem]);
 
     useEffect(() => {
         calculatePosition();
-    }, [zoom]);
+    }, [zoom, cueItem]);
 
     useEffect(() => {
         let isOpen = selectedCue && selectedCue.id === cueItem.id ? true : false;
@@ -67,8 +67,8 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
         setState({...cueState, x: d.x, y: d.y });
         updateCue({
             ...cueItem,
-            startTime: d.x / zoom,
-            endTime: (d.x + cueState.width) / zoom
+            startTime: +(d.x / zoom).toFixed(2),
+            endTime: +((d.x + cueState.width) / zoom).toFixed(2)
         });
     };
     const onResize = (e: any, direction: any, ref: any, delta: any, position: any) => {
@@ -83,7 +83,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
         let part = (cueState.width / zoom) / (cueItem.actions.length -1);
         updateCue({
             ...cueItem,
-            endTime: (cueState.x + cueState.width) / zoom,
+            endTime: +((cueState.x + cueState.width) / zoom).toFixed(2),
             actions: cueItem.actions.map( (a, i) => i === 0 ? {...a, startTime: 0} : {...a, startTime: i * part})
         })
     };

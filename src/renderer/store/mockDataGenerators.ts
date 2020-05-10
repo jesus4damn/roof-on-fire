@@ -30,7 +30,7 @@ export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[
             active: false,
             fixtureType: 'fireMachine',
             color: 'black',
-            number: i+1,
+            number: type === 'dynamic' ? i+41 : type=== 'long' ? i+21 : i+1,
             img: getReactPng(),
             name: `patt ${i + type}`,
             offset: 15,

@@ -13,6 +13,7 @@ export const SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURE_PROP
 export const SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN';
 export const SET_CONTEXT_MENU_OPTIONS = 'app/SET_CONTEXT_MENU_OPTIONS';
 export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
+export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
 
 
 
@@ -34,6 +35,9 @@ export interface ISetContextMenuOptions extends Action {
 export interface ISelectMusicFile extends Action {
     type: typeof SELECT_MUSIC_FILE, payload: string
 }
+export interface ISetMusicFileLength extends Action {
+    type: typeof SET_MUSIC_LENGTH, payload: number
+}
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
@@ -54,7 +58,10 @@ export const switchFixtureTypesButtonsScreen: ActionCreator<ISwitchFixtureTypesB
 export const setContextMenuOptions: ActionCreator<ISetContextMenuOptions> = (payload: IContextMenuOption[]) => ({
     type: SET_CONTEXT_MENU_OPTIONS, payload
 });
+export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: number) => ({
+    type: SET_MUSIC_LENGTH, payload
+});
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile;
+    | ISelectMusicFile | ISetMusicFileLength;
