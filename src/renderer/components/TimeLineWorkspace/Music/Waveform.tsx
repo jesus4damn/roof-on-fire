@@ -4,11 +4,14 @@ import * as WaveSurfer from 'wavesurfer.js';
 import ReactCursorPosition from 'react-cursor-position';
 import CueTimeLine from '../CueTimeLineItem/CueLine';
 import { ICue } from '../../../../types/cuesTypes';
+
+import {throttle} from 'lodash';
 // @ts-ignore
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
 const CursorPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.cursor.js');
 const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js');
 const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
+
 
 interface IProps {
     children: any
@@ -159,25 +162,25 @@ class Waveform extends React.Component<IProps, IState> {
 
         });
 
-        this.wavesurfer.on('scroll', (e:any) => {
+        this.wavesurfer.on('scroll', throttle((e:any) => {
 
             this.setState({
                 parentDivWidth: e.target.width
             });
 
             this.cuesWrapperRef.current.scrollLeft = e.target.scrollLeft;
-        });
+        }, 200));
 
-        this.wavesurfer.on('audioprocess', () => {
+        this.wavesurfer.on('audioprocess', throttle(() => {
             this.handleTrackTimeChange(this.wavesurfer.getCurrentTime());
-        });
+        }, 75));
 
-        this.wavesurfer.on('zoom', (val: number) => {
+        this.wavesurfer.on('zoom', throttle((val: number) => {
             this.setState({
                 zoomValue: val,
                 parentDivWidth: val * this.state.duration,
             });
-        });
+        }, 200));
 
         this.wavesurfer.load(this.props.musicFilePath);
     };
@@ -268,10 +271,10 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleTrackTimeChange = (time: number) => {
-        this.props.setCurrentTime(time);
-        this.setState({
-            currentTrackTime: time
-        });
+            this.props.setCurrentTime(time);
+            this.setState({
+                currentTrackTime: time
+            });
     };
 
     handleWheel = (e: any) => {
@@ -349,7 +352,7 @@ class Waveform extends React.Component<IProps, IState> {
             </div>
         );
     }
-};
+}
 
 export default Waveform;
 
