@@ -1,7 +1,14 @@
 import { Reducer } from 'redux';
 import { v4 as uuid } from 'uuid';
 import { RootActions } from '../rootActions';
-import { CREATE_CUE, CREATE_CUE_TIMELINE, DELETE_CUE, SET_SELECTED_CUE, UPDATE_CUE } from './cuesActions';
+import {
+    CREATE_CUE,
+    CREATE_CUE_TIMELINE,
+    DELETE_CUE,
+    SET_LOADED_CUES_DATA,
+    SET_SELECTED_CUE,
+    UPDATE_CUE
+} from './cuesActions';
 import { ICue } from '../../../types/cuesTypes';
 
 export interface ICuesState {
@@ -22,6 +29,8 @@ export const cuesReducer: Reducer<ICuesState> = (
     action: RootActions
 ) => {
     switch (action.type) {
+        case SET_LOADED_CUES_DATA:
+            return action.state;
         case CREATE_CUE:
             return {
                 ...state,
@@ -42,22 +51,22 @@ export const cuesReducer: Reducer<ICuesState> = (
         case CREATE_CUE_TIMELINE:
             return {
                 ...state,
-                timelineCues: [...state.timelineCues, {...action.cue, id: uuid(), startTime: action.startTime}]
+                timelineCues: [...state.timelineCues, {...action.cue, id: uuid(), startTime: action.startTime, endTime: action.startTime + 2}]
                     .sort((a,b) => a.startTime - b.startTime)
             };
         case UPDATE_CUE:
             return {
                 ...state,
                 cues: state.cues.map(c => c.id === action.cue.id ? action.cue : c),
-                timelineCues: state.timelineCues.map(c => c.id === action.cue.id ? action.cue : c),
+                timelineCues: state.timelineCues.map(c => c.id === action.cue.id ? action.cue : c).sort((a, b) => a.startTime - b.startTime),
                 selectedCue: (state.selectedCue
                     && state.selectedCue.id === action.cue.id)
                     ? action.cue
                     : state.selectedCue,
             };
         case SET_SELECTED_CUE:
-            console.log(state.cues);
-            console.log(state.timelineCues);
+            // console.log(state.cues);
+            // console.log(state.timelineCues);
             return {
                 ...state,
                 selectedCue: (state.selectedCue

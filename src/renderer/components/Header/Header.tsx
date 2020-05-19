@@ -5,6 +5,7 @@ import Modal from '../common/ModalWrapper';
 import { selectMusicFile, setContextMenuOptions } from '../../store/appReducer/appActions';
 import { IContextMenuOption } from '../../../types/appTypes';
 import { MusicInput } from '../common/modalContent/AudioInput';
+import ExcelReader from '../../../data-helper/ExcelReader';
 
 require('./Header.scss');
 
@@ -18,6 +19,7 @@ interface IProps {
 
 const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile}) => {
     const [menuShown, setMenuShow] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
     const [modalContent, setModalContent] = useState<any | null>();
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
@@ -57,6 +59,14 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                 setMenuShow(false)
             }
         },
+        {
+            title: 'Patch',
+            disabled: false,
+            callback: () => {
+                setShowModal2(true);
+                setMenuShow(false)
+            }
+        },
     ];
 
     const showModal = () => {
@@ -71,7 +81,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     const onChange = (value:any) => {
         console.log(value);
         //onChange(e.target.files[0])
-    }
+    };
 
     return (
         <div>
@@ -104,7 +114,17 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                     />
                 </div>
             </Modal>
+            <Modal
+                isShown={showModal2}
+                closeModal={closeModal}
+                noActions={true}
+            >
+                <div className={"importWrapper"}>
+                    <ExcelReader />
+                </div>
+            </Modal>
         </div>
+
     )
 };
 

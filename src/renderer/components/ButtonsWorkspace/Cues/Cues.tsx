@@ -15,6 +15,7 @@ const Cues:React.FC<ConnectedProps<IProps>> = ({fieldsArr}:IProps) => {
             {fieldsArr.map((f:ICueField) => (
                 <CueFieldWrapper field={f} key={f.id} />
             ))}
+            {!fieldsArr.length ? <h1>No Data Found</h1> : ''}
         </React.Fragment>
     )
 };

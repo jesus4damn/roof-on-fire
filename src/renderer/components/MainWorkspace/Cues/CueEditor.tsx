@@ -19,6 +19,7 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
     return (
         <div className="WrapCues">
             <table className="TableCues">
+                <tbody>
                 <tr className="headerTableCues">
                     <td>№</td>
                     <td>Fixture</td>
@@ -42,6 +43,7 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue}) => {
                         }}
                     />
                     ) : null}
+                </tbody>
             </table>
         </div>
     )

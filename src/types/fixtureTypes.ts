@@ -10,6 +10,7 @@ export interface IFixtureBase {
     name: string | null,
     posX: number,
     posY: number,
+    shot: boolean,
     startAddress: number,
     params: IParamsDMX[]
 }

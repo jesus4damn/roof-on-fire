@@ -1,26 +1,8 @@
-import { app, BrowserWindow, protocol } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
 let win: BrowserWindow | null;
-//
-// protocol.registerSchemesAsPrivileged([
-//     { scheme: "root", privileges: { standard: true, secure: true } }
-// ]);
-// app.on('ready', () => {
-// // access to the root of the system, policy of some framework may prevent the use of file://
-//     protocol.registerFileProtocol('root', (request, callback) => {
-//         let url = request.url.substr(7);
-//         if (url[url.length - 1] == '/') {
-//             url = url.substr(0, url.length - 1);
-//         }
-//         // @ts-ignore
-//         callback({ path: url });
-//     }, (error) => {
-//         if (error)
-//             console.error('Failed to register protocol root');
-//     });
-// });
 
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
@@ -41,7 +23,7 @@ const createWindow = async () => {
         width: 800,
         height: 600,
         webPreferences: {
-            webSecurity: process.env.NODE_ENV !== 'development',
+            webSecurity: process.env.NODE_ENV !== 'development'
         }
     });
 

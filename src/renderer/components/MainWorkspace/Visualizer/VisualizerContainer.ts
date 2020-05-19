@@ -5,9 +5,11 @@ import Visualizer from './Visualizer';
 import { RootState } from '../../../store/rootReducer';
 import { decrement, increment } from '../../../store/visualizerReducer/visualizerActions';
 import {RootActions} from "../../../store/rootActions";
+import { getFixtures } from '../../../store/fixturesReducer/fixturesSelector';
 
 const mapStateToProps = (state: RootState) => ({
-    value: state.counter.value
+    value: state.counter.value,
+    fixtures: getFixtures(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<RootActions>) => ({

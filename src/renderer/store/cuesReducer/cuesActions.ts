@@ -7,12 +7,19 @@ import { ICue, ICueAction } from '../../../types/cuesTypes';
 import { v4 as uuid } from 'uuid';
 import { updateField } from '../fieldsReducer/fieldsActions';
 import { IField } from '../../../types/fieldsTypes';
+import { ICuesState } from './cuesReducer';
 
+export const SET_LOADED_CUES_DATA = 'cues/SET_LOADED_CUES_DATA';
 export const CREATE_CUE = 'cues/CREATE_CUE';
 export const CREATE_CUE_TIMELINE = 'cues/CREATE_CUE_TIMELINE';
 export const DELETE_CUE = 'cues/DELETE_CUE';
 export const UPDATE_CUE = 'cues/UPDATE_CUE';
 export const SET_SELECTED_CUE = 'cues/SET_SELECTED_CUE';
+
+export interface ISetCuesData {
+    type: typeof SET_LOADED_CUES_DATA,
+    state: ICuesState
+}
 
 export interface IOnCueSelection {
     type: typeof SET_SELECTED_CUE,
@@ -58,10 +65,14 @@ export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue) => ({
     type: SET_SELECTED_CUE, cue
 });
 
+export const setCuesData: ActionCreator<ISetCuesData> = (state: ICuesState) => ({
+    type: SET_LOADED_CUES_DATA, state
+});
+
 const cueBase: ICue = {
     id: '',
     startTime: 1,
-    endTime: 1000,
+    endTime: 20,
     fixtureType: 'fireMachine',
     name: 'new cue',
     active: false,
@@ -107,4 +118,4 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
 
 
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
-    | ICreateTimelineCueAction;
+    | ICreateTimelineCueAction | ISetCuesData;

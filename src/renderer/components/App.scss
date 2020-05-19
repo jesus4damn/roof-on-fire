@@ -14,8 +14,11 @@ button {
 }
 
 input {
+    color: yellow;
     background-color: inherit;
-    padding: 0;
+    padding: inherit;
+    margin: 0;
+    max-width: 100px;
     text-align: center;
     border-width: 0;
 }
@@ -23,6 +26,7 @@ input {
 .appWrapper {
     background-color: #1e1d1e;
     margin: 0 auto;
+    min-height: 98vh;
     height: 100%;
     display: grid;
     grid-template-areas:

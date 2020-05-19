@@ -1,62 +1,49 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import CueTimeLineItem from './CueTimeLineItem/CueLine';
 import { RootState } from '../../store/rootReducer';
-import { getSelectedCue, getTimelineCues } from '../../store/cuesReducer/cuesSelector';
+import { getTimelineCues } from '../../store/cuesReducer/cuesSelector';
 import { ICue } from '../../../types/cuesTypes';
-import { setSelectedCue } from '../../store/cuesReducer/cuesActions';
-import { useState } from 'react';
 // @ts-ignore
 import Waveform from './Music/Waveform';
+import { useMusicContext } from '../../misicContext/musicContext';
+import ShowRunner from '../ShowRunner';
+import { setMusicFileLength } from '../../store/appReducer/appActions';
 
 require('./TimeLine.scss');
 
-interface ICommonProps {
-    position: { x: number, y: number },
-}
-
 interface IConnectedProps {
     cues: ICue[]
-    musicFilePath: string
-    selectedCue: ICue | null,
-    setSelectedCue: (cue: ICue) => void
+    musicFilePath: string,
+    setMusicFileLength: (length: number) => void
 }
 
-type TProps = ICommonProps
-    & IConnectedProps & any & any;
+type TProps = IConnectedProps & any & any;
 
-const TimeLine: React.FC<TProps> = ({ position, cues, selectedCue, setSelectedCue, musicFilePath }) => {
-    const [audioLength, setAudioLength] = useState(240000);
+const TimeLine: React.FC<TProps> = ({ cues, musicFilePath, setMusicFileLength }) => {
+    const context = useMusicContext();
 ///TODO(Victor) think about how better to tranfer position props between waveForm and cues
     return (
             <div
                 className={'timelineTrack'}
                 //style={{ width: `${audioLength / 100}px` }}
             >
-                <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
-                <Waveform musicFilePath={musicFilePath}>
-                    {cues.map((c: ICue, i: number) =>
-                        <CueTimeLineItem
-                            select={() => {
-                                setSelectedCue(c);
-                            }}
-                            key={c.id}
-                            cueItem={c}
-                            selected={selectedCue}
-                            index={i}
-                            mousePosition={position}
-                        />
-                    )}
+                <ShowRunner context={context}/>
+                <Waveform
+                    musicFilePath={musicFilePath}
+                    setCurrentTime={(val: number) => {context.setMusicContext({...context.musicContext, currentTime: val})}}
+                    setTotalTime={(val: number) => {context.setMusicContext({...context.musicContext, totalTime: val})}}
+                    cues={cues}
+                    setMusicFileLength={setMusicFileLength}
+                >
+                    <span> </span>
                 </Waveform>
             </div>
-
     );
 };
 
 const mapStateToProps = (state: RootState) => ({
     cues: getTimelineCues(state),
-    selectedCue: getSelectedCue(state),
     musicFilePath: state.app.musicFilePath
 });
 
-export default connect(mapStateToProps, { setSelectedCue })(TimeLine);
+export default connect(mapStateToProps, {setMusicFileLength} )(TimeLine);

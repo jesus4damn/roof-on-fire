@@ -38,16 +38,18 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
             canDrop: !!monitor.canDrop(),
         }),
     });
-
+    console.log(action.color);
 
     return (
         <tr className="headerTableCues-active" style={{backgroundColor: (canDrop && isOver) ? 'green' : 'inherit'}}>
             <td>{index}</td>
-            <td>{fixture.name}</td>
-            <td ref={drop}><img src={action.img} alt=""/></td>
+            <td style={{fontSize: '0.7rem'}}>{fixture.name}</td>
+            <td ref={drop}>
+                <img style={pattern.color ? {filter: `drop-shadow(0 0 5px ${pattern.color})`}: {}} src={action.img} alt=""/>
+            </td>
             <td>{pattern && pattern.number}</td>
-            <td>{action.startTime}</td>
-            <td>{action.startTime + action.totalTime}</td>
+            <td>{action.startTime.toFixed(2)}</td>
+            <td>{(action.startTime + action.totalTime).toFixed(2)}</td>
             <td>{pattern && pattern.offset}</td>
             {/*
             // @ts-ignore*/}

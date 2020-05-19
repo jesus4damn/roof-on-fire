@@ -13,16 +13,19 @@ import { loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
 import { ContextMenu } from './common/ContextWrapper';
 // @ts-ignore
-import ReactCursorPosition from 'react-cursor-position';
 import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
+import { MusicContextProvider } from '../misicContext/musicContext';
+import { setCuesData } from '../store/cuesReducer/cuesActions';
+import ShowRunner from './ShowRunner';
 
 require('./App.scss');
 
 interface IProps {
     sETFixturesSateAC: (payload: IFixturesState) => void
     setInitialFields: (fields: IFieldsState) => void
+    setCuesData: (state: ICuesState) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     contextOptions: IContextMenuOption[]
     fixtures: IFixturesState
@@ -37,7 +40,8 @@ const Application = ({
                          fields,
                          cues,
                          setContextMenuOptions,
-                         contextOptions
+                         contextOptions,
+                         setCuesData
                     }: IProps) => {
 
     const hideContextMenu = () => {
@@ -51,6 +55,7 @@ const Application = ({
                 const commonData = loadPrevious();
                 sETFixturesSateAC(commonData.fixtures);
                 setInitialFields(commonData.fields);
+                setCuesData(commonData.cues)
             };
             getData();
         } catch (e) {
@@ -70,20 +75,20 @@ const Application = ({
     return (
         <div className="appWrapper">
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
-                <div className="headerWrapper">
-                    <Header
-                        hideContextMenu={hideContextMenu}
-                        resetData={resetData}
-                        loadData={loadData}
-                        saveData={saveData}/>
-                </div>
-                <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
-                <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                <div className="timeLineWorkspaceWrapper">
-                    <ReactCursorPosition style={{width: '100%', height: '100%'}}>
-                        <TimeLine />
-                    </ReactCursorPosition>
-                </div>
+                <MusicContextProvider>
+                    <div className="headerWrapper">
+                        <Header
+                            hideContextMenu={hideContextMenu}
+                            resetData={resetData}
+                            loadData={loadData}
+                            saveData={saveData}/>
+                    </div>
+                    <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
+                    <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                    <div className="timeLineWorkspaceWrapper">
+                            <TimeLine />
+                    </div>
+                </MusicContextProvider>
             </ContextMenu>
         </div>
     );
@@ -97,7 +102,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-    sETFixturesSateAC, setInitialFields, setContextMenuOptions
+    sETFixturesSateAC, setInitialFields, setContextMenuOptions, setCuesData
 })(Application);
 
 export default hot(ApplicationContainer);

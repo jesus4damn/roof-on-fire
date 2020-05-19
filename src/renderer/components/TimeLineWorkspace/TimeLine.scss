@@ -7,6 +7,9 @@
     position: relative;
     // background: url('../../assets/timecode.svg');
 }
+.waveWrapper {
+    position: relative;
+}
 .waveWrapper > wave::-webkit-scrollbar {
     width: 6px;
     background-color: #030;
@@ -30,6 +33,7 @@
 
 .timelineTrack {
     min-height: 100%;
+    width: 100%;
 }
 
 .x-y-mousePos {
@@ -60,16 +64,40 @@
     flex-direction: row;
 }
 .timelineNavContainer {
-    //position: absolute;
-    /* top: 0; */
     height: 50px;
     width: 400px;
-    /* right: 98px; */
     z-index: 15;
 }
 .trackTimeSpan {
-    width: 500px;
+    margin-right: 15px;
+    align-items: center;
+    display: flex;
+    width: 200px;
     background: black;
     color: green;
 }
+.trackTimeSpan > div {
+    margin-left: 5px;
+    padding: 2px;
+    border: 1px solid #201010;
+}
 .SoundWaveBlock {}
+.cuesWrapperInside {
+    height: 100%;
+    min-width: 500px;
+    position: relative;
+}
+.cursorContainer {
+    position: absolute;
+    height: 100%;
+}
+.scrollWrap {
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    position: absolute;
+    /* top: 0px; */
+    /* left: 0; */
+    /* right: 0; */
+    /* bottom: 0; */
+}
