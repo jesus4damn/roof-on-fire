@@ -7,13 +7,13 @@ import { getFixtures } from '../store/fixturesReducer/fixturesSelector';
 import { updateFixture, updateFixtureShot } from '../store/fixturesReducer/fixturesActions';
 import { ICue, ICueAction } from '../../types/cuesTypes';
 import { IFixture } from '../../types/fixtureTypes';
+import { sendMusicAction } from '../store/appReducer/appActions';
 
 interface IState {
     events: {[key: number]: {id: string, shot: boolean}[]}
 }
 
 class ShowRunner extends React.Component<IMusicContext & any> {
-
     state: IState = {
         events: {}
     };
@@ -29,6 +29,9 @@ class ShowRunner extends React.Component<IMusicContext & any> {
         }
         if (prevProps.cues !== this.props.cues) {
             this.createTimeEvents(this.props.cues)
+        }
+        if (prevProps.context.musicContext.status !== this.props.context.musicContext.status) {
+            this.props.sendMusicAction(this.props.context.musicContext.status);
         }
     }
 
@@ -61,14 +64,10 @@ class ShowRunner extends React.Component<IMusicContext & any> {
 
     timeListner = (time: number) => {
         if (this.state.events[+time.toFixed(1)]) {
-            console.log('UPDATE ====>');
-            console.log(this.state.events[+time.toFixed(1)]);
+            // console.log('UPDATE ====>');
+            // console.log(this.state.events[+time.toFixed(1)]);
             this.state.events[+time.toFixed(1)].forEach(e => this.props.updateFixtureShot(e))
         }
-    };
-
-    onTimeComes = () => {
-
     };
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>>
@@ -83,4 +82,4 @@ const mapStateToProps = (state: RootState) => ({
     fixtures: getFixtures(state)
 });
 
-export default connect(mapStateToProps, {updateFixtureShot})(ShowRunner);
+export default connect(mapStateToProps, {updateFixtureShot, sendMusicAction})(ShowRunner);

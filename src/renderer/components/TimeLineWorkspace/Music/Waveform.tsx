@@ -17,6 +17,7 @@ interface IProps {
     children: any
     setCurrentTime: (time: number) => void
     setTotalTime: (time: number) => void
+    setContextStatus: (val: string) => void
     cues: ICue[]
     musicFilePath: string
     setMusicFileLength: (length: number) => void
@@ -213,16 +214,19 @@ class Waveform extends React.Component<IProps, IState> {
     handleStop = () => {
         this.wavesurfer.stop();
         this.props.setCurrentTime(0);
+        this.props.setContextStatus("stop");
         this.wavesurfer.clearRegions();
     };
     handlePause = () => {
         if (this.state.playing) {
             this.setState({ playing: false });
+            this.props.setContextStatus("pause");
             this.wavesurfer.pause();
         }
     };
     handlePlay = () => {
         this.setState({ playing: true });
+        this.props.setContextStatus("play");
         //this.wavesurfer.play(this.state.currentTrackTime, this.state.duration);
         this.wavesurfer.playPause();
 

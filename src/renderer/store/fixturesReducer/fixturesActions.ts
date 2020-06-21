@@ -1,6 +1,9 @@
 import { Action, ActionCreator } from 'redux';
 import { IFixture, IPattern } from '../../../types/fixtureTypes';
 import { IFixturesState } from './fixturesReducer';
+import {ThunkDispatch} from "redux-thunk";
+import { GetStateType } from '../rootReducer';
+import { controllerAPI } from '../../components/API/API';
 
 export const PATCH_FIXTURES = 'fixtures/PATCH_FIXTURE';
 export const SET_FIXTURES_STATE = 'fixtures/SET_FIXTURES_STATE';
@@ -49,8 +52,15 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
 
-export const updateFixtureShot = (fixture: {id: string, shot: boolean}):IUpdateFixtureShotAC =>
-    ({ type: UPDATE_FIXTURE_SHOT, fixture });
+export const updateFixtureShot = (fixture: {id: string, shot: boolean}) =>
+    async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
+    const found = getState().fixtures.fixtures.filter(f => f.id === fixture.id)[0];
+    if (found && found.startAddress) {
+        const res = await controllerAPI.sendVal({channel: found.startAddress, value: fixture.shot ? 255 : 0});
+        console.log(res);
+    }
+    dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
+    }
 
 export const updatePattern = (pattern: IPattern):IUpdatePattern =>
     ({ type: UPDATE_PATTERN, pattern });

@@ -6,6 +6,10 @@ import {
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
+import { ThunkDispatch } from 'redux-thunk';
+import { GetStateType } from '../rootReducer';
+import { IFixtureActions } from '../fixturesReducer/fixturesActions';
+import { controllerAPI } from '../../components/API/API';
 
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
@@ -61,6 +65,11 @@ export const setContextMenuOptions: ActionCreator<ISetContextMenuOptions> = (pay
 export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: number) => ({
     type: SET_MUSIC_LENGTH, payload
 });
+export const sendMusicAction = (payload: string) =>
+    async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
+        const res = await controllerAPI.sendEvent(payload);
+        console.log(res);
+    };
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
