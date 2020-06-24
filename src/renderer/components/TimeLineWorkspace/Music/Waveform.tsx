@@ -301,19 +301,20 @@ class Waveform extends React.Component<IProps, IState> {
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
-                        <button onClick={() => {
-                            this.handlePlay();
-                        }}
-                                disabled={!this.state.loaded}
-                        >
-                            {'Play'}
-                        </button>
+                       
                         <button onClick={() => {
                             this.handlePause();
                         }}
                                 disabled={!this.state.loaded}
                         >
                             {'Pause'}
+                        </button>
+                        <button onClick={() => {
+                            this.handlePlay();
+                        }}
+                                disabled={!this.state.loaded}
+                        >
+                            {'Play'}
                         </button>
                         <button onClick={() => {
                             this.handleStop();
@@ -325,24 +326,32 @@ class Waveform extends React.Component<IProps, IState> {
                         }}>
                             {'Clear'}
                         </button>
-                        <input type={'range'}
-                               value={this.state.volume * 100}
-                               onChange={(e) => {
-                                   this.setVolume(+e.currentTarget.value / 100);
-                               }}
-                               min={0} max={100}/>
+                       
                         <div className={'trackTimeSpan'}>
+                        <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                        <span> : </span>
                             <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                            <span> : </span>
                             <div>{
                                 this.state.currentTrackTime > 60
                                 ? (this.state.currentTrackTime - (this.state.currentTrackTime > 60 && this.state.currentTrackTime < 120 ? 60 : 120)).toFixed(0)
                                 : this.state.currentTrackTime.toFixed(0)
                             }</div>
-                            <span> . </span>
-                            <div>{`${this.state.currentTrackTime.toFixed(4)}`.split('.')[1]}</div>
+                            <span> : </span>
+                            <div>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
                         </div>
+                        <div className={'timelineNavContainer--option'}>
+                    <input type={'range'}
+                               value={this.state.volume * 100}
+                               onChange={(e) => {
+                                   this.setVolume(+e.currentTarget.value / 100);
+                               }}
+                               min={0} max={100}/>
                     </div>
+                    </div>
+                   
                     <div className={'timelineNavContainer'}>
+                    
                         <div ref={this.setMinimapRef}/>
                     </div>
                 </div>
