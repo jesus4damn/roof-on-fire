@@ -20,10 +20,6 @@ export const getSomeImg = () => {
 export const getSetupMusic = () => {
     return setupMusic
 }
-// import { getSomeImg } from '../../../../assets/note.svg';
-
-
-
 
 interface IProps {
     children: any

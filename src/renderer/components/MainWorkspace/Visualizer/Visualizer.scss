@@ -4,7 +4,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     color: red;
     z-index: 2;
@@ -38,4 +38,45 @@
     left: 11px;
     z-index: 15;
     background-color: red;
+}
+.fixtureShot img{
+    background: #4F4F4F;
+    padding: 3px;
+    border-radius: 2px;  
+    margin-right: 5px;  
+}
+.fixtureShot .fixtureImg{    
+        border:1.5px solid #27AE60;    
+}
+.fixturesNumber{
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    color: #fff;
+    font-size: 9px;
+    background: #a2a2a2;
+    width: 9px;
+    height: 9px;
+    padding: 2px;
+    text-align: center;
+    
+}
+.fixturesNumber{
+    background: #27AE60;
+    font-family: sans-serif;
+}
+.counterBtn{
+    align-self: flex-start;
+}
+.counterBtn button{
+    background: #333333;
+    border-radius: 2px;
+    text-align: center;
+    padding: 1px 8px;
+    color: #a2a2a2;
+    font-size: 13px;
+    box-sizing: border-box;
+    position: relative;
+    line-height: 26px;
+    border: none;
 }
