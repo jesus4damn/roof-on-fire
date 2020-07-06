@@ -13,6 +13,17 @@ const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js')
 const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
 
 
+const someImg = require('../../../../assets/images/svg/note.svg');
+const setupMusic = require('../../../../assets/images/svg/setupMusic.svg');
+
+export const getSomeImg = () => {
+    return someImg
+}
+
+export const getSetupMusic = () => {
+    return setupMusic
+}
+
 interface IProps {
     children: any
     setCurrentTime: (time: number) => void
@@ -97,25 +108,26 @@ class Waveform extends React.Component<IProps, IState> {
             backend: 'WebAudio',
             height: 170,
             maxCanvasWidth: 15000,
-            minPxPerSec: 20,
-            pixelRatio: 1,
+            minPxPerSec: 1,
+            pixelRatio: 2,
             partialRender: true,
             progressColor: '#2D5BFF',
             scrollParent: true,
             fillParent: true,
             // @ts-ignore
             responsive: true,
-            waveColor: '#031109',
+            waveColor: '#4F4F4F',
             cursorColor: 'transparent',
             plugins: [
                 TimelinePlugin.create({
                     container: this.waveformTimeLine,
                     formatTimeCallback: this.handljjjy,
                     primaryFontColor: '#FFF',
-                    secondaryFontColor: '#ff6fcc',
-                    secondaryColor: '#c38a0d',
-                    primaryColor: '#006dd9',
+                    secondaryFontColor: '#FFF',
+                    secondaryColor: '#222',
+                    primaryColor: '#FFF',
                     fontSize: 10,
+                    notchPercentHeight:50,
                     zoomDebounce: 1200
                     // plugin options ...
                 }),
@@ -125,9 +137,11 @@ class Waveform extends React.Component<IProps, IState> {
                 }),
                 MinimapPlugin.create({
                     container: this.minimapRef,
-                    waveColor: '#777',
+                    waveColor: '#828282',
                     progressColor: '#222',
-                    height: 50
+                    height: 24,
+                    backgroundColor:'#222',
+                    forceDecode:true,
                 }),
                 RegionsPlugin.create({
                     maxRegions: 1,
@@ -308,19 +322,20 @@ class Waveform extends React.Component<IProps, IState> {
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
-                        <button onClick={() => {
-                            this.handlePlay();
-                        }}
-                                disabled={!this.state.loaded}
-                        >
-                            {'Play'}
-                        </button>
+
                         <button onClick={() => {
                             this.handlePause();
                         }}
                                 disabled={!this.state.loaded}
                         >
                             {'Pause'}
+                        </button>
+                        <button onClick={() => {
+                            this.handlePlay();
+                        }}
+                                disabled={!this.state.loaded}
+                        >
+                            {'Play'}
                         </button>
                         <button onClick={() => {
                             this.handleStop();
@@ -332,25 +347,63 @@ class Waveform extends React.Component<IProps, IState> {
                         }}>
                             {'Clear'}
                         </button>
-                        <input type={'range'}
-                               value={this.state.volume * 100}
-                               onChange={(e) => {
-                                   this.setVolume(+e.currentTarget.value / 100);
-                               }}
-                               min={0} max={100}/>
+
                         <div className={'trackTimeSpan'}>
+                        <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                        <span> : </span>
                             <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                            <span> : </span>
                             <div>{
                                 this.state.currentTrackTime > 60
                                 ? (this.state.currentTrackTime - (this.state.currentTrackTime > 60 && this.state.currentTrackTime < 120 ? 60 : 120)).toFixed(0)
                                 : this.state.currentTrackTime.toFixed(0)
                             }</div>
-                            <span> . </span>
-                            <div>{`${this.state.currentTrackTime.toFixed(4)}`.split('.')[1]}</div>
+                            <span> : </span>
+                            <div>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
                         </div>
+                        <div className={'timelineNavContainer--option'}>
+                    <input type={'range'}
+                               value={this.state.volume * 100}
+                               onChange={(e) => {
+                                   this.setVolume(+e.currentTarget.value / 100);
+                               }}
+                               min={0} max={100}/>
                     </div>
+                    </div>
+
                     <div className={'timelineNavContainer'}>
-                        <div ref={this.setMinimapRef}/>
+                    <div className={'musicNote'}>
+                   <button style={{
+                        backgroundImage: `url(${getSomeImg()})`,
+                        backgroundSize: '60%',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        }}
+                        onClick={() => {
+                            this.handlePause();
+                        }}
+                                disabled={!this.state.loaded}
+                        >
+                            {'Note'}
+                        </button>
+                        <button style={{
+                        backgroundImage: `url(${getSetupMusic()})`,
+                        backgroundSize: '60%',
+                        backgroundPosition: 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        }}
+                        onClick={() => {
+                            this.handlePlay();
+                        }}
+                                disabled={!this.state.loaded}
+                        >
+                            {'setupMusic'}
+                        </button>
+                   </div>
+                        <div className={'btnPrecent'}>
+                            <span>50%</span>
+                        </div>
+                        <div className={'Minimap'} ref={this.setMinimapRef}/>
                     </div>
                 </div>
             </div>

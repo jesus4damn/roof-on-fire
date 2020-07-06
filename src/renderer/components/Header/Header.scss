@@ -24,4 +24,22 @@
   color: #4F4F4F;
   min-height: 50vh;
   min-width: 400px;
+  input{
+    max-width: 100%;
+  }
+  input[type=submit]{
+    margin: 10px 0;
+  }
+}
+.headerContent button{
+  background: #333333;
+  border-radius: 2px;
+  text-align: center;
+  padding: 5px 10px;
+  color: #a2a2a2;
+  font-size: 15px;
+  box-sizing: border-box;
+  position: relative;
+  line-height: 26px;
+  border: none;
 }

@@ -36,12 +36,32 @@ const Visualizer: React.FC<IProps> = ({ fixtures }) => {
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
                 {fixtures && fixtures.length
                     ? fixtures.map(f => <div key={f.id} className={!f.shot ? "fixtureShot" : "fixture"}>
-                        <img src={f.img ? f.img : ''} />
+                        <img src={f.img ? f.img : ''} className={!f.shot ? "fixtureImg" : "fixtureImgActive"}/>
+                        <span className={!f.shot ? "fixturesNumber" : "fixturesNumberActive"}>1</span>
                     </div>)
                     : null}
             </div>
+            <div className="counterBtn">
+        <button className={'fixturesBtnPosition'}>
+                Все
+            </button>
+        <button className={'fixturesBtnPosition'}  >
+                Позиция Т1
+            </button>
+            <button className={'fixturesBtnPosition'}  >
+                Позиция Т2
+            </button>
+            <button className={'fixturesBtnPosition'}  >
+                Грелки
+            </button>
+            <button className={'fixturesBtnPosition'}  >
+                +
+            </button>
+            </div>
         </div>
-    </div>
+      
+        </div>
+    
 )};
 
 export default Visualizer;
