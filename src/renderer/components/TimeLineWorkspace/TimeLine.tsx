@@ -32,6 +32,7 @@ const TimeLine: React.FC<TProps> = ({ cues, musicFilePath, setMusicFileLength })
                     musicFilePath={musicFilePath}
                     setCurrentTime={(val: number) => {context.setMusicContext({...context.musicContext, currentTime: val})}}
                     setTotalTime={(val: number) => {context.setMusicContext({...context.musicContext, totalTime: val})}}
+                    setContextStatus={(val: string) => {context.setMusicContext({...context.musicContext, status: val})}}
                     cues={cues}
                     setMusicFileLength={setMusicFileLength}
                 >

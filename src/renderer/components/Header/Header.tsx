@@ -1,9 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Modal from '../common/ModalWrapper';
-import { selectMusicFile, setContextMenuOptions } from '../../store/appReducer/appActions';
-import { IContextMenuOption } from '../../../types/appTypes';
+import { selectMusicFile } from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
 import ExcelReader from '../../../data-helper/ExcelReader';
 

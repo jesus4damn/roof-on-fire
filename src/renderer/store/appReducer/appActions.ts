@@ -6,6 +6,10 @@ import {
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
+import { ThunkDispatch } from 'redux-thunk';
+import { GetStateType } from '../rootReducer';
+import { IFixtureActions } from '../fixturesReducer/fixturesActions';
+import { controllerAPI } from '../../components/API/API';
 
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
@@ -14,6 +18,7 @@ export const SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURES_TYPES_B
 export const SET_CONTEXT_MENU_OPTIONS = 'app/SET_CONTEXT_MENU_OPTIONS';
 export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
 export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
+export const SET_ALLOW_API = 'app/SET_ALLOW_API';
 
 
 
@@ -38,6 +43,9 @@ export interface ISelectMusicFile extends Action {
 export interface ISetMusicFileLength extends Action {
     type: typeof SET_MUSIC_LENGTH, payload: number
 }
+export interface ISetAllowAPI extends Action {
+    type: typeof SET_ALLOW_API, payload: boolean
+}
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
@@ -61,7 +69,15 @@ export const setContextMenuOptions: ActionCreator<ISetContextMenuOptions> = (pay
 export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: number) => ({
     type: SET_MUSIC_LENGTH, payload
 });
+export const setAllowAPI: ActionCreator<ISetAllowAPI> = (payload: boolean) => ({
+    type: SET_ALLOW_API, payload
+});
+export const sendMusicAction = (payload: string) =>
+    async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
+        const res = await controllerAPI.sendEvent(payload);
+        console.log(res);
+    };
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI;

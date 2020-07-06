@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     mode: 'development',
@@ -17,5 +18,17 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
-    ]
+    ],
+    target: 'node',
+    externals: [nodeExternals({
+        modulesFromFile: true,
+        whitelist: [
+            /hot/,
+            /^lodash/, /babel/,
+            /^core-js/, /react/,
+            /redux/, /wavesurfer/,
+            /^uuid/, 'reselect', 'xlsx', /webpack/,
+            'uws', 'dmx', 'axios'
+        ]
+    })]
 };
