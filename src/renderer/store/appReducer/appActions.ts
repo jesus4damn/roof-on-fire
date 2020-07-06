@@ -18,6 +18,7 @@ export const SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURES_TYPES_B
 export const SET_CONTEXT_MENU_OPTIONS = 'app/SET_CONTEXT_MENU_OPTIONS';
 export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
 export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
+export const SET_ALLOW_API = 'app/SET_ALLOW_API';
 
 
 
@@ -42,6 +43,9 @@ export interface ISelectMusicFile extends Action {
 export interface ISetMusicFileLength extends Action {
     type: typeof SET_MUSIC_LENGTH, payload: number
 }
+export interface ISetAllowAPI extends Action {
+    type: typeof SET_ALLOW_API, payload: boolean
+}
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
@@ -65,6 +69,9 @@ export const setContextMenuOptions: ActionCreator<ISetContextMenuOptions> = (pay
 export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: number) => ({
     type: SET_MUSIC_LENGTH, payload
 });
+export const setAllowAPI: ActionCreator<ISetAllowAPI> = (payload: boolean) => ({
+    type: SET_ALLOW_API, payload
+});
 export const sendMusicAction = (payload: string) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
         const res = await controllerAPI.sendEvent(payload);
@@ -73,4 +80,4 @@ export const sendMusicAction = (payload: string) =>
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI;

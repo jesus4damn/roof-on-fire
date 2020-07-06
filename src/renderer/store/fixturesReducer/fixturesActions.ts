@@ -52,15 +52,23 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
 
-export const updateFixtureShot = (fixture: {id: string, shot: boolean}) =>
+export const updateFixtureShot = (fixture: { id: string, shot: boolean }) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
-    const found = getState().fixtures.fixtures.filter(f => f.id === fixture.id)[0];
-    if (found && found.startAddress) {
-        const res = await controllerAPI.sendVal({channel: found.startAddress, value: fixture.shot ? 255 : 0});
-        console.log(res);
-    }
-    dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
-    }
+        const found = getState().fixtures.fixtures.filter(f => f.id === fixture.id)[0];
+        const allowedAPI = getState().app.allowedAPI;
+        if (found && found.startAddress) {
+            try {
+                if (allowedAPI) {
+                    const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
+                    console.log(res);
+                }
+                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
+            } catch (e) {
+                console.log(e);
+                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
+            }
+        }
+    };
 
 export const updatePattern = (pattern: IPattern):IUpdatePattern =>
     ({ type: UPDATE_PATTERN, pattern });

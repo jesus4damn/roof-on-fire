@@ -8,7 +8,7 @@ export const controllerAPI = {
         const res = await axios.post(route, event);
         console.log(res);
     },
-    sendVal: async (val: {channel: number , value: number }) => {
+    sendVal: async (val: {channel: number , value: number}) => {
         const res = await axios.post(route, val);
         console.log(res);
         return "AAAAAA";

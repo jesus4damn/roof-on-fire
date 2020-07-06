@@ -18,11 +18,11 @@ const setupMusic = require('../../../../assets/images/svg/setupMusic.svg');
 
 export const getSomeImg = () => {
     return someImg
-}
+};
 
 export const getSetupMusic = () => {
     return setupMusic
-}
+};
 
 interface IProps {
     children: any
@@ -289,6 +289,7 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleTrackTimeChange = (time: number) => {
+        console.log(time);
             this.props.setCurrentTime(time);
             this.setState({
                 currentTrackTime: time
