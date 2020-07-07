@@ -6,7 +6,7 @@ import {
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import {
-    SELECT_MUSIC_FILE,
+    SELECT_MUSIC_FILE, SET_ALLOW_API,
     SET_CONTEXT_MENU_OPTIONS, SET_MUSIC_LENGTH,
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
@@ -25,6 +25,7 @@ export interface IAppState {
     readonly contextMenuOptions: IContextMenuOption[],
     readonly musicFilePath: string,
     readonly musicTotalTime: number,
+    readonly allowedAPI: boolean,
 }
 
 const defaultState: IAppState = {
@@ -34,7 +35,8 @@ const defaultState: IAppState = {
     fixturesPropertiesScreenWindow: 'cues',
     contextMenuOptions: [],
     musicFilePath: getMp3('guanoApes'),
-    musicTotalTime: 0
+    musicTotalTime: 0,
+    allowedAPI: false
 };
 
 export const appReducer: Reducer<IAppState> = (
@@ -83,6 +85,11 @@ export const appReducer: Reducer<IAppState> = (
             return {
                 ...state,
                 musicTotalTime: action.payload
+            };
+        case SET_ALLOW_API:
+            return {
+                ...state,
+                allowedAPI: action.payload
             };
         default:
             return state;

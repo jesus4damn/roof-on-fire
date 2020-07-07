@@ -1,5 +1,5 @@
 .timelineBlock {
-    color: pink;
+    color: #fff;
     height: 100%;
     width: 100%;
     max-width: 100%;
@@ -12,7 +12,7 @@
 }
 .waveWrapper > wave::-webkit-scrollbar {
     width: 6px;
-    background-color: #030;
+    background-color: #4F4F4F;
 }
 .waveWrapper > wave::-webkit-scrollbar-button {}
 .waveWrapper > wave::-webkit-scrollbar-track {
@@ -29,13 +29,23 @@
     width: 100%;
     height: 100%;
     background-color: black;
+    color: #4F4F4F;
 }
 
 .timelineTrack {
     min-height: 100%;
     width: 100%;
 }
-
+.waveWrapper timeline{
+    background: #444444;
+    padding-bottom: 24px;
+    box-sizing: border-box;
+    margin-top: 2px;
+}
+.timelineNavContainer wave{
+    background-color: #222;
+    border-radius:0 4px 4px 0;
+}
 .x-y-mousePos {
     position: absolute;
     bottom: 15px;
@@ -48,38 +58,109 @@
     position: relative;
     bottom: 0;
     left: 0;
-    background-color: black;
+    background-color: #444;
     right: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 6px 0px;
+    box-sizing: border-box;
 }
 .timelinePlayerActionsContainer {
-    //position: absolute;
+    position: relative;
     top: 0;
-    left: 15px;
+    left: 8px;
     z-index: 15;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
+    button{
+        width: 24px;
+        height: 24px;
+        top: calc(50% - 12px);
+       background: #222222;
+       border-radius: 2px;
+       position: relative; 
+       color: transparent;
+        border-color: transparent;
+       &:nth-child(1)::before{
+            content:'';
+           background-color: #BDBDBD;
+           position: absolute;
+           top:calc(50% - 4px);
+           width: 3px;
+           height: 8px;
+           left: calc(50% - 0px);
+       }      
+       &:nth-child(1)::after{
+        content:'';
+       background-color: #BDBDBD;
+       position: absolute;
+       top:calc(50% - 4px);
+       width: 3px;
+       height: 8px;
+       left: calc(50% - 4px);
+   }      
+       &:nth-child(2)::before{
+        content: '';
+        position: absolute;
+        top: calc(50% - 4px);     
+        left: calc(50% - 4px);
+        border-top: 4px solid transparent;
+        border-left: 8px solid #BDBDBD;
+        border-bottom: 4px solid transparent;
+        border-radius: 2px;
+   }      
+   &:nth-child(3)::before{
+    content:'';
+   background-color: #BDBDBD;
+   position: absolute;
+   top:calc(50% - 4px);
+   width: 8px;
+   height: 8px;
+   left: calc(50% - 4px);
+}      
+   &:nth-child(4)::before{
+    content:'';
+    background-color: #BDBDBD;
+    position: absolute;
+    top:calc(50% - 4px);
+    width: 8px;
+    height: 8px;
+    left: calc(50% - 4px);
+    border-radius: 50%;
+}      
+    }
 }
+
 .timelineNavContainer {
-    height: 50px;
-    width: 400px;
+    height: 24px;
     z-index: 15;
+    height: 24px;
+    width: 310px;
+    align-self: flex-end;
+    display: flex;
 }
 .trackTimeSpan {
-    margin-right: 15px;
+    height: 24px;
+    margin-right: 11px;
     align-items: center;
+    justify-content: center;
     display: flex;
-    width: 200px;
-    background: black;
-    color: green;
+    width: 100%;
+    background: #222222;
+    color: #fff;
+    position: relative;
+    top: calc(50% - 12px);    
+    margin-top: 1px;
+    line-height: -28px;
+    margin-left: 2px;
+    font-size: 13px;
 }
 .trackTimeSpan > div {
-    margin-left: 5px;
+    margin: 0 3px;
     padding: 2px;
-    border: 1px solid #201010;
+   
 }
 .SoundWaveBlock {}
 .cuesWrapperInside {
@@ -100,4 +181,45 @@
     /* left: 0; */
     /* right: 0; */
     /* bottom: 0; */
+}
+
+.btnPrecent{
+    background-color: #222;
+    border-radius:  4px 0 0 4px;
+    height: 24px;    
+    display: flex;
+    width: 40px;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4px;
+}
+.btnPrecent span{
+    font-size: 13px;
+}
+.Minimap{
+    width: 200px;
+}
+.musicNote{
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+.musicNote button {
+    width: 24px;
+    height: 24px;
+    top: calc(50% - 12px);
+    background: #222222;
+    border-radius: 2px;
+    position: relative;
+    color: transparent;
+    border-color: transparent;
+    margin: 0 1px;
+    &:nth-child(1){        
+        border-radius: 4px 0 0 4px;  
+        // background-image: url('../../assets/note.svg');
+        }
+    &:nth-child(2) {       
+                  
+                border-radius: 0 4px 4px 0;       
+        }
 }
