@@ -38,7 +38,7 @@
   pointer-events: none;
 }
 .modal-window {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -93,6 +93,9 @@
 
 .modal-close-button {
   position: absolute;
+  cursor: pointer;
+  width: 7px;
+  height: 7px;
   top: 15px;
   right: 7px;
   border: 0;

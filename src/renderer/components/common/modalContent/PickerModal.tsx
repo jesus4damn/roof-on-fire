@@ -103,7 +103,7 @@ const PickerModal:React.FC<IProps> = ({ type, onSubmit }: IProps) => {
 
                 {editable.map((f: IPickerField, i: number) => (
                     <div
-                        className={ "element"}
+                        className="element"
                         style={{backgroundColor: type === 'img' ? 'black' : f.color}}
                         key={'imageSelector' + i}
                         onClick={() => onSubmit( type === 'img' ? f.title : f.color)}
