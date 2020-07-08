@@ -52,7 +52,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures }) => {
                 Позиция Т2
             </button>
             <button className={'fixturesBtnPosition'}  >
-                Грелки
+                Горелки
             </button>
             <button className={'fixturesBtnPosition'}  >
                 +
