@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { DMXController } from '../server/controllerDMX';
 
 let win: BrowserWindow | null;
 
@@ -39,7 +40,7 @@ const createWindow = async () => {
             })
         );
     }
-
+    DMXController();
     if (process.env.NODE_ENV !== 'production') {
         // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
         win.webContents.once('dom-ready', () => {

@@ -11,12 +11,14 @@ require('./Visualizer.scss');
 
 export interface IProps {
     value: number;
+    allowedAPI: boolean;
     fixtures: IFixture[]
-    incrementValue: () => any;
-    decrementValue: () => any;
+    incrementValue: () => void;
+    decrementValue: () => void;
+    setAllowAPI: (v: boolean) => void;
 }
 
-const Visualizer: React.FC<IProps> = ({ fixtures }) => {
+const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI }) => {
     const context = useMusicContext();
     const [enabled, setEnabled] = useState(false);
     let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
@@ -26,11 +28,11 @@ const Visualizer: React.FC<IProps> = ({ fixtures }) => {
         let part = width / (asd.length -1);
         setAsd(asd.map((asd, i) => ({startTime: i * part})))
     }, [width]);
-
     return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div className="counter">
-            <span>{context.musicContext.currentTime}</span>
+            <span>{context.musicContext.currentTime.toFixed(2)}</span>
+            <button onClick={() => setAllowAPI(!allowedAPI)} style={{color: allowedAPI ? "green" : "red"}}>{allowedAPI ? "Disable" : "Enable"} API</button>
             {/*<button onClick={() => setEnabled(!enabled)}> {enabled ? 'AAA' : 'nooo'}</button>*/}
             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
@@ -59,9 +61,9 @@ const Visualizer: React.FC<IProps> = ({ fixtures }) => {
             </button>
             </div>
         </div>
-      
+
         </div>
-    
+
 )};
 
 export default Visualizer;
