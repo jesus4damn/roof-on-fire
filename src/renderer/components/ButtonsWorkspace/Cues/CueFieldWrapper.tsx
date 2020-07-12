@@ -22,6 +22,7 @@ import {
 } from '../../../store/cuesReducer/cuesActions';
 import { isCueField } from '../../../store/fieldsReducer/fieldsReducer';
 import { updateField } from '../../../store/fieldsReducer/fieldsActions';
+import { dragTypes } from '../../../../types/dragTypes';
 
 interface IProps {
     field: ICueField | IField,
@@ -50,7 +51,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
     const connected = isCueField(field) ? field.connected : null;
     const [{ isDragging }, drag, preview] = useDrag({
-        item: { id: connected ? connected.id : 'noId', type: 'CUE_FIELD' },
+        item: { id: connected ? connected.id : 'noId', type: dragTypes.CUE_FIELD },
         end: (item: { id: string }
             | undefined, monitor: DragSourceMonitor) => {
             const dropResult = monitor.getDropResult();

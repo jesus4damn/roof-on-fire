@@ -121,7 +121,7 @@ class Waveform extends React.Component<IProps, IState> {
             plugins: [
                 TimelinePlugin.create({
                     container: this.waveformTimeLine,
-                    formatTimeCallback: this.handljjjy,
+                    formatTimeCallback: this.handleTimePlay,
                     primaryFontColor: '#FFF',
                     secondaryFontColor: '#FFF',
                     secondaryColor: '#222',
@@ -174,7 +174,7 @@ class Waveform extends React.Component<IProps, IState> {
                 loop: true,
                 color: "rgba(0, 0, 255, 0.1)"
             });
-
+            window.addEventListener("keydown", this.handleSpacePress)
         });
 
         this.wavesurfer.on('scroll', throttle((e:any) => {
@@ -200,6 +200,16 @@ class Waveform extends React.Component<IProps, IState> {
         this.wavesurfer.load(this.props.musicFilePath);
     };
 
+    handleSpacePress = (e: KeyboardEvent) => {
+        if (e.code === "Space") {
+            if (this.state.playing) {
+                this.handlePause();
+            } else {
+                this.handlePlay()
+            }
+        }
+    };
+
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any): void {
         if (prevProps.musicFilePath !== this.props.musicFilePath) {
             console.log(this.props.musicFilePath);
@@ -216,6 +226,7 @@ class Waveform extends React.Component<IProps, IState> {
 
     componentWillUnmount(): void {
         this.wavesurfer.unAll();
+        window.removeEventListener("keydown", this.handleSpacePress)
     }
 
     handlePosChange(e: any) {
@@ -243,10 +254,11 @@ class Waveform extends React.Component<IProps, IState> {
         this.props.setContextStatus("play");
         //this.wavesurfer.play(this.state.currentTrackTime, this.state.duration);
         this.wavesurfer.playPause();
-
     };
 
-    handljjjy = (seconds: any, pxPerSec: any) => {
+
+
+    handleTimePlay = (seconds: any, pxPerSec: any) => {
         seconds = Number(seconds);
         let minutes = Math.floor(seconds / 60);
         seconds = seconds % 60;

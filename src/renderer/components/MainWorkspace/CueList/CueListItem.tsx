@@ -52,12 +52,15 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
     };
 
     return (
-        <tr onClick={() => (editName || editStartTime || editTotalTime) && selected ? '' : setActiveCue}
+        <tr onClick={() => setActiveCue()}
             className={'cueListItem'}
             style={{cursor: 'pointer', backgroundColor: selected ? 'green' : 'inherit'}}
         >
             <td>{index}</td>
-            <td onDoubleClick={() => setEditName(true)} style={editName ? {padding: '0'} : {}}>
+            <td
+                onDoubleClick={() => selected ? setEditName(true) : setActiveCue()}
+                style={editName ? {padding: '0'} : {}}
+            >
                 {editName
                     ? <input
                         className={'cueListNameInput'}
@@ -67,7 +70,7 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     />
                     : cueCopy.name}
             </td>
-            <td onDoubleClick={() => setEditStartTime(true)} style={editStartTime ? {padding: '0'} : {}}>
+            <td onDoubleClick={() => selected ? setEditStartTime(true) : setActiveCue()} style={editStartTime ? {padding: '0'} : {}}>
                 {editStartTime
                 ? <input
                     type={'number'}
@@ -77,7 +80,7 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     onBlur={(event) => event.target.value ? onEditEnd() : ''}
                 />
                 : cueCopy.startTime}</td>
-            <td onDoubleClick={() => setEditTotalTime(true)} style={editTotalTime ? {padding: '0'} : {}}>{
+            <td onDoubleClick={() => selected ? setEditTotalTime(true) : setActiveCue()} style={editTotalTime ? {padding: '0'} : {}}>{
                 editTotalTime
                 ? <input
                     type={'number'}

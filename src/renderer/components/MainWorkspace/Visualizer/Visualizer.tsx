@@ -13,12 +13,11 @@ export interface IProps {
     value: number;
     allowedAPI: boolean;
     fixtures: IFixture[]
-    incrementValue: () => void;
-    decrementValue: () => void;
     setAllowAPI: (v: boolean) => void;
+    updateFixture: (fixture: IFixture) => void
 }
 
-const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI }) => {
+const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updateFixture }) => {
     const context = useMusicContext();
     const [enabled, setEnabled] = useState(false);
     let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
@@ -32,14 +31,21 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI }) => 
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div className="counter">
             <span>{context.musicContext.currentTime.toFixed(2)}</span>
-            <button onClick={() => setAllowAPI(!allowedAPI)} style={{color: allowedAPI ? "green" : "red"}}>{allowedAPI ? "Disable" : "Enable"} API</button>
-            {/*<button onClick={() => setEnabled(!enabled)}> {enabled ? 'AAA' : 'nooo'}</button>*/}
+            <button onClick={() => setAllowAPI(!allowedAPI)}
+                    style={{color: allowedAPI ? "green" : "red"}}
+            >
+                {allowedAPI ? "Disable" : "Enable"} API
+            </button>
             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
                 {fixtures && fixtures.length
-                    ? fixtures.map(f => <div key={f.id} className={!f.shot ? "fixtureShot" : "fixture"}>
-                        <img src={f.img ? f.img : ''} className={!f.shot ? "fixtureImg" : "fixtureImgActive"}/>
-                        <span className={!f.shot ? "fixturesNumber" : "fixturesNumberActive"}>1</span>
+                    ? fixtures.map(f => <div
+                        key={f.id}
+                        className={`fixtureViz ${f.shot ? "shot" : ""}`}
+                        onClick={() => updateFixture({...f, selected: !f.selected})}
+                    >
+                        <img src={f.img ? f.img : ''} className={`fixtureVizImg ${f.selected ? "active" : ""}`}/>
+                        <span className={`fixturesNumber ${f.selected ? "active" : ""}`}>1</span>
                     </div>)
                     : null}
             </div>
