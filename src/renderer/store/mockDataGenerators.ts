@@ -110,7 +110,7 @@ const generateField = (pattern: IPattern | null ):IField | IPatternField => {
 };
 export const generateFields = (fixturePatterns: IPattern[] | null):IField[] => {
     let fieldArr = [];
-    for ( let i = 0; fieldArr.length < 20; i++) {
+    for ( let i = 0; fieldArr.length < 10; i++) {
         let isPattern: IPattern | null = fixturePatterns && fixturePatterns.length && fixturePatterns[i]
             ? fixturePatterns[i]
             : null;
