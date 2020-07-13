@@ -72,6 +72,7 @@ export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: 
 export const setAllowAPI: ActionCreator<ISetAllowAPI> = (payload: boolean) => ({
     type: SET_ALLOW_API, payload
 });
+
 export const sendMusicAction = (payload: string) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
         const res = await controllerAPI.sendEvent(payload);

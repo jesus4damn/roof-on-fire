@@ -1,6 +1,6 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import { useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
 import { selectMusicFile } from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
@@ -36,10 +36,8 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             title: 'loadData',
             disabled: false,
             callback: () => {
-                console.log('load!!!!!!')
                 loadData();
                 setMenuShow(false)
-
             }
         },
         {
@@ -81,6 +79,22 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
         console.log(value);
         //onChange(e.target.files[0])
     };
+
+    useEffect(() => {
+        const handleOuterClick = (e: any) => {
+            if ( menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target) ) {
+                setMenuShow(false);
+            }
+        };
+        if (menuShown) {
+            window.addEventListener("click", handleOuterClick)
+        } else {
+            window.removeEventListener("click", handleOuterClick);
+        }
+        return () => {
+            window.removeEventListener("click", handleOuterClick);
+        }
+    }, [menuShown]);
 
     return (
         <div>

@@ -19,15 +19,13 @@
     left: 0px;
     right: 0px;
 }
-.fixture {
+.fixtureViz {
     display: flex;
     position: relative;
+    cursor: pointer;
 }
-.fixtureShot {
-    display: flex;
-    position: relative;
-}
-.fixture::before {
+
+.fixtureViz.shot::before {
     content: ' ';
     display: flex;
     height: 50px;
@@ -39,14 +37,17 @@
     z-index: 15;
     background-color: red;
 }
-.fixtureShot img{
+.fixtureViz img{
     background: #4F4F4F;
     padding: 3px;
-    border-radius: 2px;  
-    margin-right: 5px;  
+    border-radius: 2px;
+    margin-right: 5px;
 }
-.fixtureShot .fixtureImg{    
-        border:1.5px solid #27AE60;    
+.fixtureVizImg {
+    border:1.5px solid #4F4F4F;
+}
+.fixtureVizImg.active {
+    border:1.5px solid #27AE60;
 }
 .fixturesNumber{
     position: absolute;
@@ -59,9 +60,9 @@
     height: 9px;
     padding: 0px;
     text-align: center;
-    
+
 }
-.fixturesNumber{
+.fixturesNumber.active{
     background: #27AE60;
     font-family: sans-serif;
 }
