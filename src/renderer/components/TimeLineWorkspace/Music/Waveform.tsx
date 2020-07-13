@@ -6,6 +6,7 @@ import CueTimeLine from '../CueTimeLineItem/CueLine';
 import { ICue } from '../../../../types/cuesTypes';
 
 import {throttle} from 'lodash';
+require('./Waveform.scss');
 // @ts-ignore
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
 const CursorPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.cursor.js');

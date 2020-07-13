@@ -1,7 +1,27 @@
 .totalWrap {
     position: relative;
     height: 6rem;
-    padding: 5px;
+    margin: 2px;
+    margin-left: 4px;
+    margin-right: 0px;
+    @media screen and (max-width: 1300px){
+        height: 5rem;
+        margin: 4px;
+        margin-left: 4px;
+        margin-right: 0px;
+    }
+    @media (min-width: 800px) and (max-width: 1100px){
+        height: 5rem;
+        margin: 4px;
+        margin-left: 4px;
+        margin-right: 0px;
+    }
+    @media (min-width: 320px) and (max-width: 799px){
+        height: 6rem;
+        margin: 4px;
+        margin-left: 4px;
+        margin-right: 0px;
+    }
 }
 
 .wrap {

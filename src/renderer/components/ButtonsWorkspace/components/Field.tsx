@@ -17,7 +17,7 @@ const Field: React.SFC<IProps> = ({   active,
                                      name,
                                      img,
                                      select,
-                                     callContext,
+                                     callContext
                                  }) => {
 
     return (
@@ -30,7 +30,7 @@ const Field: React.SFC<IProps> = ({   active,
                  onClick={select}
                  onContextMenu={callContext}
             >
-                <div className="imgWrap" style={{borderColor: color ? color : '#666666'}}>
+                <div className="imgWrap" >
                     <div className="image" style={{ minHeight: "30px", minWidth: "30px" }}>
                         <img className="preview__img" src={img ? img : ''} alt=""/>
                     </div>
