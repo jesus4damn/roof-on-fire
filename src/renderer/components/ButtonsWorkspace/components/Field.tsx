@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useMemo } from 'react';
 
 require('./Field.scss');
 
@@ -30,7 +29,7 @@ const Field: React.SFC<IProps> = ({   active,
                  onClick={select}
                  onContextMenu={callContext}
             >
-                <div className="imgWrap" >
+                <div className="imgWrap" style={{borderColor: color ? color : '#666666'}}>
                     <div className="image" style={{ minHeight: "30px", minWidth: "30px" }}>
                         <img className="preview__img" src={img ? img : ''} alt=""/>
                     </div>
