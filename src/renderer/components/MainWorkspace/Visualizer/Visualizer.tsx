@@ -14,12 +14,14 @@ export interface IProps {
     allowedAPI: boolean;
     fixtures: IFixture[]
     setAllowAPI: (v: boolean) => void;
-    updateFixture: (fixture: IFixture) => void
+    updateFixture: (fixture: IFixture) => void    
 }
 
 const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updateFixture }) => {
     const context = useMusicContext();
     const [enabled, setEnabled] = useState(false);
+    const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
+    // const [inputValue, setInputValue] = useState<string | number>('');
     let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
     let [width, setWidth] = useState(222);
 
@@ -45,7 +47,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updat
                         onClick={() => updateFixture({...f, selected: !f.selected})}
                     >
                         <img src={f.img ? f.img : ''} className={`fixtureVizImg ${f.selected ? "active" : ""}`}/>
-                        <span className={`fixturesNumber ${f.selected ? "active" : ""}`}>1</span>
+                        <span className={`fixturesNumber ${f.selected ? "active" : ""}`}>{f.number}</span>
                     </div>)
                     : null}
             </div>
