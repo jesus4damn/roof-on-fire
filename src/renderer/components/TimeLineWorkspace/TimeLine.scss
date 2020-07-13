@@ -162,7 +162,10 @@
     padding: 2px;
    
 }
-.SoundWaveBlock {}
+.timelineNavContainer--option{
+    position: relative;
+    height: 24px;
+}
 .cuesWrapperInside {
     height: 100%;
     min-width: 500px;

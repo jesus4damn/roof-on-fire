@@ -1,0 +1,17 @@
+.timelineNavContainer--option input[type=range]{
+    -webkit-appearance: none;
+    background-color: #222222;
+    width: 250px;
+    height: 5px;
+    position: absolute;
+    top: calc(50% - 1px);
+    border-radius: 9px;    
+}
+.timelineNavContainer--option input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background-color: #1e1d1e;
+    width: 3px;
+    height: 13px;
+    border-radius: 10px;
+    box-shadow:  #BDBDBD 0px 0px 0px 3px;
+}

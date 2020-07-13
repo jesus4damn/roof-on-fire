@@ -32,7 +32,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI }) => 
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div className="counter">
             <span>{context.musicContext.currentTime.toFixed(2)}</span>
-            <button onClick={() => setAllowAPI(!allowedAPI)} style={{color: allowedAPI ? "green" : "red"}}>{allowedAPI ? "Disable" : "Enable"} API</button>
+            <button  onClick={() => setAllowAPI(!allowedAPI)} style={{color: allowedAPI ? "#fff" : "#a2a2a2"}}>{allowedAPI ? "Disable" : "Enable"} API</button>
             {/*<button onClick={() => setEnabled(!enabled)}> {enabled ? 'AAA' : 'nooo'}</button>*/}
             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
