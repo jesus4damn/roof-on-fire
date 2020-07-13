@@ -23,7 +23,7 @@ const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue, setSelecte
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: dragTypes.CUE_FIELD,
         drop: () => ({ cueList: 'CUELIST' }),
-        //canDrop: () => onDropPattern(),
+        canDrop: () => {console.log("OVER"); return true},//onDropPattern(),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
@@ -34,8 +34,8 @@ const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue, setSelecte
     const updateCueCallback = useCallback( cue => updateCue(cue), []);
 
     return (
-        <div className="WrapCuesList" ref={drop}>
-            <div className="WrapCues">
+        <div className="WrapCuesList">
+            <div className="WrapCues" ref={drop}>
                 <table className="WrapCuesListTable">
                     <tbody className={`TableCuesList ${canDrop && isOver ? 'TableCuesList-active' : ''}`}>
                     <tr className="headerTableCuesList">
