@@ -20,7 +20,7 @@ export interface IProps {
 const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updateFixture }) => {
     const context = useMusicContext();
     const [enabled, setEnabled] = useState(false);
- 
+    const [active, setActive] = React.useState(false);
     let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
     let [width, setWidth] = useState(222);
 
@@ -51,7 +51,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updat
                     : null}
             </div>
             <div className="counterBtn">
-        <button className={'fixturesBtnPosition'}>
+        <button className={active ? "fixturesBtnPosition " : "fixturesBtnPosition-active"} onClick={() => setActive(!active)}>
                 Все
             </button>
         <button className={'fixturesBtnPosition'}  >

@@ -20,7 +20,7 @@ interface IProps {
   
 const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture }) => {
     const [collapsed, setCollapsed] = React.useState(false);
-
+    
     return (
         <div className="WrapFixtures">
             <div className="WrapFixturesScroll">

@@ -7,10 +7,13 @@ interface Iprops {
     onSelect: (path: string) => void
     onChange: (value: any) => void
 }
+
 const someImg = require('../../../../assets/images/svg/downloadImg.svg');
+
 export const getSomeImg = () => {
     return someImg
 };
+
 export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
     let [musicList, setMusicList] = useState(getMusicList());
     const onAddFile = (e: any) => {
