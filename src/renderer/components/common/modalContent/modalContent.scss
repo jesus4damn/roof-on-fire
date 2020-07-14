@@ -59,3 +59,47 @@
   font-size: 11px;
   line-height: 9px;
 }
+.importWrapper input{
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+  z-index: -1;   
+}
+
+.importWrapper input + label {
+  border-radius: 12px;
+  width: 170px;
+  height: 27px;
+  color: #fff;
+  border: 0;
+  font-family: Roboto,sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 27px;
+  text-align: center;
+  color: white;
+  background-color: #2F80ED;
+  display: inline-block;  
+}
+.importWrapper input:focus + label,
+.importWrapper input + label:hover {
+    background-color: #27AE60;
+}
+.importWrapper input + label {
+	cursor: pointer;
+}
+.importWrapper:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+.importWrapper input + label svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: #FFFFFF;
+  margin-top: -0.25em;
+  margin-right: 0.25em;
+}

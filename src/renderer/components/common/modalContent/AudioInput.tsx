@@ -7,7 +7,10 @@ interface Iprops {
     onSelect: (path: string) => void
     onChange: (value: any) => void
 }
-
+const someImg = require('../../../../assets/images/svg/downloadImg.svg');
+export const getSomeImg = () => {
+    return someImg
+};
 export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
     let [musicList, setMusicList] = useState(getMusicList());
     const onAddFile = (e: any) => {
@@ -37,8 +40,15 @@ export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
                 <input
                     type='file'
                     accept='.mp3'
+                    id='fileMusic'
+                    name='fileMusic'
                     onChange={onAddFile}
                 />
+                <label htmlFor="fileMusic" style={{backgroundImage:`url(${getSomeImg()})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: '7% 35%',
+                backgroundSize: '10%'
+                }}>Выберите файл</label>
             </div>
         </div>
     );
