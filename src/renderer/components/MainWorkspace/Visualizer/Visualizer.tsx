@@ -20,8 +20,7 @@ export interface IProps {
 const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updateFixture }) => {
     const context = useMusicContext();
     const [enabled, setEnabled] = useState(false);
-    const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
-    // const [inputValue, setInputValue] = useState<string | number>('');
+ 
     let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
     let [width, setWidth] = useState(222);
 

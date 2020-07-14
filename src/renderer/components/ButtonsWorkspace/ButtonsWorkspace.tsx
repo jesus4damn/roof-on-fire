@@ -25,7 +25,7 @@ export interface IProps {
 //     gridTemplateColumns: "1fr 1fr 1fr"
     
 //   };
-   
+
 
 const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                                                             fixturesTypes,
@@ -34,13 +34,14 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                                                             switchFixturePropertiesButtonsScreen,
                                                             switchFixtureTypesButtonsScreen
                                                         }) => {
+// const screenW = React.createRef();
 const [cuesResize, setState] = React.useState(
     {
             isOpen: false,
             x:0,
             y:0,
             width: 465,
-            height: 532
+            height: 532        
         }
     );
     const Box = () => (
@@ -138,7 +139,7 @@ const [cuesResize, setState] = React.useState(
             // onDragStop={onDragStop}
             // onResize={onResize}
             >
-       
+       {/* <console className="log">{screenW}</console> */}
         <Box />
          </Rnd>
     );

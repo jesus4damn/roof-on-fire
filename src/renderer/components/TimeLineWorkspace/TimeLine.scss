@@ -156,11 +156,17 @@
     line-height: -28px;
     margin-left: 2px;
     font-size: 13px;
-}
+    }
 .trackTimeSpan > div {
     margin: 0 3px;
     padding: 2px;
+    width:15px;
+    text-align: center;
+    
    
+}
+.trackTimeSpan  .TimeSpanMillisecond{
+    width: 30px;
 }
 .timelineNavContainer--option{
     position: relative;

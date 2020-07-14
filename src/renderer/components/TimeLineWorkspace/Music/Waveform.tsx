@@ -373,7 +373,7 @@ class Waveform extends React.Component<IProps, IState> {
                                 : this.state.currentTrackTime.toFixed(0)
                             }</div>
                             <span> : </span>
-                            <div>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
+                            <div className={'TimeSpanMillisecond'}>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
                         </div>
                         <div className={'timelineNavContainer--option'}>
                     <input type={'range'}
