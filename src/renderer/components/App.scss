@@ -40,7 +40,7 @@ input {
 }
 .appWrapper.patchMode {
     grid-template-areas: "main patch";
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     grid-template-rows: 1fr;
     height: 96vh;
 }
@@ -95,4 +95,5 @@ input {
     grid-area: patch;
     align-content: center;
     justify-content: center;
+    width: 100%;
 }

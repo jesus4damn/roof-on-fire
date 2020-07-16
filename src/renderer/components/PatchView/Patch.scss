@@ -2,9 +2,56 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+  position: relative;
 }
 .typesWrapper {
   display: flex;
   flex-direction: column;
+  width: 90%;
+}
+.patchFixtureWrapper {
+  margin: 15px;
+  cursor: pointer;
+}
+.patchFixtureWrapper.selected {
+  color: #27AE60;
+}
+.patchControlsWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 55px;
+  color: #fff;
+  background-color: #444444;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.patchControlsWrapper > * button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #828282;
+  color: #fff;
+  width: 100px;
+  height: 24px;
+}
+.patchControlsWrapper > * input {
+  background-color: #0D0C0C;
+  max-width: 75px;
+}
+.patchControlsWrapper > * div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7em;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
 }

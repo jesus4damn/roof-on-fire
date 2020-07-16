@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
 import { selectMusicFile, switchAppScreenMode } from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
-import ExcelReader from '../../../data-helper/ExcelReader';
 import { IAppScreenModes } from '../../../types/appTypes';
 
 require('./Header.scss');
