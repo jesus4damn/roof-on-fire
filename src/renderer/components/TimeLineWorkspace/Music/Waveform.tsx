@@ -16,7 +16,6 @@ const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js')
 
 const someImg = require('../../../../assets/images/svg/note.svg');
 const setupMusic = require('../../../../assets/images/svg/setupMusic.svg');
-
 export const getSomeImg = () => {
     return someImg
 };
@@ -37,7 +36,7 @@ interface IProps {
 
 interface IState {
     loaded: boolean,
-    playing: boolean,
+    playing: boolean,    
     pos: number,
     duration: number,
     speed: number,
@@ -45,6 +44,7 @@ interface IState {
     currentTrackTime: number,
     zoomValue: number,
     parentDivWidth: number
+    stopBtn: boolean
 }
 
 class Waveform extends React.Component<IProps, IState> {
@@ -94,7 +94,8 @@ class Waveform extends React.Component<IProps, IState> {
             volume: 0,
             currentTrackTime: 0,
             zoomValue: 0,
-            parentDivWidth: 800
+            parentDivWidth: 800,
+            stopBtn: false
         };
     }
 
@@ -204,8 +205,10 @@ class Waveform extends React.Component<IProps, IState> {
     handleSpacePress = (e: KeyboardEvent) => {
         if (e.code === "Space") {
             if (this.state.playing) {
+                this.setState({...this.state, stopBtn: !this.state.stopBtn});  
                 this.handlePause();
             } else {
+                this.setState({...this.state, stopBtn: !this.state.stopBtn});  
                 this.handlePlay()
             }
         }
@@ -251,10 +254,12 @@ class Waveform extends React.Component<IProps, IState> {
         }
     };
     handlePlay = () => {
-        this.setState({ playing: true });
+        this.setState({ 
+            playing: true
+         });
         this.props.setContextStatus("play");
         //this.wavesurfer.play(this.state.currentTrackTime, this.state.duration);
-        this.wavesurfer.playPause();
+        this.wavesurfer.playPause();        
     };
 
 
@@ -313,7 +318,7 @@ class Waveform extends React.Component<IProps, IState> {
         let delta = e.deltaY || e.detail || e.wheelDelta;
         this.handleZoom(-delta / 100);
     };
-
+   
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
@@ -337,17 +342,21 @@ class Waveform extends React.Component<IProps, IState> {
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
 
-                        <button onClick={() => {
+                        {/* <button onClick={() => {
                             this.handlePause();
                         }}
                                 disabled={!this.state.loaded}
                         >
                             {'Pause'}
-                        </button>
-                        <button onClick={() => {
-                            this.handlePlay();
-                        }}
+                        </button> */}
+                        <button  className={`${this.state.stopBtn ? "playBtn" : "stopBtn"}`} onClick={() => {
+                            this.setState({...this.state, stopBtn: !this.state.stopBtn});                        
+                            this.handlePlay();                            
+                        }          
+                    }
+                                
                                 disabled={!this.state.loaded}
+                                
                         >
                             {'Play'}
                         </button>
@@ -393,8 +402,7 @@ class Waveform extends React.Component<IProps, IState> {
                         backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         }}
-                        onClick={() => {
-                            this.handlePause();
+                        onClick={() => {                           
                         }}
                                 disabled={!this.state.loaded}
                         >
@@ -407,7 +415,7 @@ class Waveform extends React.Component<IProps, IState> {
                         backgroundRepeat: 'no-repeat',
                         }}
                         onClick={() => {
-                            this.handlePlay();
+                            
                         }}
                                 disabled={!this.state.loaded}
                         >
