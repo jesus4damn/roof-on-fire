@@ -81,4 +81,8 @@
     position: relative;
     line-height: 26px;
     border: none;
+    &.fixturesBtnPosition-active{
+        color: #fff;
+        background: #444444;
+    }
 }
