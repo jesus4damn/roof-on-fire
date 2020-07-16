@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from 'redux';
-import { IFixture, IPattern } from '../../../types/fixtureTypes';
+import { IFixture, IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import { IFixturesState } from './fixturesReducer';
 import {ThunkDispatch} from "redux-thunk";
 import { GetStateType } from '../rootReducer';
@@ -66,6 +66,22 @@ export const updateFixtureShot = (fixture: { id: string, shot: boolean }) =>
             } catch (e) {
                 console.log(e);
                 dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
+            }
+        }
+    };
+
+export const patchFixtures = (payload: { count: number, fixtureType: TFixturesTypes }) =>
+    async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
+        const allowedAPI = getState().app.allowedAPI;
+        if (payload.count && payload.fixtureType) {
+            try {
+                if (allowedAPI) {
+                    const res = await controllerAPI.sendPatch("create", "firework", 1);
+                    console.log(res);
+                }
+                dispatch(patchFixturesAC());
+            } catch (e) {
+                console.log(e);
             }
         }
     };

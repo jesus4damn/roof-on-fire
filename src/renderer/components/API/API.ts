@@ -15,5 +15,10 @@ export const controllerAPI = {
     },
     getPacket: async () => {
 
+    },
+    sendPatch: async (type: string, fixture: string, count: number) => {
+        const res = await axios.post(`${route}/fixtures/${type}?fixture=${fixture}&count=${count}`);
+        console.log(res);
+        return "AAAAAA";
     }
 };

@@ -38,7 +38,16 @@ input {
     // max-height: 100vh;
     font-family: Roboto, sans-serif;
 }
-
+.appWrapper.patchMode {
+    grid-template-areas: "main patch";
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    height: 96vh;
+}
+.appWrapper.patchMode > .mainWorkspaceWrapper {
+    width: inherit;
+    max-height: 100%;
+}
 .headerWrapper {
     position: absolute;
     top: 0;
@@ -58,7 +67,6 @@ input {
     justify-content: center;
     align-items: center;
     height: 100%;
-    height: 68vh;    
     width: 69vw;
     overflow-x: hidden;
 }
@@ -70,9 +78,8 @@ input {
     justify-content: space-between;
     align-items: center;
     max-height:68vh;
-    height: 68vh;
     height: 100%;
-    z-index: 200;    
+    z-index: 200;
 }
 
 .timeLineWorkspaceWrapper {
@@ -81,4 +88,11 @@ input {
     align-content: center;
     justify-content: center;
     align-items: center;
+}
+
+.patchWorkspaceWrapper {
+    display: flex;
+    grid-area: patch;
+    align-content: center;
+    justify-content: center;
 }
