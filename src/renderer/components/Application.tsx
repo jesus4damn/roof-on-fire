@@ -18,6 +18,7 @@ import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
 import { MusicContextProvider } from '../misicContext/musicContext';
 import { setCuesData } from '../store/cuesReducer/cuesActions';
+import ResizeContainer from './common/ResizeContainer';
 
 require('./App.scss');
 
@@ -82,10 +83,10 @@ const Application = ({
                             loadData={loadData}
                             saveData={saveData}/>
                     </div>
-                    <div className="contentWorkspaceWrapper">
-                    <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
-                    <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                    </div>
+                        <ResizeContainer>
+                            <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
+                            <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                        </ResizeContainer>
                     
                     <div className="timeLineWorkspaceWrapper">
                             <TimeLine />

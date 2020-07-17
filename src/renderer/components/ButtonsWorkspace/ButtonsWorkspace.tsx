@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Rnd } from 'react-rnd';
 import { connect } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 import {
@@ -21,141 +20,70 @@ export interface IProps {
     switchFixturePropertiesButtonsScreen: (val: IActionsScreenSwitchers) => void
     switchFixtureTypesButtonsScreen: (val: string) => void
 }
-// const style = {    
-//     gridTemplateColumns: "1fr 1fr 1fr"
-    
-//   };
-export interface StandardComponentProps {
-    title?: string
-    children: React.ReactNode
-  }
-  
-  export function StandardComponent({
-    children,
-    title = 'Dr.',
-  }: StandardComponentProps) {
-    return (
-      <div>
-        {title}: {children}
-      </div>
-    )
-  }
 
 const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
-                                                            fixturesTypes,
-                                                            fixtureTypesScreenWindow,
-                                                            fixturesPropertiesScreenWindow,
-                                                            switchFixturePropertiesButtonsScreen,
-                                                            switchFixtureTypesButtonsScreen
-                                                        }) => {
-// const screenW = React.createRef();
-const [cuesResize, setState] = React.useState(
-    {
-            isOpen: false,
-            x:0,
-            y:0,
-            width: 465,
-            height: 532        
-        }
-    );
-    const Box = () => (
-        <div className='cuesWrapper'>
-        <div className="selectionButtonsSetting">
-            <div className="selectionButtonsTop">
-                {fixturesTypes.length && fixturesTypes.map(ft => {
-                    return (
-                        <button className={fixtureTypesScreenWindow === ft ? 'activeButtonsTop' : ''}
-                                key={'fixtureTypeButton' + ft}
-                                onClick={() => {
-                                    switchFixtureTypesButtonsScreen(ft);
-                                }}>
-                            {ft}
-                        </button>
-                    );
-                })}
-            </div>
-            <div className="selectionButtonsBottom">
-                <button
-                    className={fixturesPropertiesScreenWindow === 'long' ? "activeButtonsBottom" : ''}
-                    onClick={() => {
-                    switchFixturePropertiesButtonsScreen('long');
-                }}>
-                    Протяжные
-                </button>
-                <button
-                    className={fixturesPropertiesScreenWindow === 'dynamic' ? "activeButtonsBottom" : ''}
-                        onClick={() => {
-                    switchFixturePropertiesButtonsScreen('dynamic');
-                }}>
-                    Динамика
-                </button>
-                <button
-                    className={fixturesPropertiesScreenWindow === 'static' ? "activeButtonsBottom" : ''}
-                    onClick={() => {
-                    switchFixturePropertiesButtonsScreen('static');
-                }}>
-                    Статика
-                </button>
-                <button
-                    className={fixturesPropertiesScreenWindow === 'cues' ? "activeButtonsBottom" : ''}
-                    onClick={() => {
-                    switchFixturePropertiesButtonsScreen('cues');
-                }}>
-                    Мои
-                </button>
-            </div>
-        </div>
-        <div className="cuesWrapperContentScroll">
-            <div className="cuesWrapperContent">
-                {fixturesPropertiesScreenWindow === 'static' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'dynamic' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'long' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'cues' && <Cues />}
-            </div>
-        </div>
-        
-    </div>
-    );
-                                                            
-                                                                                                          
+                                                               fixturesTypes,
+                                                               fixtureTypesScreenWindow,
+                                                               fixturesPropertiesScreenWindow,
+                                                               switchFixturePropertiesButtonsScreen,
+                                                               switchFixtureTypesButtonsScreen
+                                                           }) => {
     return (
-        <Rnd
-        className={'cuesWrapperContentScroll'}
-            // onDoubleClick={onSelect}
-            // style={style}
-            disableDragging={'false'}
-            default={{
-                x: cuesResize.x,
-                y: cuesResize.y,
-                width: cuesResize.width,
-                height: cuesResize.height
-            }}
-            enableResizing={{
-                top:false,
-                right: false,
-                bottom:false, left:true,
-                topRight:false, bottomRight:false, bottomLeft:false, topLeft:false
-            }}
-            minWidth={270}
-            maxWidth={780}            
-            bounds="body"
-            // size={{ width: cuesResize.width, height: cuesResize.height }}
-            // position={{ x: cuesResize.x, y: cuesResize.y }}
-            // onResizeStop={onResizeEnd}            
-            // enableUserSelectHack='false'
-            // disableDragging={'false'}
-            // resizeGrid?:[]
-            // bounds={".cursorContainer"}
-           
-            // resizeHandleComponent={{topRight : <span>O</span>}}
-            
-            // position={{ x: cueState.x, y: cueState.y }}
-            // onDragStop={onDragStop}
-            // onResize={onResize}
-            >
-       {/* <console className="log">{screenW}</console> */}
-        <Box />
-         </Rnd>
+            <div className='cuesWrapper'>
+                <div className="selectionButtonsSetting">
+                    <div className="selectionButtonsTop">
+                        {fixturesTypes.length && fixturesTypes.map(ft => {
+                            return (
+                                <button className={fixtureTypesScreenWindow === ft ? 'activeButtonsTop' : ''}
+                                        key={'fixtureTypeButton' + ft}
+                                        onClick={() => {
+                                            switchFixtureTypesButtonsScreen(ft);
+                                        }}>
+                                    {ft}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="selectionButtonsBottom">
+                        <button
+                            className={fixturesPropertiesScreenWindow === 'long' ? 'activeButtonsBottom' : ''}
+                            onClick={() => {
+                                switchFixturePropertiesButtonsScreen('long');
+                            }}>
+                            Протяжные
+                        </button>
+                        <button
+                            className={fixturesPropertiesScreenWindow === 'dynamic' ? 'activeButtonsBottom' : ''}
+                            onClick={() => {
+                                switchFixturePropertiesButtonsScreen('dynamic');
+                            }}>
+                            Динамика
+                        </button>
+                        <button
+                            className={fixturesPropertiesScreenWindow === 'static' ? 'activeButtonsBottom' : ''}
+                            onClick={() => {
+                                switchFixturePropertiesButtonsScreen('static');
+                            }}>
+                            Статика
+                        </button>
+                        <button
+                            className={fixturesPropertiesScreenWindow === 'cues' ? 'activeButtonsBottom' : ''}
+                            onClick={() => {
+                                switchFixturePropertiesButtonsScreen('cues');
+                            }}>
+                            Мои
+                        </button>
+                    </div>
+                </div>
+                <div className="cuesWrapperContentScroll">
+                    <div className="cuesWrapperContent">
+                        {fixturesPropertiesScreenWindow === 'static' && <Properties/>}
+                        {fixturesPropertiesScreenWindow === 'dynamic' && <Properties/>}
+                        {fixturesPropertiesScreenWindow === 'long' && <Properties/>}
+                        {fixturesPropertiesScreenWindow === 'cues' && <Cues/>}
+                    </div>
+                </div>
+            </div>
     );
 };
 
