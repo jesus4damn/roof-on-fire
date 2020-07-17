@@ -30,27 +30,40 @@ input {
     // height: 100%;
     display: grid;
     grid-template-areas:
-            "main cues"
+            "header header"
+            "maincues maincues"
             "time time";
-    grid-template-rows: 1fr 20%;
-    grid-template-columns: 1.2fr 1fr;
+    // grid-template-rows: 1fr 20%;
+    // grid-template-columns: 1.2fr 1fr;
     color: #ffffff;
     // max-height: 100vh;
     font-family: Roboto, sans-serif;
+    background:#000;
 }
 
 .headerWrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+    // display: flex;
+    // align-content: center;
+    // justify-content: center;
+    // align-items: center;
     height: 100%;
+    width: 100%;
+    grid-area:header;
 }
-
+.contentWorkspaceWrapper{
+    grid-area: maincues;
+    display: grid;
+    grid-template-areas: "main cues"; 
+    grid-template-rows: 1fr 20%; 
+    grid-template-columns: 1.2fr 1fr;
+    position: relative;
+    top: -2px;
+    margin-bottom: 2px;
+}
 .mainWorkspaceWrapper {
     display: flex;
     grid-area: main;
@@ -73,6 +86,7 @@ input {
     height: 68vh;
     height: 100%;
     z-index: 200;    
+    background: #000000;
 }
 
 .timeLineWorkspaceWrapper {
@@ -81,4 +95,5 @@ input {
     align-content: center;
     justify-content: center;
     align-items: center;
+    background: #000;
 }

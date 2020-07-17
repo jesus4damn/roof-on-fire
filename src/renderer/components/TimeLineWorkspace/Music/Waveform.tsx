@@ -108,7 +108,7 @@ class Waveform extends React.Component<IProps, IState> {
             cursorWidth: 1,
             container: this.waveform.current,
             backend: 'WebAudio',
-            height: 170,
+            height: 167,
             maxCanvasWidth: 15000,
             minPxPerSec: 1,
             pixelRatio: 2,

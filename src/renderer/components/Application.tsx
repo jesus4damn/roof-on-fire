@@ -82,8 +82,11 @@ const Application = ({
                             loadData={loadData}
                             saveData={saveData}/>
                     </div>
+                    <div className="contentWorkspaceWrapper">
                     <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                     <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                    </div>
+                    
                     <div className="timeLineWorkspaceWrapper">
                             <TimeLine />
                     </div>

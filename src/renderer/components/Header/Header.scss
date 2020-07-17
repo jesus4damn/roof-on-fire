@@ -1,12 +1,20 @@
 .headerContent {
-  color: aqua;
-  position: absolute;
-  top: 18px;
-  z-index: 15;
-  left: 30%;
+  // color: aqua;
+  // // position: absolute;
+  // top: 18px;
+  // z-index: 15;
+  // left: 30%;
+  // color: aqua;
+    // top: 18px;
+    // z-index: 15;
+    // left: 30%;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    background: #000;
 }
 .headerContext {
-  position: absolute;
+  // position: absolute;
   display: flex;
   flex-direction: column;
   top: 10px;
@@ -32,14 +40,27 @@
   }
 }
 .headerContent button{
-  background: #333333;
+  // background: #333333;
   border-radius: 2px;
   text-align: center;
-  padding: 5px 10px;
+  padding: 6px 10px;
   color: #a2a2a2;
-  font-size: 15px;
+  font-size: 10px;
   box-sizing: border-box;
   position: relative;
-  line-height: 26px;
+  line-height: 10px;
   border: none;
+  height: 23px;
+    
+}
+.headerContent button:hover{
+  background: #333333;
+  color: #fff;
+}
+.headerContent .ActiveBtn{
+  color: #fff;
+    background:  #333333;
+}
+.logoImg{
+  width: 43px;
 }
