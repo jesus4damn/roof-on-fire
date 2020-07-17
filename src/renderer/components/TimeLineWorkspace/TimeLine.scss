@@ -48,7 +48,7 @@
     background: #444444;
     padding-bottom: 24px;
     box-sizing: border-box;
-    margin-top: 2px;
+    // margin-top: 2px;
 }
 .timelineNavContainer wave{
     background-color: #222;
@@ -71,7 +71,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 6px 0px;
+    padding: 4px 0px;
     box-sizing: border-box;
 }
 .timelinePlayerActionsContainer {
@@ -91,35 +91,9 @@
        position: relative; 
        color: transparent;
         border-color: transparent;
-       &:nth-child(1)::before{
-            content:'';
-           background-color: #BDBDBD;
-           position: absolute;
-           top:calc(50% - 4px);
-           width: 3px;
-           height: 8px;
-           left: calc(50% - 0px);
-       }      
-       &:nth-child(1)::after{
-        content:'';
-       background-color: #BDBDBD;
-       position: absolute;
-       top:calc(50% - 4px);
-       width: 3px;
-       height: 8px;
-       left: calc(50% - 4px);
-   }      
-       &:nth-child(2)::before{
-        content: '';
-        position: absolute;
-        top: calc(50% - 4px);     
-        left: calc(50% - 4px);
-        border-top: 4px solid transparent;
-        border-left: 8px solid #BDBDBD;
-        border-bottom: 4px solid transparent;
-        border-radius: 2px;
-   }      
-   &:nth-child(3)::before{
+    
+
+   &:nth-child(2)::before{
     content:'';
    background-color: #BDBDBD;
    position: absolute;
@@ -128,7 +102,7 @@
    height: 8px;
    left: calc(50% - 4px);
 }      
-   &:nth-child(4)::before{
+   &:nth-child(3)::before{
     content:'';
     background-color: #BDBDBD;
     position: absolute;
@@ -140,7 +114,34 @@
 }      
     }
 }
-
+   .playBtn::before{
+            content:'';
+           background-color: #BDBDBD;
+           position: absolute;
+           top:calc(50% - 4px);
+           width: 3px;
+           height: 8px;
+           left: calc(50% - 0px);
+       }      
+      .playBtn::after{
+        content:'';
+       background-color: #BDBDBD;
+       position: absolute;
+       top:calc(50% - 4px);
+       width: 3px;
+       height: 8px;
+       left: calc(50% - 4px);
+   }      
+.stopBtn::before{
+    content: '';
+    position: absolute;
+    top: calc(50% - 4px);     
+    left: calc(50% - 4px);
+    border-top: 4px solid transparent;
+    border-left: 8px solid #BDBDBD;
+    border-bottom: 4px solid transparent;
+    border-radius: 2px;
+}      
 .timelineNavContainer {
     height: 24px;
     z-index: 15;

@@ -15,11 +15,15 @@ interface IProps {
     saveData: () => void
     selectMusicFile: (payload: string) => {}
 }
-
+// const logoImg = require('../../../../assets/images/svg/logoImg.svg');
+// export const getLogoImg = () => {
+//     return logoImg
+// };
 const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile}) => {
     const [menuShown, setMenuShow] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
+    const [activeBtn,setActiveBtn]= useState(false);
     const [modalContent, setModalContent] = useState<any | null>();
     const [isModalShown, setIsModalShown] = useState<boolean>(false);
 
@@ -67,7 +71,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     ];
 
     const showModal = () => {
-        setIsModalShown(true);
+         setIsModalShown(true);
     };
 
     const closeModal = () => {
@@ -83,25 +87,37 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     useEffect(() => {
         const handleOuterClick = (e: any) => {
             if ( menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target) ) {
-                setMenuShow(false);
+                setMenuShow(false);  
+                setActiveBtn(!activeBtn);              
             }
         };
         if (menuShown) {
             window.addEventListener("click", handleOuterClick)
+            
+            
         } else {
             window.removeEventListener("click", handleOuterClick);
+            setActiveBtn(!activeBtn);
         }
         return () => {
             window.removeEventListener("click", handleOuterClick);
+            
         }
     }, [menuShown]);
 
     return (
         <div>
             <div className={'headerContent'}>
-                <button onClick={() => {
-                    setMenuShow(true)}
-                }>MENU</button>
+                <img className={'logoImg'} src="../src/assets/images/svg/logoImg.svg" alt=""/>
+                <button>File</button>
+                <button className={activeBtn ? '' :'ActiveBtn'} onClick={() => {
+                    setMenuShow(true);
+                    setActiveBtn(false);
+                    
+                }
+                }>Menu</button>
+                <button>Patch</button>
+                <button>Outline</button>    
                 <>
                     {(menuShown || null) && <div ref={menuWrapperRef} className="contextMenu">
                         {contextOptions.map((o, i)=> (

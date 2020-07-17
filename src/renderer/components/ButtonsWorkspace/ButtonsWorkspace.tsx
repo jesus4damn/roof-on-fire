@@ -25,7 +25,21 @@ export interface IProps {
 //     gridTemplateColumns: "1fr 1fr 1fr"
     
 //   };
-
+export interface StandardComponentProps {
+    title?: string
+    children: React.ReactNode
+  }
+  
+  export function StandardComponent({
+    children,
+    title = 'Dr.',
+  }: StandardComponentProps) {
+    return (
+      <div>
+        {title}: {children}
+      </div>
+    )
+  }
 
 const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                                                             fixturesTypes,
