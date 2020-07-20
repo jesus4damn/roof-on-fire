@@ -26,7 +26,7 @@ const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, posi
     });
 
     return (
-       <div ref={drop} className={"cueLineContainer"} style={isOver ? {zIndex: 14} : {}}>
+       <div ref={drop} className={"cueLineContainer"} style={isOver && canDrop ? {zIndex: 814, backgroundColor: '#3cd07a2e'} : {}}>
            <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
            {cues.map((c: ICue, i: number) =>
                <CueTimeLineItem
