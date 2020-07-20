@@ -4,7 +4,7 @@
 
 .contextMenu {
   position: absolute;
-  z-index: 800;
+  z-index: 200;
   top: 23px;
   left: 82px;
   border-radius: 0 0 4px 4px;
@@ -46,7 +46,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 300;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;

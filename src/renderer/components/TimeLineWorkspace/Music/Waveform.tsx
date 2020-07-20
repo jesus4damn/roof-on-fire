@@ -226,6 +226,9 @@ class Waveform extends React.Component<IProps, IState> {
                 });
             });
         }
+        if (prevProps.cues.length !== this.props.cues.length && this.props.cues.length) {
+            this.wavesurfer.zoom(this.state.zoomValue + 1)
+        }
     }
 
     componentWillUnmount(): void {

@@ -101,11 +101,13 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
                 })}
             <div
                 className={`${fixture.activePattern && fixture.activePattern.img ? '' :'paramBlock'}`}
+                style={canDrop && isOver ? {backgroundColor: 'darkgreen'} : {}}
                 ref={drop}
             >
                 {fixture.activePattern && <img alt={'pattern'}
                      src={fixture.activePattern.img ? fixture.activePattern.img : ''}
-                     className={`paramBlock ${fixture.selected || (canDrop && isOver) ? 'paramBlock-active' : ''}`}
+                     style={canDrop && isOver ? {backgroundColor: 'darkgreen'} : {}}
+                     className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
                 />}
             </div>
         </div>
