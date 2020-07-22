@@ -5,7 +5,9 @@ import ReactCursorPosition from 'react-cursor-position';
 import CueTimeLine from '../CueTimeLineItem/CueLine';
 import { ICue } from '../../../../types/cuesTypes';
 
-import {throttle} from 'lodash';
+import { throttle } from 'lodash';
+import { useRef } from 'react';
+
 require('./Waveform.scss');
 // @ts-ignore
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
@@ -17,11 +19,11 @@ const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js')
 const someImg = require('../../../../assets/images/svg/note.svg');
 const setupMusic = require('../../../../assets/images/svg/setupMusic.svg');
 export const getSomeImg = () => {
-    return someImg
+    return someImg;
 };
 
 export const getSetupMusic = () => {
-    return setupMusic
+    return setupMusic;
 };
 
 interface IProps {
@@ -36,7 +38,7 @@ interface IProps {
 
 interface IState {
     loaded: boolean,
-    playing: boolean,    
+    playing: boolean,
     pos: number,
     duration: number,
     speed: number,
@@ -45,6 +47,7 @@ interface IState {
     zoomValue: number,
     parentDivWidth: number
     stopBtn: boolean
+    zIndexOver: boolean
 }
 
 class Waveform extends React.Component<IProps, IState> {
@@ -95,7 +98,8 @@ class Waveform extends React.Component<IProps, IState> {
             currentTrackTime: 0,
             zoomValue: 0,
             parentDivWidth: 800,
-            stopBtn: false
+            stopBtn: false,
+            zIndexOver: false
         };
     }
 
@@ -129,7 +133,7 @@ class Waveform extends React.Component<IProps, IState> {
                     secondaryColor: '#222',
                     primaryColor: '#FFF',
                     fontSize: 10,
-                    notchPercentHeight:50,
+                    notchPercentHeight: 50,
                     zoomDebounce: 1200
                     // plugin options ...
                 }),
@@ -142,8 +146,8 @@ class Waveform extends React.Component<IProps, IState> {
                     waveColor: '#828282',
                     progressColor: '#222',
                     height: 24,
-                    backgroundColor:'#222',
-                    forceDecode:true,
+                    backgroundColor: '#222',
+                    forceDecode: true
                 }),
                 RegionsPlugin.create({
                     maxRegions: 1,
@@ -160,12 +164,14 @@ class Waveform extends React.Component<IProps, IState> {
         });
 
         this.wavesurfer.on('ready', () => {
+            this.wavesurfer.setVolume(0.25);
+            this.handleZoom(100);
             this.setState({
                 loaded: true,
                 duration: this.wavesurfer.getDuration(),
                 speed: this.wavesurfer.getPlaybackRate(),
-                volume: this.wavesurfer.getVolume(),
-                parentDivWidth: this.wavesurfer.getDuration() * 20,
+                volume: 0.25,
+                parentDivWidth: this.wavesurfer.getDuration() * 20
             });
             this.props.setTotalTime(this.wavesurfer.getDuration());
             this.props.setMusicFileLength(this.wavesurfer.getDuration());
@@ -174,12 +180,12 @@ class Waveform extends React.Component<IProps, IState> {
                 drag: true,
                 resize: true,
                 loop: true,
-                color: "rgba(0, 0, 255, 0.1)"
+                color: 'rgba(0, 0, 255, 0.1)'
             });
-            window.addEventListener("keydown", this.handleSpacePress)
+            window.addEventListener('keydown', this.handleSpacePress);
         });
 
-        this.wavesurfer.on('scroll', throttle((e:any) => {
+        this.wavesurfer.on('scroll', throttle((e: any) => {
 
             this.setState({
                 parentDivWidth: e.target.width
@@ -195,7 +201,7 @@ class Waveform extends React.Component<IProps, IState> {
         this.wavesurfer.on('zoom', throttle((val: number) => {
             this.setState({
                 zoomValue: val,
-                parentDivWidth: val * this.state.duration,
+                parentDivWidth: val * this.state.duration
             });
         }, 200));
 
@@ -203,13 +209,13 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleSpacePress = (e: KeyboardEvent) => {
-        if (e.code === "Space") {
+        if (e.code === 'Space' && document.activeElement && document.activeElement.tagName !== 'INPUT') {
             if (this.state.playing) {
-                this.setState({...this.state, stopBtn: !this.state.stopBtn});  
+                this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
                 this.handlePause();
             } else {
-                this.setState({...this.state, stopBtn: !this.state.stopBtn});  
-                this.handlePlay()
+                this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
+                this.handlePlay();
             }
         }
     };
@@ -227,13 +233,13 @@ class Waveform extends React.Component<IProps, IState> {
             });
         }
         if (prevProps.cues.length !== this.props.cues.length && this.props.cues.length) {
-            this.wavesurfer.zoom(this.state.zoomValue + 1)
+            this.wavesurfer.zoom(this.state.zoomValue + 1);
         }
     }
 
     componentWillUnmount(): void {
         this.wavesurfer.unAll();
-        window.removeEventListener("keydown", this.handleSpacePress)
+        window.removeEventListener('keydown', this.handleSpacePress);
     }
 
     handlePosChange(e: any) {
@@ -246,25 +252,24 @@ class Waveform extends React.Component<IProps, IState> {
     handleStop = () => {
         this.wavesurfer.stop();
         this.props.setCurrentTime(0);
-        this.props.setContextStatus("stop");
+        this.props.setContextStatus('stop');
         this.wavesurfer.clearRegions();
     };
     handlePause = () => {
         if (this.state.playing) {
             this.setState({ playing: false });
-            this.props.setContextStatus("pause");
+            this.props.setContextStatus('pause');
             this.wavesurfer.pause();
         }
     };
     handlePlay = () => {
-        this.setState({ 
+        this.setState({
             playing: true
-         });
-        this.props.setContextStatus("play");
+        });
+        this.props.setContextStatus('play');
         //this.wavesurfer.play(this.state.currentTrackTime, this.state.duration);
-        this.wavesurfer.playPause();        
+        this.wavesurfer.playPause();
     };
-
 
 
     handleTimePlay = (seconds: any, pxPerSec: any) => {
@@ -311,24 +316,30 @@ class Waveform extends React.Component<IProps, IState> {
 
     handleTrackTimeChange = (time: number) => {
         console.log(time);
-            this.props.setCurrentTime(time);
-            this.setState({
-                currentTrackTime: time
-            });
+        this.props.setCurrentTime(time);
+        this.setState({
+            currentTrackTime: time
+        });
     };
 
     handleWheel = (e: any) => {
         let delta = e.deltaY || e.detail || e.wheelDelta;
         this.handleZoom(-delta / 100);
     };
-   
+
+    handleZIndexChange = (val: boolean) => {
+        this.setState({zIndexOver: val})
+    };
+
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
                 <div ref={this.waveform} className='waveWrapper'>
-                    <div ref={this.cuesWrapperRef} className={"scrollWrap"}>
-                        <ReactCursorPosition className={"cursorContainer"} style={{ width: `${this.state.parentDivWidth}px`}}>
+                    <div ref={this.cuesWrapperRef} className={'scrollWrap'}>
+                        <ReactCursorPosition className={'cursorContainer'}
+                                             style={{ width: `${this.state.parentDivWidth}px`, zIndex: this.state.zIndexOver ? "inherit" : "inherit" }}>
                             <CueTimeLine
+                                handleZIndexChange={this.handleZIndexChange}
                                 parentDivWidth={this.state.parentDivWidth}
                                 zoom={this.state.zoomValue}
                                 cues={this.props.cues}
@@ -336,7 +347,7 @@ class Waveform extends React.Component<IProps, IState> {
                             {this.props.children}
                         </ReactCursorPosition>
                     </div>
-                    <div className={'wave'} ref={this.wave} />
+                    <div className={'wave'} ref={this.wave}/>
                     <div ref={this.setWaveFormTimelineRef}/>
                     <div ref={this.setWaveFormCursorRef}/>
                     <div ref={this.setRegionRef}/>
@@ -344,87 +355,77 @@ class Waveform extends React.Component<IProps, IState> {
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
-
-                        {/* <button onClick={() => {
-                            this.handlePause();
+                        <Button className={`${this.state.stopBtn ? 'playBtn' : 'stopBtn'}`} onClick={() => {
+                            this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
+                            this.handlePlay();
                         }}
                                 disabled={!this.state.loaded}
                         >
-                            {'Pause'}
-                        </button> */}
-                        <button  className={`${this.state.stopBtn ? "playBtn" : "stopBtn"}`} onClick={() => {
-                            this.setState({...this.state, stopBtn: !this.state.stopBtn});                        
-                            this.handlePlay();                            
-                        }          
-                    }
-                                
-                                disabled={!this.state.loaded}
-                                
-                        >
                             {'Play'}
-                        </button>
-                        <button onClick={() => {
+                        </Button>
+                        <Button onClick={() => {
                             this.handleStop();
                         }}>
                             {'Stop'}
-                        </button>
-                        <button onClick={() => {
+                        </Button>
+                        <Button onClick={() => {
                             this.clearSelections();
                         }}>
-                            {'Clear'}
-                        </button>
+                            Clear
+                        </Button>
 
                         <div className={'trackTimeSpan'}>
-                        <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
-                        <span> : </span>
+                            <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                            <span> : </span>
                             <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
                             <span> : </span>
                             <div>{
                                 this.state.currentTrackTime > 60
-                                ? (this.state.currentTrackTime - (this.state.currentTrackTime > 60 && this.state.currentTrackTime < 120 ? 60 : 120)).toFixed(0)
-                                : this.state.currentTrackTime.toFixed(0)
+                                    ? (this.state.currentTrackTime - (this.state.currentTrackTime > 60 && this.state.currentTrackTime < 120 ? 60 : 120)).toFixed(0)
+                                    : this.state.currentTrackTime.toFixed(0)
                             }</div>
                             <span> : </span>
-                            <div className={'TimeSpanMillisecond'}>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
+                            <div
+                                className={'TimeSpanMillisecond'}>{`${this.state.currentTrackTime.toFixed(3)}`.split('.')[1]}</div>
                         </div>
                         <div className={'timelineNavContainer--option'}>
-                    <input type={'range'}
-                               value={this.state.volume * 100}
-                               onChange={(e) => {
-                                   this.setVolume(+e.currentTarget.value / 100);
-                               }}
-                               min={0} max={100}/>
-                    </div>
+                            <input type={'range'}
+                                   value={this.state.volume * 100}
+                                   onChange={(e) => {
+                                       this.setVolume(+e.currentTarget.value / 100);
+                                   }}
+                                   min={0} max={100}/>
+                        </div>
                     </div>
 
                     <div className={'timelineNavContainer'}>
-                    <div className={'musicNote'}>
-                   <button style={{
-                        backgroundImage: `url(${getSomeImg()})`,
-                        backgroundSize: '60%',
-                        backgroundPosition: 'center center',
-                        backgroundRepeat: 'no-repeat',
-                        }}
-                        onClick={() => {                           
-                        }}
-                                disabled={!this.state.loaded}
-                        >
-                            {'Note'}
-                        </button>
-                        <button style={{
-                        backgroundImage: `url(${getSetupMusic()})`,
-                        backgroundSize: '60%',
-                        backgroundPosition: 'center center',
-                        backgroundRepeat: 'no-repeat',
-                        }}
-                        onClick={() => {
-                            
-                        }}
-                                disabled={!this.state.loaded}
-                        >
-                            {'setupMusic'}
-                        </button>
-                   </div>
+                        <div className={'musicNote'}>
+                            <button style={{
+                                backgroundImage: `url(${getSomeImg()})`,
+                                backgroundSize: '60%',
+                                backgroundPosition: 'center center',
+                                backgroundRepeat: 'no-repeat'
+                            }}
+                                    onClick={() => {
+                                    }}
+                                    disabled={!this.state.loaded}
+                            >
+                                {'Note'}
+                            </button>
+                            <button style={{
+                                backgroundImage: `url(${getSetupMusic()})`,
+                                backgroundSize: '60%',
+                                backgroundPosition: 'center center',
+                                backgroundRepeat: 'no-repeat'
+                            }}
+                                    onClick={() => {
+
+                                    }}
+                                    disabled={!this.state.loaded}
+                            >
+                                {'setupMusic'}
+                            </button>
+                        </div>
                         <div className={'btnPrecent'}>
                             <span>50%</span>
                         </div>
@@ -438,4 +439,12 @@ class Waveform extends React.Component<IProps, IState> {
 
 export default Waveform;
 
-
+const Button:React.FC<any & any> = (props: any) => {
+    const ref = useRef<HTMLButtonElement>(null);
+    return (
+        <button {...props} ref={ref} onClick={(e) => {
+            props.onClick ? props.onClick(e) : '';
+            ref && ref.current && ref.current.blur ? ref.current.blur() : '';
+        }}>{props.children}</button>
+    );
+};
