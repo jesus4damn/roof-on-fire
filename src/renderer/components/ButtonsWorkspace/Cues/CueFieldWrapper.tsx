@@ -27,7 +27,7 @@ import { dragTypes } from '../../../../types/dragTypes';
 interface IProps {
     field: ICueField | IField,
     selectedFixtures: IFixture[]
-    createNewCue: (fixtures: IFixture[], field: IField) => void,
+    createNewCue: (fixtures: IFixture[], field: IField | null, startTime?: number) => void,
     updateCue: (cue: ICue) => void,
     deleteCue: (cueId: string, isTimeline: boolean) => void,
     updateField: (field: IField | ICueField, fieldType: string) => void,

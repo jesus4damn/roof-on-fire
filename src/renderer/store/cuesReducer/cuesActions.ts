@@ -90,7 +90,7 @@ const cueActionBase: ICueAction = {
     active: false
 };
 
-export const createNewCue = (fixtures: IFixture[], field: IField) =>
+export const createNewCue = (fixtures: IFixture[], field: IField | null, startTime?: number) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const newActions: ICueAction[] = fixtures.map(f => {
             if (f.activePattern !== null) {
@@ -113,7 +113,11 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
             actions: newActions.length ? newActions : []
         };
         dispatch(createCue(newCue));
-        dispatch(updateField({ ...field, connected: newCue }, 'cue'));
+        if (field && field.id) {
+            dispatch(updateField({ ...field, connected: newCue }, 'cue'));
+        } else {
+            dispatch(createTimelineCue(newCue, startTime ? startTime : 0))
+        }
     };
 
 

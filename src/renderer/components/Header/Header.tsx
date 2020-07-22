@@ -87,37 +87,37 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     useEffect(() => {
         const handleOuterClick = (e: any) => {
             if ( menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target) ) {
-                setMenuShow(false);  
-                setActiveBtn(!activeBtn);              
+                setMenuShow(false);
+                setActiveBtn(!activeBtn);
             }
         };
         if (menuShown) {
             window.addEventListener("click", handleOuterClick)
-            
-            
+
+
         } else {
             window.removeEventListener("click", handleOuterClick);
             setActiveBtn(!activeBtn);
         }
         return () => {
             window.removeEventListener("click", handleOuterClick);
-            
+
         }
     }, [menuShown]);
 
     return (
-        <div>
+        <React.Fragment>
             <div className={'headerContent'}>
                 <img className={'logoImg'} src="../src/assets/images/svg/logoImg.svg" alt=""/>
                 <button>File</button>
                 <button className={activeBtn ? '' :'ActiveBtn'} onClick={() => {
                     setMenuShow(true);
                     setActiveBtn(false);
-                    
+
                 }
                 }>Menu</button>
                 <button>Patch</button>
-                <button>Outline</button>    
+                <button>Outline</button>
                 <>
                     {(menuShown || null) && <div ref={menuWrapperRef} className="contextMenu">
                         {contextOptions.map((o, i)=> (
@@ -141,7 +141,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                         onSelect={(path:string)=>{selectMusicFile(path)}}
                         onChange={onChange}
                     />
-                  
+
                 </div>
             </Modal>
             <Modal
@@ -153,7 +153,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                     <ExcelReader />
                 </div>
             </Modal>
-        </div>
+        </React.Fragment>
 
     )
 };

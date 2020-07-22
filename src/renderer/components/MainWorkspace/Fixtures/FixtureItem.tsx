@@ -1,35 +1,52 @@
 import * as React from 'react';
 import { IFixture } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
-import { useDrop } from 'react-dnd';
+import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import { dragTypes } from '../../../../types/dragTypes';
+import { IField } from '../../../../types/fieldsTypes';
 
 require('./FixtureItem.scss');
 
 
 interface IProps {
     fixture: IFixture,
-    update: (fixture: IFixture) => void
+    update: (fixture: IFixture) => void,
+    createNewCueCallback: (time: number) => void
 }
 
 type TFixtureParams = keyof IFixture
 
-const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
+const FixtureItem: React.FC<IProps> = ({ fixture, update, createNewCueCallback }) => {
     const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
     const [inputValue, setInputValue] = useState<string | number>('');
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: dragTypes.PATTERN_FIELD,
         drop: () => ({ fixtureId: fixture.id }),
-        //canDrop: () => onDropPattern(),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
         }),
     });
 
-    const onDropPattern = () => {
-
-    };
+    const [{ isDragging }, drag, preview] = useDrag({
+        item: { id: fixture.selected ? fixture.id : 'noId', type: dragTypes.FIXTURE },
+        end: (item: { id: string }
+            | undefined, monitor: DragSourceMonitor) => {
+            const dropResult = monitor.getDropResult();
+            console.log(dropResult);
+            console.log(item);
+            if (item && fixture.selected) {
+                if (dropResult && dropResult.cueList) {
+                    createNewCueCallback(dropResult.startTime ? dropResult.startTime : 0);
+                    console.log(`You dropped ${item.id} into ${dropResult.cueList}!`);
+                }
+            }
+        },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging()
+        }),
+        canDrag: (monitor => !!(fixture.selected && fixture.activePattern && fixture.activePattern.id))
+    });
 
     const select = () => {
         update({ ...fixture, selected: !fixture.selected });
@@ -41,7 +58,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update }) => {
 
     return (
         <div className={'fixtureRow'} style={{ background: fixture.selected ? ' rgba(39, 174, 96, 0.4)' : 'none' }}>
-            <div onClick={select}>
+            <div onClick={select} ref={drag}>
                 <img alt={'fixture'}
                      src={fixture.img ? fixture.img : ''}
                      className={`paramBlock ${fixture.selected ? 'paramBlock-active' : ''}`}
