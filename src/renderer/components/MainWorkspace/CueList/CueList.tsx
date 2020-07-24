@@ -21,15 +21,21 @@ interface IProps {
 
 const CueList:React.FC<ConnectedProps<IProps>> = ({cues, selectedCue, setSelectedCue, updateCue}:IProps) => {
     const [{ isOver, canDrop }, drop] = useDrop({
-        accept: dragTypes.CUE_FIELD,
-        drop: () => ({ cueList: 'CUELIST' }),
-        canDrop: () => {console.log("OVER"); return true},//onDropPattern(),
+        accept: [dragTypes.CUE_FIELD, dragTypes.FIXTURE],
+        drop: () => ({ cueList: 'CUELIST', startTime: getLastCueTime() }),
+        canDrop: () => {return true},//onDropPattern(),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
         }),
     });
-
+    const getLastCueTime = (): number => {
+        if (cues.length && cues[cues.length -1].startTime) {
+            return +(+cues[cues.length -1].startTime + 1).toFixed()
+        } else {
+            return 2
+        }
+    };
     const setSelectedCueCallback = useCallback( cue => setSelectedCue(cue), []);
     const updateCueCallback = useCallback( cue => updateCue(cue), []);
 
