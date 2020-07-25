@@ -108,14 +108,18 @@ class Waveform extends React.Component<IProps, IState> {
         this.wavesurfer = WaveSurfer.create({
             barWidth: 0,
             // @ts-ignore
-            barGap: 200,
-            cursorWidth: 1,
+            barGap: 22,
+            barRadius: 3,
+            cursorWidth: 3,
+            barMinHeight: 1,
             container: this.waveform.current,
             backend: 'WebAudio',
             height: 167,
-            maxCanvasWidth: 15000,
-            minPxPerSec: 1,
-            pixelRatio: 2,
+            forceDecode: true,
+            maxCanvasWidth: 14000,
+            minPxPerSec: 50,
+            normalize: false,
+            pixelRatio: 1,
             partialRender: true,
             progressColor: '#2D5BFF',
             scrollParent: true,
@@ -165,7 +169,7 @@ class Waveform extends React.Component<IProps, IState> {
 
         this.wavesurfer.on('ready', () => {
             this.wavesurfer.setVolume(0.25);
-            this.handleZoom(100);
+            this.handleZoom(200);
             this.setState({
                 loaded: true,
                 duration: this.wavesurfer.getDuration(),
@@ -192,7 +196,7 @@ class Waveform extends React.Component<IProps, IState> {
             });
 
             this.cuesWrapperRef.current.scrollLeft = e.target.scrollLeft;
-        }, 200));
+        }, 30));
 
         this.wavesurfer.on('audioprocess', throttle(() => {
             this.handleTrackTimeChange(this.wavesurfer.getCurrentTime());
@@ -203,7 +207,7 @@ class Waveform extends React.Component<IProps, IState> {
                 zoomValue: val,
                 parentDivWidth: val * this.state.duration
             });
-        }, 200));
+        }, 70));
 
         this.wavesurfer.load(this.props.musicFilePath);
     };

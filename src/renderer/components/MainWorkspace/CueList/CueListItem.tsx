@@ -52,12 +52,12 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
     };
 
     return (
-        <tr onClick={() => setActiveCue()}
+        <div onClick={() => setActiveCue()}
             className={'cueListItem'}
             style={{cursor: 'pointer', backgroundColor: selected ? 'green' : 'inherit'}}
         >
-            <td>{index}</td>
-            <td
+            <span>{index}</span>
+            <span
                 onDoubleClick={() => selected ? setEditName(true) : setActiveCue()}
                 style={editName ? {padding: '0'} : {}}
             >
@@ -69,8 +69,8 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                         onBlur={(event) => event.target.value ? onEditEnd() : ''}
                     />
                     : cueCopy.name}
-            </td>
-            <td onDoubleClick={() => selected ? setEditStartTime(true) : setActiveCue()} style={editStartTime ? {padding: '0'} : {}}>
+            </span>
+            <span onDoubleClick={() => selected ? setEditStartTime(true) : setActiveCue()} style={editStartTime ? {padding: '0'} : {}}>
                 {editStartTime
                 ? <input
                     type={'number'}
@@ -79,8 +79,8 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     onChange={(event => setCueCopy({ ...cueCopy, startTime: +event.target.value, endTime: +event.target.value + cueWidth }))}
                     onBlur={(event) => event.target.value ? onEditEnd() : ''}
                 />
-                : cueCopy.startTime}</td>
-            <td onDoubleClick={() => selected ? setEditTotalTime(true) : setActiveCue()} style={editTotalTime ? {padding: '0'} : {}}>{
+                : cueCopy.startTime}</span>
+            <span onDoubleClick={() => selected ? setEditTotalTime(true) : setActiveCue()} style={editTotalTime ? {padding: '0'} : {}}>{
                 editTotalTime
                 ? <input
                     type={'number'}
@@ -92,10 +92,10 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     }
                     onBlur={(event) => event.target.value ? onEditEnd() : ''}
                 />
-                : cueWidth}</td>
-            <td>{}</td>
-            <td className="headerTableCuesList-dmx">dmx</td>
-        </tr>
+                : cueWidth}</span>
+            <span>{}</span>
+            <span className="headerTableCuesList-dmx">dmx</span>
+        </div>
     );
 };
 
