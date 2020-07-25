@@ -47,7 +47,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updat
             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
                 {fixtures && fixtures.length
-                    ? fixtures.map(f => <VisualizerFixture fixture={f} updateFixture={updateFixture} updateCue={updateCueCallback}/>)
+                    ? fixtures.map(f => <VisualizerFixture key={f.id} fixture={f} updateFixture={updateFixture} updateCue={updateCueCallback}/>)
                     : null}
             </div>
             <div className="counterBtn">
