@@ -5,12 +5,13 @@ import Modal from '../common/ModalWrapper';
 import { selectMusicFile } from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
 import ExcelReader from '../../../data-helper/ExcelReader';
+import { IInitAppParams } from '../../store/getInitalState';
 
 require('./Header.scss');
 
 interface IProps {
     hideContextMenu: () => void
-    resetData: () => void
+    resetData: (params: IInitAppParams) => void
     loadData: () => void
     saveData: () => void
     selectMusicFile: (payload: string) => {}
@@ -21,7 +22,6 @@ interface IProps {
 // };
 const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile}) => {
     const [menuShown, setMenuShow] = useState(false);
-    const [showModal2, setShowModal2] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
     const [activeBtn,setActiveBtn]= useState(false);
     const [modalContent, setModalContent] = useState<any | null>();
@@ -32,7 +32,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             title: 'resetState',
             disabled: false,
             callback: () => {
-                resetData();
+                showModal('reset');
                 setMenuShow(false)
             }
         },
@@ -56,22 +56,48 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             title: 'Import',
             disabled: false,
             callback: () => {
-                showModal();
+                showModal('music');
                 setMenuShow(false)
             }
         },
         {
-            title: 'Patch',
+            title: 'Parse Pdf',
             disabled: false,
             callback: () => {
-                setShowModal2(true);
+                showModal('parser');
                 setMenuShow(false)
             }
         },
     ];
 
-    const showModal = () => {
-         setIsModalShown(true);
+    const onResetAppDataConfirm = (resetAppDataOptions: IInitAppParams) => {
+        resetData(resetAppDataOptions);
+        closeModal();
+    };
+
+    const showModal = (type: 'music' | 'reset' | 'parser') => {
+        if (type === 'music') {
+            setModalContent(() =>
+                <div className={"importWrapper"}>
+                    <MusicInput
+                        label={"Select track"}
+                        onSelect={(path:string)=>{selectMusicFile(path)}}
+                        onChange={onChange}
+                    />
+                </div>
+            );
+        } else if (type === 'parser') {
+            setModalContent(() =>
+                <div className={"importWrapper"}>
+                    <ExcelReader />
+                </div>
+            );
+        } else {
+            setModalContent(
+                <ResetAppForm onResetAppDataConfirm={onResetAppDataConfirm}/>
+            );
+        }
+        setIsModalShown(true);
     };
 
     const closeModal = () => {
@@ -135,27 +161,52 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                 closeModal={closeModal}
                 noActions={true}
             >
-                <div className={"importWrapper"}>
-                    <MusicInput
-                        label={"Select track"}
-                        onSelect={(path:string)=>{selectMusicFile(path)}}
-                        onChange={onChange}
-                    />
-
-                </div>
-            </Modal>
-            <Modal
-                isShown={showModal2}
-                closeModal={closeModal}
-                noActions={true}
-            >
-                <div className={"importWrapper"}>
-                    <ExcelReader />
-                </div>
+                {modalContent}
             </Modal>
         </React.Fragment>
-
     )
 };
 
 export default connect(null, {selectMusicFile})(Header)
+
+interface IformProps {
+    onResetAppDataConfirm: (val: IInitAppParams) => void
+}
+const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
+    const [resetAppDataOptions, setResetAppDataOptions] = useState<IInitAppParams>({fixtures: 5, static: 5, dynamic: 5, long: 5});
+
+    return (
+    <div className="modalFormWrapp renameInput">
+        <h2>Select InitialParams</h2>
+        <span>fixtures</span>
+        <input
+            type="number"
+            onChange={(e) => {
+                console.log(e.currentTarget.value)
+                console.log(e.target.value)
+                setResetAppDataOptions({...resetAppDataOptions, fixtures: +e.currentTarget.value})
+            }}
+            value={resetAppDataOptions.fixtures}
+        />
+        <span>static</span>
+        <input
+            type="number"
+            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, static: +e.currentTarget.value})}
+            value={resetAppDataOptions.static}
+        />
+        <span>dynamic</span>
+        <input
+            type="number"
+            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, dynamic: +e.target.value})}
+            value={resetAppDataOptions.dynamic}
+        />
+        <span>long</span>
+        <input
+            type="number"
+            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, long: +e.target.value})}
+            value={resetAppDataOptions.long}
+        />
+        <button onClick={() => onResetAppDataConfirm(resetAppDataOptions)}>Reset</button>
+    </div>
+    )
+};

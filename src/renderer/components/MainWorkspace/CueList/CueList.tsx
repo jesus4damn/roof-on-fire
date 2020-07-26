@@ -6,9 +6,11 @@ import { ICue } from '../../../../types/cuesTypes';
 import { dragTypes } from '../../../../types/dragTypes';
 import CueListItem from './CueListItem';
 import { useDrop } from 'react-dnd';
-import { setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
+import { deleteCue, setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
 import { useCallback } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { setContextMenuOptions } from '../../../store/appReducer/appActions';
+import { IContextMenuOption } from '../../../../types/appTypes';
 
 require('./CueList.scss');
 
@@ -18,19 +20,15 @@ interface IProps {
     selectedCue: ICue | null,
     setSelectedCue: (cue: ICue) => void
     updateCue: (cue: ICue) => void
+    deleteCue: (cueId: string, isTimeline: boolean) => void,
+    setContextMenuOptions: (payload: IContextMenuOption[]) => void
 }
-
-const grid = 8;
 
 const getItemStyle = (draggableStyle: any, isDragging: any) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    padding: `${grid * 2}px 0`,
-    margin: `0 0 ${grid}px 0`,
-
     // change background colour if dragging
     background: isDragging ? 'lightgreen' : 'inherit',
-
     // styles we need to apply on draggables
     ...draggableStyle
 });
@@ -41,7 +39,7 @@ const getListStyle = (isDraggingOver: any) => ({
 });
 
 
-const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelectedCue, updateCue }: IProps) => {
+const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelectedCue, updateCue, deleteCue, setContextMenuOptions }: IProps) => {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: [dragTypes.CUE_FIELD, dragTypes.FIXTURE],
         drop: () => ({ cueList: 'CUELIST', startTime: getLastCueTime() }),
@@ -122,6 +120,8 @@ const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelec
                                                         selected={selectedCue && selectedCue.id === cue.id}
                                                         setSelectedCue={setSelectedCueCallback}
                                                         updateCue={updateCueCallback}
+                                                        deleteCue={deleteCue}
+                                                        setContextMenuOptions={setContextMenuOptions}
                                                     />
                                                 </div>
                                             );
@@ -133,7 +133,6 @@ const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelec
                             )}
                         </Droppable>
                     </DragDropContext>
-
             </div>
 
 
@@ -187,4 +186,4 @@ const mapStateToProps = (state: RootState) => ({
     musicTotalTime: state.app.musicTotalTime
 });
 
-export default connect(mapStateToProps, { setSelectedCue, updateCue })(CueList);
+export default connect(mapStateToProps, { setSelectedCue, updateCue, deleteCue, setContextMenuOptions })(CueList);
