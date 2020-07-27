@@ -9,6 +9,7 @@ import { updateField } from '../fieldsReducer/fieldsActions';
 import { IField } from '../../../types/fieldsTypes';
 import { ICuesState } from './cuesReducer';
 import { getSelectedCue } from './cuesSelector';
+import { controllerAPI } from '../../components/API/API';
 
 export const SET_LOADED_CUES_DATA = 'cues/SET_LOADED_CUES_DATA';
 export const CREATE_CUE = 'cues/CREATE_CUE';
@@ -147,6 +148,12 @@ export const addFixturesToCue = (fixtures: IFixture[]) =>
             });
             dispatch(updateCue({...cue, actions: [...cue.actions, ...newActions]}))
         }
+};
+
+export const initDevices = (fixtures: IFixture[]) =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        const res = await controllerAPI.sendInitDevises(fixtures);
+        console.log(res);
 };
 
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection

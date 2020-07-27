@@ -4,7 +4,7 @@ const reactPng = require(`./images/redux.png`);
 
 export type svg = typeof ImgLib.svg;
 
-const ImgLib = {
+export const ImgLib = {
     svg: {
         lock: './images/svg/lock.svg',
         unlock: './images/svg/unlock.svg',
@@ -14,6 +14,16 @@ const ImgLib = {
         blueClock: './images/svg/blue-clock.svg',
         dollarSign: './images/svg/dollar-sign.svg',
         chevronLeftDark: './images/svg/chevron-left-dark.svg',
+        card: './images/svg/card.svg',
+        cart: './images/svg/cart.svg',
+        electron: './images/electron.png',
+        chevronRight: './images/svg/chevron-right.svg',
+        coin: './images/svg/coin.svg',
+        contact: './images/svg/contact.svg',
+        globe: './images/svg/globe.svg',
+        mail: './images/svg/mail.svg',
+        note: './images/svg/note.svg',
+        notif: './images/svg/notif.svg',
         x: './images/svg/x.svg',
     }
 };

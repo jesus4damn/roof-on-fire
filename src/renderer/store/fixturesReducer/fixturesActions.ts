@@ -58,11 +58,12 @@ export const updateFixtureShot = (fixture: { id: string, shot: boolean }) =>
         const allowedAPI = getState().app.allowedAPI;
         if (found && found.startAddress) {
             try {
+                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
                 if (allowedAPI) {
-                    const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
+                    //const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
+                    const res = await controllerAPI.sendFixture(found);
                     console.log(res);
                 }
-                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
             } catch (e) {
                 console.log(e);
                 dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });

@@ -1,5 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
+import { useEffect } from 'react';
 import TimeLine from './TimeLineWorkspace/TimeLineContainer';
 import Header from './Header/Header';
 import MainWorkspace from './MainWorkspace/MainWorkspace';
@@ -17,7 +18,8 @@ import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
 import { MusicContextProvider } from '../misicContext/musicContext';
-import { setCuesData } from '../store/cuesReducer/cuesActions';
+import { initDevices, setCuesData } from '../store/cuesReducer/cuesActions';
+import { IFixture } from '../../types/fixtureTypes';
 
 require('./App.scss');
 
@@ -25,6 +27,7 @@ interface IProps {
     sETFixturesSateAC: (payload: IFixturesState) => void
     setInitialFields: (fields: IFieldsState) => void
     setCuesData: (state: ICuesState) => void
+    initDevices: (fixtures: IFixture[]) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     contextOptions: IContextMenuOption[]
     fixtures: IFixturesState
@@ -40,7 +43,8 @@ const Application = ({
                          cues,
                          setContextMenuOptions,
                          contextOptions,
-                         setCuesData
+                         setCuesData,
+                         initDevices
                     }: IProps) => {
 
     const hideContextMenu = () => {
@@ -54,7 +58,8 @@ const Application = ({
                 const commonData = loadPrevious();
                 sETFixturesSateAC(commonData.fixtures);
                 setInitialFields(commonData.fields);
-                setCuesData(commonData.cues)
+                setCuesData(commonData.cues);
+                initDevices(commonData.fixtures.fixtures);
             };
             getData();
         } catch (e) {
@@ -66,11 +71,19 @@ const Application = ({
         const common = resetState(params);
         sETFixturesSateAC(common.fixtures);
         setInitialFields(common.fields);
+        setCuesData({selectedCue: null, cues: [],timelineCues:[]});
+        initDevices(common.fixtures.fixtures)
     };
 
     const saveData = () => {
         saveState({ fixtures, fields, cues });
     };
+
+    useEffect(() => {
+        resetData({fixtures: 8, static: 5, dynamic: 5, long: 5});
+        return () => {};
+    }, []);
+
     return (
         <div className="appWrapper">
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
@@ -104,7 +117,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-    sETFixturesSateAC, setInitialFields, setContextMenuOptions, setCuesData
+    sETFixturesSateAC, setInitialFields, setContextMenuOptions, setCuesData, initDevices
 })(Application);
 
 export default hot(ApplicationContainer);
