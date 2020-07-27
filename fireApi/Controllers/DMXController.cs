@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading;
-using System.IO.Ports;
-using System;
-using System.Runtime.CompilerServices;
 using fireApi.Interfaces;
 using System.Threading.Tasks;
 using fireApi.Model;
+using System.Collections.Generic;
 
 namespace fireApi.Controllers
 {
@@ -21,14 +18,6 @@ namespace fireApi.Controllers
             _comPortSender = comPortSender;
         }
 
-
-        [HttpGet]
-        public string HealthCheck()
-        {
-            return "I'm alive" + _comPortSender.GetSettings();
-           
-        }
-
         [HttpPost]
         [Route("set")]
         public void Set(ChannelModel channelModel)
@@ -37,33 +26,17 @@ namespace fireApi.Controllers
         }
 
         [HttpPost]
-        [Route("stop")]
-        public void Stop()
+        [Route("action")]
+        public void Action(DevicesModel model)
         {
-            _comPortSender.Stop();
+            _comPortSender.Action(model);
         }
 
         [HttpPost]
-        [Route("play")]
-        public void Start()
+        [Route("initDevices")]
+        public void Start(List<DevicesModel> models)
         {
-            Task.Run(() => _comPortSender.Start());
-
-
-            /*  var addresses = Helper.GetAddressesFromInterfaceType();
-              var addr = addresses.ToArray()[1];
-              while (true)
-              {
-                  using (var tester = new TriggerSender(localIp: IPAddress.Parse("127.0.0.1"), localSubnetMask: IPAddress.Parse("255.255.255.0")))
-                  {
-
-                      tester.SendTrigger();
-                      Thread.Sleep(1000);
-
-                  }
-              }*/
-
-
+            Task.Run(() => _comPortSender.InitDevices(models));
         }
     }
 }
