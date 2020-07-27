@@ -17,6 +17,9 @@
 .element:hover {
   background-color: #585858;
 }
+.element img {
+  max-height: 30px;
+}
 
 .headerUploadColor .element{
   width: 30px;
@@ -80,7 +83,6 @@
   font-size: 13px;
   line-height: 27px;
   text-align: center;
-  color: white;
   background-color: #2F80ED;
   display: inline-block;  
 }
