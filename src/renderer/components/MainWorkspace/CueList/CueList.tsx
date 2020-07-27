@@ -134,48 +134,6 @@ const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelec
                         </Droppable>
                     </DragDropContext>
             </div>
-
-
-            <div className="WrapEffect">
-                <button className="EffectBt">Effect</button>
-                <div className="EffectItem">
-                    <span>
-                    Offset
-                    </span>
-                    <span>
-                        1
-                    </span>
-                </div>
-                <div className="EffectItem">
-                    <span>
-                    Time
-                    </span>
-                    <span>
-                        5
-                    </span>
-                </div>
-                <button>Forward</button>
-                <button>Backward</button>
-                <button>Inside</button>
-                <button>Outside</button>
-                <button>Mirror</button>
-                <div className="EffectWrapTest">
-                    <span className="EffectItemTest">
-                    Test
-                    </span>
-                    <div className="Effecttest">
-                        <span className="Effecttest-active"></span>
-                        <span></span>
-                        <span></span>
-                        <span className="Effecttest-active"></span>
-                        <span className="Effecttest-error"></span>
-                        <span></span>
-                        <span className="Effecttest-active"></span>
-                        <span></span>
-                    </div>
-
-                </div>
-            </div>
         </div>
     );
 };
