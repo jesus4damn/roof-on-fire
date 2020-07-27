@@ -1,5 +1,5 @@
 import * as React from "react";
-import { updateCue } from '../../../store/cuesReducer/cuesActions';
+import { reorderOnEffect, updateCue } from '../../../store/cuesReducer/cuesActions';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getSelectedCue } from '../../../store/cuesReducer/cuesSelector';
@@ -10,13 +10,15 @@ import { dragTypes } from '../../../../types/dragTypes';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
+import EffectControllers, { TEffects } from './EffectControlers/EffectControllers';
 
 require('./CueEditor.scss');
 
 interface IProps {
     selectedCue: ICue | null,
     updateCue: (cue: ICue) => void
-    setContextMenuOptions: (payload: IContextMenuOption[]) => void
+    setContextMenuOptions: (payload: IContextMenuOption[]) => void,
+    reorderOnEffect: (cue: ICue, direction: TEffects) => void
 }
 
 const getItemStyle = (draggableStyle: any, isDragging: any) => ({
@@ -41,7 +43,7 @@ const reorder =  (list: ICueAction[], startIndex: number, endIndex: number) => {
     return result;
 };
 
-const CueEditor:React.FC<IProps> = ({selectedCue, updateCue, setContextMenuOptions}) => {
+const CueEditor:React.FC<IProps> = ({selectedCue, updateCue, setContextMenuOptions, reorderOnEffect}) => {
     const [{ isOver, canDrop, item }, drop] = useDrop({
         accept: [dragTypes.FIXTURE],
         drop: () => {
@@ -156,6 +158,8 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue, setContextMenuOptio
                     </Droppable>
                 </DragDropContext>
             </table>
+
+            <EffectControllers selectedCue={selectedCue} reorderOnEffect={reorderOnEffect} />
         </div>
     )
 };
@@ -164,4 +168,4 @@ const mapStateToProps = (state: RootState) => ({
     selectedCue: getSelectedCue(state)
 });
 
-export default connect(mapStateToProps, { updateCue, setContextMenuOptions })(CueEditor)
+export default connect(mapStateToProps, { updateCue, setContextMenuOptions, reorderOnEffect })(CueEditor)

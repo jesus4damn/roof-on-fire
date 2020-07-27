@@ -10,6 +10,8 @@ import { IField } from '../../../types/fieldsTypes';
 import { ICuesState } from './cuesReducer';
 import { getSelectedCue } from './cuesSelector';
 import { controllerAPI } from '../../components/API/API';
+import { getFixtures } from '../fixturesReducer/fixturesSelector';
+import { TEffects } from '../../components/MainWorkspace/Cues/EffectControlers/EffectControllers';
 
 export const SET_LOADED_CUES_DATA = 'cues/SET_LOADED_CUES_DATA';
 export const CREATE_CUE = 'cues/CREATE_CUE';
@@ -154,6 +156,56 @@ export const initDevices = (fixtures: IFixture[]) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const res = await controllerAPI.sendInitDevises(fixtures);
         console.log(res);
+};
+
+export const reorderOnEffect = (cue: ICue, direction: TEffects) =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        const fixIds = cue.actions.map(f => f.fixtureId);
+        const fixtures = getFixtures(getState()).filter(f => fixIds.includes(f.id));
+        let result:ICueAction[] = [];
+        const isParity = cue.actions.length % 2 === 0;
+        console.log(direction);
+        switch (direction) {
+            case 'Backward':
+                console.log(direction);
+                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
+                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+                });
+                break;
+            case 'Forward':
+                result = fixtures.sort((a, b) => a.number - b.number).map(f => {
+                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+                });
+                break;
+            case 'Inside':
+                let sorted = fixtures.sort((a, b) => b.number - a.number);
+                if (isParity) {
+                    const leftPart = sorted.map(f => f.number).splice(0, (sorted.length / 2) -1);
+                    console.log(leftPart);
+                    const rightPart = sorted.map(f => f.number).splice((sorted.length / 2) -1, sorted.length -1);
+                    console.log(rightPart);
+                } else {
+                    const leftPart = sorted.map(f => f.number).splice(0, (sorted.length / 2) -1);
+                    console.log(leftPart);
+                    const rightPart = sorted.map(f => f.number).splice((sorted.length / 2) -1, sorted.length -1);
+                    console.log(rightPart);
+                    console.log(sorted);
+                    const central = sorted.splice(0, (sorted.length / 2) -1);
+                    console.log(central);
+                }
+                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
+                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+                });
+                break;
+            case 'Outside':
+                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
+                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+                });
+                break;
+        }
+        let part = (cue.endTime - cue.startTime) / (cue.actions.length -2);
+
+        dispatch(updateCue({...cue, actions: result.map((a, i) => i === 0 ? {...a, startTime: 0} : {...a, startTime: i * part})}))
 };
 
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
