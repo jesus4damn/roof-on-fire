@@ -160,52 +160,98 @@ export const initDevices = (fixtures: IFixture[]) =>
 
 export const reorderOnEffect = (cue: ICue, direction: TEffects) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
-        const fixIds = cue.actions.map(f => f.fixtureId);
-        const fixtures = getFixtures(getState()).filter(f => fixIds.includes(f.id));
+        const fixtures = getFixtures(getState());
+        const actionsFixtures = cue.actions.map(a => ({...a, fixture: fixtures.filter(f => f.id === a.fixtureId)[0]}));
+        let part = (cue.endTime - cue.startTime) / (cue.actions.length -1);
         let result:ICueAction[] = [];
         const isParity = cue.actions.length % 2 === 0;
-        console.log(direction);
         switch (direction) {
-            case 'Backward':
-                console.log(direction);
-                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
-                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+            case 'Forward': {
+                result = actionsFixtures.sort((a, b) => a.fixture.number - b.fixture.number).map((a, i) => {
+                    let clone = {...a, startTime: i === 0 ? 0 : +(i * part).toFixed(4)};
+                    delete clone.fixture;
+                    return clone
                 });
                 break;
-            case 'Forward':
-                result = fixtures.sort((a, b) => a.number - b.number).map(f => {
-                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
+            }
+            case 'Backward': {
+                result = actionsFixtures.sort((a, b) => b.fixture.number - a.fixture.number).map((a, i) => {
+                    let clone = {...a, startTime: i === 0 ? 0 : +(i * part).toFixed(4)};
+                    delete clone.fixture;
+                    return clone
                 });
                 break;
-            case 'Inside':
-                let sorted = fixtures.sort((a, b) => b.number - a.number);
+            }
+            case 'Inside': {
+                let sorted = [...actionsFixtures].sort((a, b) => a.fixture.number - b.fixture.number);
                 if (isParity) {
-                    const leftPart = sorted.map(f => f.number).splice(0, (sorted.length / 2) -1);
-                    console.log(leftPart);
-                    const rightPart = sorted.map(f => f.number).splice((sorted.length / 2) -1, sorted.length -1);
-                    console.log(rightPart);
+                    const leftPart = sorted.splice(0, (sorted.length) / 2);
+                    part = (cue.endTime - cue.startTime) / (leftPart.length -1);
+                    leftPart.forEach((a, i) => {
+                        let time = i === 0 ? 0 : +(i * part).toFixed(2);
+                        let clone = {...a, startTime: time};
+                        let cloneR = {...sorted[sorted.length - 1 - i], startTime: time};
+                        delete clone.fixture;
+                        delete cloneR.fixture;
+                        result.push(clone);
+                        result.push(cloneR);
+                    })
                 } else {
-                    const leftPart = sorted.map(f => f.number).splice(0, (sorted.length / 2) -1);
-                    console.log(leftPart);
-                    const rightPart = sorted.map(f => f.number).splice((sorted.length / 2) -1, sorted.length -1);
-                    console.log(rightPart);
-                    console.log(sorted);
-                    const central = sorted.splice(0, (sorted.length / 2) -1);
-                    console.log(central);
+                    const [central] = sorted.splice((sorted.length - 1) / 2, 1);
+                    delete central.fixture;
+                    const leftPart = sorted.splice(0, (sorted.length) / 2);
+                    part = (cue.endTime - cue.startTime) / leftPart.length;
+                    result = [{...central, startTime: +(cue.endTime - cue.startTime).toFixed(2)}];
+                    leftPart.forEach((a, i) => {
+                        let time = i === 0 ? 0 : +(i * part).toFixed(4);
+                        let clone = {...a, startTime: time};
+                        let cloneR = {...sorted[sorted.length - 1 - i], startTime: time};
+                        delete clone.fixture;
+                        delete cloneR.fixture;
+                        result.push(clone);
+                        result.push(cloneR);
+                    })
                 }
-                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
-                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
-                });
                 break;
-            case 'Outside':
-                result = fixtures.sort((a, b) => b.number - a.number).map(f => {
-                    return cue.actions.filter(l => l.fixtureId === f.id)[0]
-                });
+            }
+            case 'Outside': {
+                let sorted = [...actionsFixtures].sort((a, b) => a.fixture.number - b.fixture.number);
+                if (isParity) {
+                    const leftPart = sorted.splice(0, (sorted.length) / 2);
+                    part = (cue.endTime - cue.startTime) / (leftPart.length -1);
+                    sorted.reverse();
+                    leftPart.reverse().forEach((a, i) => {
+                        let time = i === 0 ? 0 : +(i * part).toFixed(2);
+                        let clone = {...a, startTime: time};
+                        let cloneR = {...sorted[sorted.length - 1 - i], startTime: time};
+                        delete clone.fixture;
+                        delete cloneR.fixture;
+                        result.push(clone);
+                        result.push(cloneR);
+                    })
+                } else {
+                    const [central] = sorted.splice((sorted.length - 1) / 2, 1);
+                    delete central.fixture;
+                    const leftPart = sorted.splice(0, (sorted.length) / 2);
+                    part = (cue.endTime - cue.startTime) / leftPart.length;
+                    result = [{...central, startTime: 0}];
+                    sorted.reverse();
+                    leftPart.reverse().forEach((a, i) => {
+                        let time = +((i + 1) * part).toFixed(2);
+                        let clone = {...a, startTime: time};
+                        let cloneR = {...sorted[sorted.length - 1 - i], startTime: time};
+                        delete clone.fixture;
+                        delete cloneR.fixture;
+                        result.push(clone);
+                        result.push(cloneR);
+                    })
+                }
                 break;
+            }
         }
-        let part = (cue.endTime - cue.startTime) / (cue.actions.length -2);
 
-        dispatch(updateCue({...cue, actions: result.map((a, i) => i === 0 ? {...a, startTime: 0} : {...a, startTime: i * part})}))
+
+        dispatch(updateCue({...cue, actions: result}))
 };
 
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
