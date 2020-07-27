@@ -1,59 +1,4 @@
 
-.FrameAccordion,
-.FrameAccordion h2 {
-    color: #fff;
-    font-size: 13px;
-    line-height: 12px;
-    margin-left: 15px;
-    margin-bottom: -15px;
-    margin-right: 5px;
-    position: relative;
-}
-.FrameAccordion{
-    margin-bottom: 6%;
-}
-.FrameAccordionBottom,
-.FrameAccordionBottom h2 {
-    color: #fff;
-    font-size: 13px;
-    line-height: 12px;
-    margin-left: 15px;
-    margin-bottom: 15px;
-    margin-right: 5px;
-    position: relative;
-}
-
-
-.FrameAccordionImg,.FrameAccordionImg-collapsed {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: #444444;
-    color: #C4C4C4;
-    padding: 2px;
-    text-align: center;
-    vertical-align: middle;
-    box-sizing: border-box;
-    top: 0px;
-    left: -7px;
-    border-radius: 2px;
-    font-size: 31px;
-}
-.FrameAccordionBottom .FrameAccordionImg {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: #444444;
-    color: #C4C4C4;
-    padding: 2px;
-    text-align: center;
-    vertical-align: middle;
-    box-sizing: border-box;
-    top: 0px;
-    left: -7px;
-    border-radius: 2px;
-    font-size: 16px
-}
 .fixtures::before {
   content: '';
   width: 2px;
@@ -62,79 +7,10 @@
   border-radius: 2px;
   position: absolute;
   top: 3px;
-  left: 0;  
-}
-.FrameAccordionBottom .FrameAccordionImg::before{
-    content: '';
-    width: 0;
-    height: 0;
-    background: #444444;
-    border-radius: 2px;
-    position: absolute;
-    top: 25px;
-    left: 5px;
-}
-.FrameAccordionImg-collapsed::after{
-  content: "";
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background: #C4C4C4;
-    top: calc(50% - 1px);
-    left: calc(50% - 4px);
-    transition: ease-in-out 0.3s;
-}
-.FrameAccordionImg-collapsed:before {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 8px;
-  background: #C4C4C4;
-  top: calc(50% - 4px);
-  left: calc(50% - 1px);
-  transition: ease-in-out 0.3s;
-}
-
-
-.FrameAccordionImg:before {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 2px;
-  background: #C4C4C4;
-  top: calc(50% - 1px);
-  left: calc(50% - 4px);
-  transition:ease-in-out 0.3s;
-}
-.FrameAccordionImg::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 2px;
-  background: #C4C4C4;
-  top: calc(50% - 1px);
-  left: calc(50% - 4px);
-  transition: ease-in-out 0.3s;
- }
-
-
-.AccordionBottom-collapsed {
-  height: 0px;
-  overflow: hidden;
-  transition: all 2s;
-  position: relative;
-  transform: translateY(-100%);
-  opacity: 0;
-}
-.AccordionBottom{  
-  height: auto;
-  overflow: auto;
-  transform: translateY(0%);
-  opacity: 1;
-  transition: all 2s;
+  left: 0;
 }
 .fixtures{
-    margin-top: 28px;    
+    margin-top: 28px;
 }
 
 .fixtureRow {
@@ -245,7 +121,7 @@
     overflow-y: hidden;
 }
 .WrapFixturesScroll{
-    overflow-y: scroll;
+    overflow: scroll;
     width: 100%;
     height: 59vh;
 }
@@ -319,7 +195,7 @@ html{
 }
 body {
   background: black;
-  margin: 0px auto;  
+  margin: 0px auto;
 }
 
 .main {
@@ -346,7 +222,7 @@ body {
   position: relative;
   width: 100%;
   border-bottom: 5px solid $darkred;
-  border-left: 2px solid $darkred;  
+  border-left: 2px solid $darkred;
   border-right: 2px solid $darkred;
   button {
     position: absolute;
@@ -431,4 +307,9 @@ body {
   padding: 1em;
   color: #333;
   line-height: 1.3;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
 }

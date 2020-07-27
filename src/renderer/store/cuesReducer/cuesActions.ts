@@ -8,12 +8,14 @@ import { v4 as uuid } from 'uuid';
 import { updateField } from '../fieldsReducer/fieldsActions';
 import { IField } from '../../../types/fieldsTypes';
 import { ICuesState } from './cuesReducer';
+import { getSelectedCue } from './cuesSelector';
 
 export const SET_LOADED_CUES_DATA = 'cues/SET_LOADED_CUES_DATA';
 export const CREATE_CUE = 'cues/CREATE_CUE';
 export const CREATE_CUE_TIMELINE = 'cues/CREATE_CUE_TIMELINE';
 export const DELETE_CUE = 'cues/DELETE_CUE';
 export const UPDATE_CUE = 'cues/UPDATE_CUE';
+export const ADD_FIXTURES_TO_CUE = 'cues/ADD_FIXTURES_TO_CUE';
 export const SET_SELECTED_CUE = 'cues/SET_SELECTED_CUE';
 
 export interface ISetCuesData {
@@ -43,6 +45,10 @@ export interface IDeleteCueAction extends Action {
 
 export interface IUpdateCueAction extends Action {
     type: typeof UPDATE_CUE, cue: ICue
+}
+
+export interface IAddFixturesToCue extends Action {
+    type: typeof ADD_FIXTURES_TO_CUE, cueId: string, fixtures: IFixture[]
 }
 
 export const createCue: ActionCreator<ICreateCueAction> = (cue: ICue) => ({
@@ -90,7 +96,7 @@ const cueActionBase: ICueAction = {
     active: false
 };
 
-export const createNewCue = (fixtures: IFixture[], field: IField) =>
+export const createNewCue = (fixtures: IFixture[], field: IField | null, startTime?: number) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const newActions: ICueAction[] = fixtures.map(f => {
             if (f.activePattern !== null) {
@@ -113,9 +119,35 @@ export const createNewCue = (fixtures: IFixture[], field: IField) =>
             actions: newActions.length ? newActions : []
         };
         dispatch(createCue(newCue));
-        dispatch(updateField({ ...field, connected: newCue }, 'cue'));
+        if (field && field.id) {
+            dispatch(updateField({ ...field, connected: newCue }, 'cue'));
+        } else {
+            dispatch(createTimelineCue(newCue, startTime ? startTime : 0))
+        }
     };
 
+export const addFixturesToCue = (fixtures: IFixture[]) =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        const cue = getSelectedCue(getState());
+        if (cue && cue.id) {
+            const newActions: ICueAction[] = fixtures.map(f => {
+                if (f.activePattern !== null) {
+                    return {
+                        ...cueActionBase,
+                        id: uuid(),
+                        fixtureId: f.id,
+                        fixtureType: f.type,
+                        patternId: f.activePattern ? f.activePattern.id : '',
+                        img: f.activePattern ? f.activePattern.img : '',
+                        startTime: 0,
+                        totalTime: 2,
+                        active: false
+                    };
+                } else return { ...cueActionBase, id: uuid(), fixtureId: f.id };
+            });
+            dispatch(updateCue({...cue, actions: [...cue.actions, ...newActions]}))
+        }
+};
 
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
-    | ICreateTimelineCueAction | ISetCuesData;
+    | ICreateTimelineCueAction | ISetCuesData | IAddFixturesToCue;

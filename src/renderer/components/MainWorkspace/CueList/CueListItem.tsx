@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import { useEffect, useState } from 'react';
+import { IContextMenuOption } from '../../../../types/appTypes';
 
 require('./CueList.scss');
 
@@ -10,12 +11,14 @@ interface ICommonProps {
     selected: boolean
     setSelectedCue: (cue: ICue) => void
     updateCue: (cue: ICue) => void
+    deleteCue: (cueId: string, isTimeline: boolean) => void,
+    setContextMenuOptions: (payload: IContextMenuOption[]) => void
 }
 
 
 type TProps = ICommonProps & any & any;
 
-const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, updateCue}) => {
+const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, updateCue, deleteCue, setContextMenuOptions}) => {
     const [cueCopy, setCueCopy] = useState<ICue>(cue);
     const [cueWidth, setCueWidth] = useState<number>(+(cue.endTime - cue.startTime).toFixed(2));
     const [editName, setEditName] = useState(false);
@@ -51,13 +54,27 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
         updateCue(cueCopy);
     };
 
+    const contextOptions = [
+        {
+            title: 'Delete cue',
+            disabled: false,
+            callback: () => {
+                deleteCue(cue.id, true);
+            }
+        }
+    ];
+
     return (
-        <tr onClick={() => setActiveCue()}
+        <div
+            onClick={() => setActiveCue()}
             className={'cueListItem'}
             style={{cursor: 'pointer', backgroundColor: selected ? 'green' : 'inherit'}}
+            onContextMenu={() => {
+                setContextMenuOptions(contextOptions);
+            }}
         >
-            <td>{index}</td>
-            <td
+            <span>{index}</span>
+            <span
                 onDoubleClick={() => selected ? setEditName(true) : setActiveCue()}
                 style={editName ? {padding: '0'} : {}}
             >
@@ -69,8 +86,8 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                         onBlur={(event) => event.target.value ? onEditEnd() : ''}
                     />
                     : cueCopy.name}
-            </td>
-            <td onDoubleClick={() => selected ? setEditStartTime(true) : setActiveCue()} style={editStartTime ? {padding: '0'} : {}}>
+            </span>
+            <span onDoubleClick={() => selected ? setEditStartTime(true) : setActiveCue()} style={editStartTime ? {padding: '0'} : {}}>
                 {editStartTime
                 ? <input
                     type={'number'}
@@ -79,8 +96,8 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     onChange={(event => setCueCopy({ ...cueCopy, startTime: +event.target.value, endTime: +event.target.value + cueWidth }))}
                     onBlur={(event) => event.target.value ? onEditEnd() : ''}
                 />
-                : cueCopy.startTime}</td>
-            <td onDoubleClick={() => selected ? setEditTotalTime(true) : setActiveCue()} style={editTotalTime ? {padding: '0'} : {}}>{
+                : cueCopy.startTime}</span>
+            <span onDoubleClick={() => selected ? setEditTotalTime(true) : setActiveCue()} style={editTotalTime ? {padding: '0'} : {}}>{
                 editTotalTime
                 ? <input
                     type={'number'}
@@ -92,10 +109,10 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
                     }
                     onBlur={(event) => event.target.value ? onEditEnd() : ''}
                 />
-                : cueWidth}</td>
-            <td>{}</td>
-            <td className="headerTableCuesList-dmx">dmx</td>
-        </tr>
+                : cueWidth}</span>
+            <span>{}</span>
+            <span className="headerTableCuesList-dmx">dmx</span>
+        </div>
     );
 };
 

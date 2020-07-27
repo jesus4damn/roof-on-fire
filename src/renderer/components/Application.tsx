@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../store/rootReducer';
 import { sETFixturesSateAC } from '../store/fixturesReducer/fixturesActions';
 import { IFixturesState } from '../store/fixturesReducer/fixturesReducer';
-import { loadPrevious, resetState, saveState } from '../store/getInitalState';
+import { IInitAppParams, loadPrevious, resetState, saveState } from '../store/getInitalState';
 import { setInitialFields } from '../store/fieldsReducer/fieldsActions';
 import { ContextMenu } from './common/ContextWrapper';
 // @ts-ignore
@@ -62,8 +62,8 @@ const Application = ({
         }
     };
 
-    const resetData = () => {
-        const common = resetState();
+    const resetData = (params: IInitAppParams) => {
+        const common = resetState(params);
         sETFixturesSateAC(common.fixtures);
         setInitialFields(common.fields);
     };
@@ -86,7 +86,7 @@ const Application = ({
                     <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                     <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
                     </div>
-                    
+
                     <div className="timeLineWorkspaceWrapper">
                             <TimeLine />
                     </div>

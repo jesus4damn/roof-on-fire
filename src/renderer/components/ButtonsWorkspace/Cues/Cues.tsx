@@ -6,7 +6,7 @@ import { ICueField } from '../../../../types/fieldsTypes';
 import CueFieldWrapper from './CueFieldWrapper';
 
 interface IProps {
-    fieldsArr: ICueField[]
+    fieldsArr: ICueField[],
 }
 
 const Cues:React.FC<ConnectedProps<IProps>> = ({fieldsArr}:IProps) => {
