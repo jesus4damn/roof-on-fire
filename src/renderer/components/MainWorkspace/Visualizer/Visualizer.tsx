@@ -37,7 +37,7 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updat
     }, [width]);
     return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-        <div className="counter">
+        <div className="visualizerWrapper">
             <span>{context.musicContext.currentTime.toFixed(2)}</span>
             <button onClick={() => setAllowAPI(!allowedAPI)}
                     style={{color: allowedAPI ? "green" : "red"}}

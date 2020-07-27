@@ -80,12 +80,12 @@ const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture, createNew
                 )}
                 <Accordeon headerTitle={"Flame Jet"}>
                     <div className="fixtures">
-                        {generateMockFixtures(5).map(f => {
-                            return (
-                                <FixtureItem key={f.id} fixture={f} update={(f) => {}}
-                                             createNewCueCallback={(t) => {}}/>
-                            );
-                        })}
+                        {mockStrings("Flame Jet", 5).map((s, i) =>
+                            <div key={s}  className={'positionPachItem'}>
+                                <div className={'PachItemOne'}>{i + 1}</div>
+                                <div className={'PachItemTwo'}>{s}</div>
+                            </div>
+                        )}
                     </div>
                 </Accordeon>
                 <Accordeon headerTitle={"Switch"}>

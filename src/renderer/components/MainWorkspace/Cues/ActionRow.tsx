@@ -38,13 +38,12 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
             canDrop: !!monitor.canDrop(),
         }),
     });
-    console.log(action.color);
 
     return (
-        <tr className="headerTableCues-active" style={{backgroundColor: (canDrop && isOver) ? 'green' : 'inherit'}}>
+        <React.Fragment>
             <td>{index}</td>
             <td style={{fontSize: '0.7rem'}}>{fixture.name}</td>
-            <td ref={drop}>
+            <td ref={drop} style={{backgroundColor: canDrop ? isOver ? 'green' : '#3cd07a2e' : ''}}>
                 <img style={pattern.color ? {filter: `drop-shadow(0 0 5px ${pattern.color})`}: {}} src={action.img} alt=""/>
             </td>
             <td>{pattern && pattern.number}</td>
@@ -54,7 +53,7 @@ const ActionRow: React.FC<TProps> = ({action, fixture, pattern, index, onUpdate}
             {/*
             // @ts-ignore*/}
             <td colSpan={"7"}  className="lineDecorate"/>
-        </tr>
+        </React.Fragment>
 
     );
 };

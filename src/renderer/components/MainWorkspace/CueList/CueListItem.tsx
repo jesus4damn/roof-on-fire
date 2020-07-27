@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import { useEffect, useState } from 'react';
+import { IContextMenuOption } from '../../../../types/appTypes';
 
 require('./CueList.scss');
 
@@ -10,12 +11,14 @@ interface ICommonProps {
     selected: boolean
     setSelectedCue: (cue: ICue) => void
     updateCue: (cue: ICue) => void
+    deleteCue: (cueId: string, isTimeline: boolean) => void,
+    setContextMenuOptions: (payload: IContextMenuOption[]) => void
 }
 
 
 type TProps = ICommonProps & any & any;
 
-const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, updateCue}) => {
+const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, updateCue, deleteCue, setContextMenuOptions}) => {
     const [cueCopy, setCueCopy] = useState<ICue>(cue);
     const [cueWidth, setCueWidth] = useState<number>(+(cue.endTime - cue.startTime).toFixed(2));
     const [editName, setEditName] = useState(false);
@@ -51,10 +54,24 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
         updateCue(cueCopy);
     };
 
+    const contextOptions = [
+        {
+            title: 'Delete cue',
+            disabled: false,
+            callback: () => {
+                deleteCue(cue.id, true);
+            }
+        }
+    ];
+
     return (
-        <div onClick={() => setActiveCue()}
+        <div
+            onClick={() => setActiveCue()}
             className={'cueListItem'}
             style={{cursor: 'pointer', backgroundColor: selected ? 'green' : 'inherit'}}
+            onContextMenu={() => {
+                setContextMenuOptions(contextOptions);
+            }}
         >
             <span>{index}</span>
             <span

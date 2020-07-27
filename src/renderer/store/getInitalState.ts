@@ -5,6 +5,13 @@ import { ICuesState } from './cuesReducer/cuesReducer';
 
 const Storage = require('../../main/StoreData');
 
+export interface IInitAppParams {
+    fixtures: number,
+    static: number,
+    dynamic: number,
+    long: number
+}
+
 const dataStorage = new Storage({
     configName: 'initialAppData',
     defaults: {
@@ -44,11 +51,12 @@ export interface IInitialData {
     cues: ICuesState
 }
 
-export const getInitialState = ():IInitialData => {
-    const fixtures = generateMockFixtures(5);
-    const patternsS = generateMockPatterns(1, 'static');
-    const patternsD = generateMockPatterns(2, 'dynamic');
-    const patternsL = generateMockPatterns(1, 'long');
+export const getInitialState = (initParams?: IInitAppParams):IInitialData => {
+    let init:IInitAppParams = initParams ? initParams : {fixtures: 5, static: 5, dynamic: 5, long: 5};
+    const fixtures = generateMockFixtures(init.fixtures ? init.fixtures : 5 );
+    const patternsS = generateMockPatterns(init.static ? init.static : 1, 'static');
+    const patternsD = generateMockPatterns(init.dynamic ? init.dynamic : 2, 'dynamic');
+    const patternsL = generateMockPatterns(init.long ? init.long : 1, 'long');
     return  {
         fields: {
             cuesFields: generateFields(null),
@@ -79,8 +87,8 @@ export const getInitialState = ():IInitialData => {
     };
 };
 
-export const resetState = (): IInitialData => {
-    const initialData = getInitialState();
+export const resetState = (params?: IInitAppParams): IInitialData => {
+    const initialData = getInitialState(params);
     //dataStorage.set('showData', initialData);
     return initialData;
 };

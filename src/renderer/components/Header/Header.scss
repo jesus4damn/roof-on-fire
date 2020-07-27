@@ -32,13 +32,25 @@
   color: #4F4F4F;
   min-height: 50vh;
   min-width: 400px;
-    input{
+  input{
     max-width: 100%;
   }
   input[type=submit]{
     margin: 10px 0;
   }
 }
+
+.modalFormWrapp {
+  display: flex;
+  padding: 25px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: #1e1d1e;
+  color: #4F4F4F;
+  min-height: 50vh;
+  min-width: 400px;
+}
+
 .headerContent button{
   // background: #333333;
   border-radius: 2px;
@@ -51,7 +63,7 @@
   line-height: 10px;
   border: none;
   height: 23px;
-    
+
 }
 .headerContent button:hover{
   background: #333333;
