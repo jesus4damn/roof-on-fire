@@ -32,7 +32,7 @@ export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[
             color: 'black',
             number: type === 'dynamic' ? i+41 : type=== 'long' ? i+21 : i+1,
             img: getReactPng(),
-            name: `patt ${i + type}`,
+            name: `patt ${i+1 + type}`,
             offset: 15,
             type: type,
             steps: steps,
@@ -110,7 +110,8 @@ const generateField = (pattern: IPattern | null ):IField | IPatternField => {
 };
 export const generateFields = (fixturePatterns: IPattern[] | null):IField[] => {
     let fieldArr = [];
-    for ( let i = 0; fieldArr.length < 10; i++) {
+    let limit = fixturePatterns && fixturePatterns.length ? fixturePatterns.length : 25;
+    for ( let i = 0; fieldArr.length < limit; i++) {
         let isPattern: IPattern | null = fixturePatterns && fixturePatterns.length && fixturePatterns[i]
             ? fixturePatterns[i]
             : null;

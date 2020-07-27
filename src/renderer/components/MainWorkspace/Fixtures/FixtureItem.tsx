@@ -3,7 +3,6 @@ import { IFixture } from '../../../../types/fixtureTypes';
 import { useState } from 'react';
 import { DragSourceMonitor, useDrag, useDrop } from 'react-dnd';
 import { dragTypes } from '../../../../types/dragTypes';
-import { IField } from '../../../../types/fieldsTypes';
 
 require('./FixtureItem.scss');
 
@@ -11,12 +10,13 @@ require('./FixtureItem.scss');
 interface IProps {
     fixture: IFixture,
     update: (fixture: IFixture) => void,
+    onInitDevices: (fixture: IFixture) => void,
     createNewCueCallback: (time: number) => void
 }
 
 type TFixtureParams = keyof IFixture
 
-const FixtureItem: React.FC<IProps> = ({ fixture, update, createNewCueCallback }) => {
+const FixtureItem: React.FC<IProps> = ({ fixture, update, createNewCueCallback, onInitDevices }) => {
     const [editMode, setEditMode] = useState<TFixtureParams | 'none'>('none');
     const [inputValue, setInputValue] = useState<string | number>('');
     const [{ isOver, canDrop }, drop] = useDrop({
@@ -52,7 +52,10 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update, createNewCueCallback }
         update({ ...fixture, selected: !fixture.selected });
     };
     const edit = () => {
-        update({ ...fixture, [editMode]: inputValue });
+        update({ ...fixture, [editMode]: editMode === "startAddress" ? +inputValue : inputValue });
+        if (editMode === "startAddress") {
+            onInitDevices({ ...fixture, [editMode]: +inputValue })
+        }
         setEditMode('none');
     };
 
@@ -81,7 +84,7 @@ const FixtureItem: React.FC<IProps> = ({ fixture, update, createNewCueCallback }
                             onBlur={edit}
                         />
                         : <span className={'titleParameters'} onDoubleClick={() => {
-                            setInputValue(fixture.startAddress !== null ? fixture.startAddress : '');
+                            setInputValue(fixture.startAddress !== null ? +fixture.startAddress : '');
                             setEditMode('startAddress');
                         }
                         }>{fixture.startAddress}
