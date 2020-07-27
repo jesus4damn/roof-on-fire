@@ -3,3 +3,7 @@ dist/
 release/
 .idea
 .vscode
+/fireApi/.vs/fireApi/v15
+/fireApi/bin/
+/fireApi/obj/
+/fireApi/.vs/
