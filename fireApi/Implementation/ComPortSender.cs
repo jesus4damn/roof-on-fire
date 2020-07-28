@@ -38,7 +38,8 @@ namespace fireApi.Implementation
             if (!model.Shot)
             {
                 var sequncises = Regex.Match(model.ActivePattern.Name, @"\d+").Value;
-                buffer[model.StartAddress + 4] = (byte)int.Parse(sequncises);
+                int pattern = int.Parse(sequncises);
+                buffer[model.StartAddress + 4] = (byte)Math.Round((decimal)(2 + pattern*2.55),0);
                 // shot 
                 buffer[model.StartAddress + 2] = 255;
             }
