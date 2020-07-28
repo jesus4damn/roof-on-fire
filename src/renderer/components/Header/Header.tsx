@@ -23,7 +23,7 @@ interface IProps {
 // export const getLogoImg = () => {
 //     return logoImg
 // };
-const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode, hideContextMenu}) => {
+const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode}) => {
     const [menuShown, setMenuShow] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
     const [activeBtn,setActiveBtn]= useState(false);
@@ -145,7 +145,10 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
 
                 }
                 }>Menu</button>
-                <button>Patch</button>
+                <button
+                    style={appScreenMode === 'patch' ? {backgroundColor: 'green'} : {}}
+                    onClick={() => switchAppScreenMode(appScreenMode === 'main' ? 'patch' : 'main')}
+                >Patch</button>
                 <button>Outline</button>
                 <>
                     {(menuShown || null) && <div ref={menuWrapperRef} className="contextMenu">
@@ -170,8 +173,6 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     )
 };
 
-export default connect(null, {selectMusicFile})(Header)
-
 interface IformProps {
     onResetAppDataConfirm: (val: IInitAppParams) => void
 }
@@ -185,8 +186,6 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
         <input
             type="number"
             onChange={(e) => {
-                console.log(e.currentTarget.value)
-                console.log(e.target.value)
                 setResetAppDataOptions({...resetAppDataOptions, fixtures: +e.currentTarget.value})
             }}
             value={resetAppDataOptions.fixtures}
@@ -213,3 +212,5 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
     </div>
     )
 };
+
+export default connect(null, {selectMusicFile, switchAppScreenMode})(Header)

@@ -26,24 +26,25 @@ input {
 .appWrapper {
     margin: 0 auto;
     min-height: 100vh;
-    // height: 100%;
+    max-height: 100vh;
+    height: 100vh;
     display: grid;
     grid-template-areas:
             "header header"
             "maincues maincues"
             "time time";
-    // grid-template-rows: 1fr 20%;
-    // grid-template-columns: 1.2fr 1fr;
+     grid-template-rows: 30px 1fr 225px;
+     grid-template-columns: 1.2fr 1fr;
     color: #ffffff;
-    // max-height: 100vh;
+
     font-family: Roboto, sans-serif;
     background:#000;
 }
 .appWrapper.patchMode {
-    grid-template-areas: "maincues patch";
+    grid-template-areas: "header header" "maincues patch";
     grid-template-columns: 3fr 1fr;
-    grid-template-rows: 1fr;
-    height: 96vh;
+    grid-template-rows: 30px 1fr;
+    height: 100vh;
 }
 .appWrapper.patchMode > .mainWorkspaceWrapper {
     width: inherit;
@@ -62,19 +63,21 @@ input {
     width: 100%;
     grid-area:header;
 }
+
 .contentWorkspaceWrapper{
     grid-area: maincues;
-    display: grid;
-    grid-template-areas: "main cues";
-    grid-template-rows: 1fr 20%;
-    grid-template-columns: 1.2fr 1fr;
+    display: flex;
+    flex-direction: row;
+    //grid-template-areas: "main cues";
+    //grid-template-rows: 1fr 20%;
     position: relative;
     top: -2px;
     margin-bottom: 2px;
 }
+
 .mainWorkspaceWrapper {
     display: flex;
-    grid-area: main;
+    grid-area: maincues;
     align-content: center;
     justify-content: center;
     align-items: center;
@@ -96,9 +99,9 @@ input {
 }
 
 .timeLineWorkspaceWrapper {
+    grid-area: time;
     z-index: 22;
     display: flex;
-    grid-area: time;
     align-content: center;
     justify-content: center;
     align-items: center;

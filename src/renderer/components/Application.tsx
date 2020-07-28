@@ -48,7 +48,7 @@ const Application = ({
                          setCuesData,
                          appScreenMode,
                          initDevices
-                    }: IProps) => {
+                     }: IProps) => {
 
     const hideContextMenu = () => {
         setContextMenuOptions([]);
@@ -74,8 +74,8 @@ const Application = ({
         const common = resetState(params);
         sETFixturesSateAC(common.fixtures);
         setInitialFields(common.fields);
-        setCuesData({selectedCue: null, cues: [],timelineCues:[]});
-        initDevices(common.fixtures.fixtures)
+        setCuesData({ selectedCue: null, cues: [], timelineCues: [] });
+        initDevices(common.fixtures.fixtures);
     };
 
     const saveData = () => {
@@ -83,36 +83,39 @@ const Application = ({
     };
 
     useEffect(() => {
-        resetData({fixtures: 8, static: 5, dynamic: 5, long: 5});
-        return () => {};
+        resetData({ fixtures: 8, static: 5, dynamic: 5, long: 5 });
+        return () => {
+        };
     }, []);
 
     return (
-        <div className={`appWrapper ${appScreenMode === 'patch' ? "patchMode" : ""}`}>
+        <div className={`appWrapper ${appScreenMode === 'patch' ? 'patchMode' : ''}`}>
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
                 <MusicContextProvider>
-                        <div className="headerWrapper">
-                            <Header
-                                appScreenMode={appScreenMode}
-                                hideContextMenu={hideContextMenu}
-                                resetData={resetData}
-                                loadData={loadData}
-                                saveData={saveData}/>
-                        </div>
+                    <div className="headerWrapper">
+                        <Header
+                            appScreenMode={appScreenMode}
+                            hideContextMenu={hideContextMenu}
+                            resetData={resetData}
+                            loadData={loadData}
+                            saveData={saveData}/>
+                    </div>
+
+                    <div className="contentWorkspaceWrapper">
                         <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
+                        {appScreenMode === 'main'
+                            ? <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div> : ''}
+                    </div>
+                    <div className="timeLineWorkspaceWrapper" style={appScreenMode === 'main' ? {} : {display: 'none'}}>
+                         <TimeLine/>
+                    </div>
                     {appScreenMode === 'main'
-                        ? <React.Fragment>
-                            <div className="timeLineWorkspaceWrapper">
-                                <TimeLine />
-                            </div>
-                            <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                        </React.Fragment>
+                        ? ""
                         : <div className="patchWorkspaceWrapper">
-                            <Patch />
+                            <Patch/>
                         </div>}
 
                 </MusicContextProvider>
-
             </ContextMenu>
         </div>
     );

@@ -81,7 +81,7 @@ export const setCuesData: ActionCreator<ISetCuesData> = (state: ICuesState) => (
 const cueBase: ICue = {
     id: '',
     startTime: 1,
-    endTime: 20,
+    endTime: 2,
     fixtureType: 'fireMachine',
     name: 'new cue',
     active: false,
@@ -101,7 +101,8 @@ const cueActionBase: ICueAction = {
 
 export const createNewCue = (fixtures: IFixture[], field: IField | null, startTime?: number) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
-        const newActions: ICueAction[] = fixtures.map(f => {
+        const part = 1 / (fixtures.length -1);
+        const newActions: ICueAction[] = fixtures.map((f, i) => {
             if (f.activePattern !== null) {
                 return {
                     ...cueActionBase,
@@ -110,8 +111,8 @@ export const createNewCue = (fixtures: IFixture[], field: IField | null, startTi
                     fixtureType: f.type,
                     patternId: f.activePattern ? f.activePattern.id : '',
                     img: f.activePattern ? f.activePattern.img : '',
-                    startTime: 0,
-                    totalTime: 2,
+                    startTime: i === 0 ? 0 : part * i,
+                    totalTime: 1,
                     active: false
                 };
             } else return { ...cueActionBase, id: uuid(), fixtureId: f.id };
@@ -119,6 +120,8 @@ export const createNewCue = (fixtures: IFixture[], field: IField | null, startTi
         const newCue: ICue = {
             ...cueBase,
             id: uuid(),
+            startTime: startTime ? startTime : 0,
+            endTime: startTime ? startTime + 1 : 1,
             actions: newActions.length ? newActions : []
         };
         dispatch(createCue(newCue));
@@ -133,7 +136,8 @@ export const addFixturesToCue = (fixtures: IFixture[]) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const cue = getSelectedCue(getState());
         if (cue && cue.id) {
-            const newActions: ICueAction[] = fixtures.map(f => {
+            const part = (cue.endTime - cue.startTime) / (fixtures.length -1);
+            const newActions: ICueAction[] = fixtures.map((f, i) => {
                 if (f.activePattern !== null) {
                     return {
                         ...cueActionBase,
@@ -142,8 +146,8 @@ export const addFixturesToCue = (fixtures: IFixture[]) =>
                         fixtureType: f.type,
                         patternId: f.activePattern ? f.activePattern.id : '',
                         img: f.activePattern ? f.activePattern.img : '',
-                        startTime: 0,
-                        totalTime: 2,
+                        startTime: i === 0 ? 0 : part * i,
+                        totalTime: 1,
                         active: false
                     };
                 } else return { ...cueActionBase, id: uuid(), fixtureId: f.id };

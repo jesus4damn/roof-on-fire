@@ -96,7 +96,7 @@ export const generateMockFixtures = (count: number): IFixture[] => {
     return res
 };
 
-const generateField = (pattern: IPattern | null ):IField | IPatternField => {
+export const generateField = (pattern: IPattern | null ):IField | IPatternField => {
     return pattern !== null ? {
         id: uuid(),
         color: '',
