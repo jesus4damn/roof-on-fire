@@ -18,7 +18,6 @@ import { setContextMenuOptions } from '../store/appReducer/appActions';
 import { IContextMenuOption } from '../../types/appTypes';
 import { ICuesState } from '../store/cuesReducer/cuesReducer';
 import { MusicContextProvider } from '../misicContext/musicContext';
-import { setCuesData } from '../store/cuesReducer/cuesActions';
 import ResizeContainer from './common/ResizeContainer';
 import { initDevices, setCuesData } from '../store/cuesReducer/cuesActions';
 import { IFixture } from '../../types/fixtureTypes';
