@@ -54,9 +54,9 @@ export interface IInitialData {
 export const getInitialState = (initParams?: IInitAppParams):IInitialData => {
     let init:IInitAppParams = initParams ? initParams : {fixtures: 5, static: 5, dynamic: 5, long: 5};
     const fixtures = generateMockFixtures(init.fixtures ? init.fixtures : 5 );
-    const patternsS = generateMockPatterns(init.static ? init.static : 1, 'static');
-    const patternsD = generateMockPatterns(init.dynamic ? init.dynamic : 2, 'dynamic');
-    const patternsL = generateMockPatterns(init.long ? init.long : 1, 'long');
+    const patternsS = generateMockPatterns(init.static ? init.static : 1, 'static', 0);
+    const patternsD = generateMockPatterns(init.dynamic ? init.dynamic : 2, 'dynamic', init.dynamic);
+    const patternsL = generateMockPatterns(init.long ? init.long : 1, 'long', init.dynamic + init.long);
     return  {
         fields: {
             cuesFields: generateFields(null),

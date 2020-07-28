@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { RootState } from '../store/rootReducer';
 import { getTimelineCues } from '../store/cuesReducer/cuesSelector';
 import { getFixtures } from '../store/fixturesReducer/fixturesSelector';
-import { updateFixture, updateFixtureShot } from '../store/fixturesReducer/fixturesActions';
+import { updateFixtureShot } from '../store/fixturesReducer/fixturesActions';
 import { ICue, ICueAction } from '../../types/cuesTypes';
-import { IFixture } from '../../types/fixtureTypes';
 import { sendMusicAction } from '../store/appReducer/appActions';
 
 interface IState {
@@ -37,22 +36,22 @@ class ShowRunner extends React.Component<IMusicContext & any> {
 
     createTimeEvents = (cues:ICue[]) => {
         console.log('createTimeEvents ====>');
-        let events: {[key: number]: {id: string, shot: boolean}[]} = {};
+        let events: {[key: number]: {id: string, shot: boolean, action: ICueAction}[]} = {};
         cues.forEach((c: ICue) => {
             c.actions.forEach((a:ICueAction, i: number) => {
                 let timeOn = +(+c.startTime + a.startTime).toFixed(1);
                 let timeOff = +(+c.startTime + a.startTime + 0.2).toFixed(1);
 
                 if (events[timeOn]) {
-                    events[timeOn].push({id: a.fixtureId, shot: true});
+                    events[timeOn].push({id: a.fixtureId, shot: true, action: a});
 
                 } else {
-                    events[timeOn] = [{id: a.fixtureId, shot: true}];
+                    events[timeOn] = [{id: a.fixtureId, shot: true, action: a}];
                 }
                 if(events[timeOff]) {
-                    events[timeOff].push({id: a.fixtureId, shot: false});
+                    events[timeOff].push({id: a.fixtureId, shot: false, action: a});
                 } else {
-                    events[timeOff] = [{id: a.fixtureId, shot: false}];
+                    events[timeOff] = [{id: a.fixtureId, shot: false, action: a}];
                 }
             })
         });
