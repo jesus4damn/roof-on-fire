@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { getSvg } from '../../../../assets/imageGetter';
+import { useState } from 'react';
+import { getSvg, ImgLib } from '../../../../assets/imageGetter';
+
 require('./modalContent.scss');
 
 interface IProps {
@@ -14,83 +15,17 @@ export interface IPickerField {
     color: string
 }
 
-const imagesFields:IPickerField[] = [
-    {
+const colors = [
+    '#FFFFFF', '#828282', '#F2C94C', '#BB6BD9', '#EB5757', '#F2994A', '#2F80ED', '#27AE60',
+    '#56CCF2', '#2F80ED', '#27AE60', '#56CCF2', '#2F80ED', '#27AE60', '#56CCF2'];
+
+const imagesFields:IPickerField[] = (Object.keys(ImgLib.svg) as Array<keyof typeof ImgLib.svg>).map((img, i) => {
+    return {
         placeholder: 'url',
-        title: getSvg('lock'),
-        color: '#FFFFFF'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('eyeBlue'),
-        color: '#828282'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('blueClock'),
-        color: '#F2C94C'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('edit'),
-        color: '#BB6BD9'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('dollarSign'),
-        color: '#EB5757'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#F2994A'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#2F80ED'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#27AE60'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#56CCF2'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#2F80ED'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#27AE60'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#56CCF2'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#2F80ED'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#27AE60'
-    },
-    {
-        placeholder: 'url',
-        title: getSvg('unlock'),
-        color: '#56CCF2'
-    },
-];
+        title: getSvg(img),
+        color: i >= colors.length ? colors[i -colors.length] : colors[i]
+    }
+});
 
 const PickerModal:React.FC<IProps> = ({ type, onSubmit }: IProps) => {
     const [editable, setEditable] = useState(imagesFields);
@@ -109,7 +44,7 @@ const PickerModal:React.FC<IProps> = ({ type, onSubmit }: IProps) => {
                         onClick={() => onSubmit( type === 'img' ? f.title : f.color)}
                     >
 
-                        {type === 'img' ? <img src={f.title}/> : null }
+                        {type === 'img' ? <img src={f.title} alt={f.title}/> : null }
                     </div>
                 ))}
             </div>

@@ -4,6 +4,8 @@ import { IFixturesState } from './fixturesReducer';
 import {ThunkDispatch} from "redux-thunk";
 import { GetStateType } from '../rootReducer';
 import { controllerAPI } from '../../components/API/API';
+import { ICueAction } from '../../../types/cuesTypes';
+import { getPatternByAction } from './fixturesSelector';
 
 export const PATCH_FIXTURES = 'fixtures/PATCH_FIXTURE';
 export const SET_FIXTURES_STATE = 'fixtures/SET_FIXTURES_STATE';
@@ -31,7 +33,7 @@ export interface IUpdateFixtureAC extends Action {
     type: typeof UPDATE_FIXTURE, fixture: IFixture
 }
 export interface IUpdateFixtureShotAC extends Action {
-    type: typeof UPDATE_FIXTURE_SHOT, fixture: {id: string, shot: boolean}
+    type: typeof UPDATE_FIXTURE_SHOT, fixture: {id: string, shot: boolean, activePattern: IPattern}
 }
 export interface IUpdatePattern extends Action {
     type: typeof UPDATE_PATTERN, pattern: IPattern
@@ -52,20 +54,25 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
 
-export const updateFixtureShot = (fixture: { id: string, shot: boolean }) =>
+export const updateFixtureShot = (fixture: { id: string, shot: boolean, action: ICueAction }) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
         const found = getState().fixtures.fixtures.filter(f => f.id === fixture.id)[0];
+        const pattern = getPatternByAction(getState(), fixture.action);
         const allowedAPI = getState().app.allowedAPI;
+        let fixCopy = {...fixture};
+        delete fixCopy.action;
         if (found && found.startAddress) {
             try {
+
+                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: {...fixCopy, activePattern: pattern}});
                 if (allowedAPI) {
-                    const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
+                    //const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
+                    const res = await controllerAPI.sendFixture({...found, activePattern: pattern});
                     console.log(res);
                 }
-                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
             } catch (e) {
                 console.log(e);
-                dispatch({ type: UPDATE_FIXTURE_SHOT, fixture });
+                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: {...fixCopy, activePattern: pattern}});
             }
         }
     };

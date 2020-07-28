@@ -10,14 +10,13 @@ import {
 } from '../../../store/fixturesReducer/fixturesActions';
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
-import { useDrag, DragSourceMonitor } from 'react-dnd';
+import { useDrag, DragSourceMonitor, DragPreviewImage } from 'react-dnd';
 import Field from '../components/Field';
 import { dragTypes } from '../../../../types/dragTypes';
-
 interface IProps {
     id: string,
     connected: IPattern | null
@@ -132,25 +131,28 @@ const PatternFieldWrapper: React.FC<IProps> = ({
     }, [connected]);
 
     return (
-        <div ref={drag}>
-            <Field
-                active={connected && connected.active}
-                color={connected && connected.color}
-                name={item.name}
-                img={item.img}
-                select={setActivePattern}
-                callContext={() => {
-                    setContextMenuOptions(contextOptions);
-                }}
-            />
-            <Modal
-                isShown={isModalShown}
-                closeModal={closeModal}
-                noActions={true}
-            >
-                {modalContent}
-            </Modal>
-        </div>
+        <React.Fragment>
+            <DragPreviewImage  connect={preview} src={item.img}/>
+            <div ref={drag}>
+                <Field
+                    active={connected && connected.active}
+                    color={connected && connected.color}
+                    name={item.name}
+                    img={item.img}
+                    select={setActivePattern}
+                    callContext={() => {
+                        setContextMenuOptions(contextOptions);
+                    }}
+                />
+                <Modal
+                    isShown={isModalShown}
+                    closeModal={closeModal}
+                    noActions={true}
+                >
+                    {modalContent}
+                </Modal>
+            </div>
+        </React.Fragment>
     );
 };
 

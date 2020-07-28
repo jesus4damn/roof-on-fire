@@ -51,17 +51,17 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                     <button className={mainRightScreenSwitcher === "cuesWindow" ? "navGroupButtonActive" : ''} onClick={() => {
                         switchMainRightPartAction('cuesWindow');
                     }}>
-                        Все Кью
+                        Контент Кью
                     </button>
                 </div>
             </div>
 
         <div className="workspaceContent">
-            <div className="workspaceContainer">
+            <div className="workspaceContainer" style={{maxWidth: mainRightScreenSwitcher ? '40%' : '100%',width: mainRightScreenSwitcher ? '40%' : '100%'}}>
                 {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}
                 {mainLeftScreenSwitcher === 'cueListWindow' && <CueList />}
             </div>
-            {mainRightScreenSwitcher && <div  className="workspaceContainer" >
+            {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{maxWidth: '60%',width: '60%'}} >
                 {mainRightScreenSwitcher === 'fixtures' && <Fixtures/>}
                 {mainRightScreenSwitcher === 'cuesWindow' && <Cues />}
             </div>}

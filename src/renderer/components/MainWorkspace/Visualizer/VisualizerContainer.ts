@@ -5,6 +5,7 @@ import { RootState } from '../../../store/rootReducer';
 import { getFixtures } from '../../../store/fixturesReducer/fixturesSelector';
 import { setAllowAPI } from '../../../store/appReducer/appActions';
 import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
+import { addFixturesToCue } from '../../../store/cuesReducer/cuesActions';
 
 const mapStateToProps = (state: RootState) => ({
     value: state.counter.value,
@@ -12,4 +13,4 @@ const mapStateToProps = (state: RootState) => ({
     fixtures: getFixtures(state)
 });
 
-export default connect(mapStateToProps, {setAllowAPI, updateFixture})(Visualizer);
+export default connect(mapStateToProps, {setAllowAPI, updateFixture, addFixturesToCue})(Visualizer);

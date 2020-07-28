@@ -24,10 +24,9 @@ input {
 }
 
 .appWrapper {
-    max-height: 100%;
-    min-height: 95vh;
-    width: 100%;
     margin: 0 auto;
+    min-height: 100vh;
+    // height: 100%;
     display: grid;
     grid-template-areas:
             "header"
@@ -42,16 +41,27 @@ input {
 }
 
 .headerWrapper {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+    // display: flex;
+    // align-content: center;
+    // justify-content: center;
+    // align-items: center;
     height: 100%;
     width: 100%;
     grid-area:header;
 }
 .contentWorkspaceWrapper{
     grid-area: maincues;
-    min-width: 100%;
-    max-width: 100%;
-    height: 100%;
+    display: grid;
+    grid-template-areas: "main cues";
+    grid-template-rows: 1fr 20%;
+    grid-template-columns: 1.2fr 1fr;
     position: relative;
+    top: -2px;
+    margin-bottom: 2px;
 }
 
 .mainWorkspaceWrapper {
@@ -77,11 +87,12 @@ input {
     max-height:68vh;
     position: relative;
     height: 100%;
-    z-index: 200;    
+    z-index: 100;
     background: #000000;
 }
 
 .timeLineWorkspaceWrapper {
+    z-index: 22;
     display: flex;
     grid-area: time;
     align-content: center;

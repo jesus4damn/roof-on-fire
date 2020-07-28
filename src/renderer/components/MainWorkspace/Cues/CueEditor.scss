@@ -1,8 +1,11 @@
 .WrapCues {
+    display: flex;
+    flex-direction: row;
     border-radius: 5px;
     border: 2px solid #444444;
     width: 100%;
     background:#252424;
+    overflow: auto;
 }
 
 .TableCues {
@@ -42,3 +45,4 @@
 .headerTableCues-active {
      color: #27AE60;
  }
+

@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { getFixtureIcon, getReactPng } from '../../assets/imageGetter';
 import { IField, IPatternField, TPatternType } from '../../types/fieldsTypes';
 
-export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[] => {
+export const generateMockPatterns = (quan: number, type:TPatternType, offset: number ):IPattern[] => {
     const steps:IPatternStep[] = [
         {
             delay: 15,
@@ -30,9 +30,9 @@ export const generateMockPatterns = (quan: number, type:TPatternType ):IPattern[
             active: false,
             fixtureType: 'fireMachine',
             color: 'black',
-            number: type === 'dynamic' ? i+41 : type=== 'long' ? i+21 : i+1,
+            number: i + 1 + offset,
             img: getReactPng(),
-            name: `patt ${i + type}`,
+            name: `patt ${i + 1 + offset + type}`,
             offset: 15,
             type: type,
             steps: steps,
@@ -110,7 +110,8 @@ const generateField = (pattern: IPattern | null ):IField | IPatternField => {
 };
 export const generateFields = (fixturePatterns: IPattern[] | null):IField[] => {
     let fieldArr = [];
-    for ( let i = 0; fieldArr.length < 10; i++) {
+    let limit = fixturePatterns && fixturePatterns.length ? fixturePatterns.length : 25;
+    for ( let i = 0; fieldArr.length < limit; i++) {
         let isPattern: IPattern | null = fixturePatterns && fixturePatterns.length && fixturePatterns[i]
             ? fixturePatterns[i]
             : null;
