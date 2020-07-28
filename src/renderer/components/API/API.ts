@@ -29,5 +29,10 @@ export const controllerAPI = {
         } catch (e) {
             console.log(e)
         }
+    },
+    sendPatch: async (type: string, fixture: string, count: number) => {
+        const res = await axios.post(`${route}/fixtures/${type}?fixture=${fixture}&count=${count}`);
+        console.log(res);
+        return "AAAAAA";
     }
 };
