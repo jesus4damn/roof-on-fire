@@ -2,8 +2,9 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
-import { selectMusicFile } from '../../store/appReducer/appActions';
+import { selectMusicFile, switchAppScreenMode } from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
+import { IAppScreenModes } from '../../../types/appTypes';
 import ExcelReader from '../../../data-helper/ExcelReader';
 import { IInitAppParams } from '../../store/getInitalState';
 
@@ -14,13 +15,15 @@ interface IProps {
     resetData: (params: IInitAppParams) => void
     loadData: () => void
     saveData: () => void
-    selectMusicFile: (payload: string) => {}
+    selectMusicFile: (payload: string) => {},
+    appScreenMode: IAppScreenModes
+    switchAppScreenMode: (payload: IAppScreenModes) => void
 }
 // const logoImg = require('../../../../assets/images/svg/logoImg.svg');
 // export const getLogoImg = () => {
 //     return logoImg
 // };
-const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile}) => {
+const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode}) => {
     const [menuShown, setMenuShow] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
     const [activeBtn,setActiveBtn]= useState(false);
@@ -41,7 +44,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             disabled: false,
             callback: () => {
                 loadData();
-                setMenuShow(false)
+                setMenuShow(false);
             }
         },
         {
@@ -49,7 +52,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             disabled: false,
             callback: () => {
                 saveData();
-                setMenuShow(false)
+                setMenuShow(false);
             }
         },
         {
@@ -105,30 +108,30 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
         setIsModalShown(false);
     };
 
-    const onChange = (value:any) => {
+    const onChange = (value: any) => {
         console.log(value);
         //onChange(e.target.files[0])
     };
 
     useEffect(() => {
         const handleOuterClick = (e: any) => {
-            if ( menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target) ) {
+            if (menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target)) {
                 setMenuShow(false);
                 setActiveBtn(!activeBtn);
             }
         };
         if (menuShown) {
-            window.addEventListener("click", handleOuterClick)
+            window.addEventListener('click', handleOuterClick)
 
-
+;
         } else {
-            window.removeEventListener("click", handleOuterClick);
+            window.removeEventListener('click', handleOuterClick);
             setActiveBtn(!activeBtn);
         }
         return () => {
-            window.removeEventListener("click", handleOuterClick);
+            window.removeEventListener('click', handleOuterClick);
 
-        }
+        };
     }, [menuShown]);
 
     return (
@@ -142,11 +145,14 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
 
                 }
                 }>Menu</button>
-                <button>Patch</button>
+                <button
+                    style={appScreenMode === 'patch' ? {backgroundColor: 'green'} : {}}
+                    onClick={() => switchAppScreenMode(appScreenMode === 'main' ? 'patch' : 'main')}
+                >Patch</button>
                 <button>Outline</button>
                 <>
                     {(menuShown || null) && <div ref={menuWrapperRef} className="contextMenu">
-                        {contextOptions.map((o, i)=> (
+                        {contextOptions.map((o, i) => (
                             <div key={o.title + i}
                                  className={`contextMenu--option${o.disabled ? ' disabled' : ''}`}
                                  onClick={o.callback}>
@@ -167,8 +173,6 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
     )
 };
 
-export default connect(null, {selectMusicFile})(Header)
-
 interface IformProps {
     onResetAppDataConfirm: (val: IInitAppParams) => void
 }
@@ -182,8 +186,6 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
         <input
             type="number"
             onChange={(e) => {
-                console.log(e.currentTarget.value)
-                console.log(e.target.value)
                 setResetAppDataOptions({...resetAppDataOptions, fixtures: +e.currentTarget.value})
             }}
             value={resetAppDataOptions.fixtures}
@@ -210,3 +212,5 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
     </div>
     )
 };
+
+export default connect(null, {selectMusicFile, switchAppScreenMode})(Header)

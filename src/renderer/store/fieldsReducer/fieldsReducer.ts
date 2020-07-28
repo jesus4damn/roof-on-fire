@@ -4,6 +4,7 @@ import { ICueField, IField, IPatternField } from '../../../types/fieldsTypes';
 import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS, UPDATE_FIELD } from './fieldsActions';
 import { UPDATE_PATTERN } from '../fixturesReducer/fixturesActions';
 import { UPDATE_CUE } from '../cuesReducer/cuesActions';
+import { generateField } from '../mockDataGenerators';
 
 export interface IFieldsState {
     readonly cuesFields: Array<IField | ICueField>,
@@ -69,9 +70,13 @@ export const fieldsReducer: Reducer<IFieldsState> = (
             };
         case UPDATE_FIELD:
             if (!isPatternField(action.field) && action.fieldType === 'cue') {
+                let fieldIndex = state.cuesFields.map(f => f.id).indexOf(action.field.id);
+                const updated = state.cuesFields.map(f => f.id === action.field.id ? action.field : f);
                 return {
                     ...state,
-                    cuesFields: state.cuesFields.map(f => f.id === action.field.id ? action.field : f)
+                    cuesFields: fieldIndex === state.cuesFields.length -1
+                        ? [...updated, generateField(null)]
+                        : updated
                 }
             } else return state;
         case UPDATE_CUE:
