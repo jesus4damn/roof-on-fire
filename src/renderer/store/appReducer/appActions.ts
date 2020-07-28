@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from 'redux';
 import {
-    IActionsScreenSwitchers,
+    IActionsScreenSwitchers, IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
     IMainScreenSwitchers
@@ -11,6 +11,7 @@ import { GetStateType } from '../rootReducer';
 import { IFixtureActions } from '../fixturesReducer/fixturesActions';
 import { controllerAPI } from '../../components/API/API';
 
+export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
 export const SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN';
@@ -22,6 +23,9 @@ export const SET_ALLOW_API = 'app/SET_ALLOW_API';
 
 
 
+export interface ISwitchAppScreenMode extends Action {
+    type: typeof SWITCH_APP_SCREEN_MODE, payload: IAppScreenModes
+}
 export interface ISwitchMainScreenAction extends Action {
     type: typeof SWITCH_MAIN_SCREEN, payload: IMainScreenSwitchers
 }
@@ -49,6 +53,9 @@ export interface ISetAllowAPI extends Action {
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
+});
+export const switchAppScreenMode: ActionCreator<ISwitchAppScreenMode> = (payload) => ({
+    type: SWITCH_APP_SCREEN_MODE, payload
 });
 export const selectMusicFile: ActionCreator<ISelectMusicFile> = (payload) => ({
     type: SELECT_MUSIC_FILE, payload
@@ -81,4 +88,4 @@ export const sendMusicAction = (payload: string) =>
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode;
