@@ -19,11 +19,6 @@ interface IProps {
     appScreenMode: IAppScreenModes
     switchAppScreenMode: (payload: IAppScreenModes) => void
 }
-// const logoImg = require('../../../../assets/images/svg/logoImg.svg');
-// export const getLogoImg = () => {
-//     return logoImg
-// };
-const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile}) => {
 
 const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode, hideContextMenu }) => {
     const [menuShown, setMenuShow] = useState(false);
@@ -66,12 +61,10 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
             }
         },
         {
-            title: 'Parse Pdf',
             title: appScreenMode === 'patch' ? 'Back' : 'Patch',
             disabled: false,
             callback: () => {
-                showModal('parser');
-                setMenuShow(false)
+                //showModal('parser');
                 switchAppScreenMode(appScreenMode === 'patch' ? 'main' : 'patch');
                 setMenuShow(false);
             }
@@ -127,8 +120,6 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
         };
         if (menuShown) {
             window.addEventListener("click", handleOuterClick)
-
-
         } else {
             window.removeEventListener("click", handleOuterClick);
             setActiveBtn(!activeBtn);
@@ -175,11 +166,10 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
     )
 };
 
-export default connect(null, {selectMusicFile})(Header)
-
 interface IformProps {
     onResetAppDataConfirm: (val: IInitAppParams) => void
 }
+
 const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
     const [resetAppDataOptions, setResetAppDataOptions] = useState<IInitAppParams>({fixtures: 5, static: 5, dynamic: 5, long: 5});
 
@@ -190,8 +180,6 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
         <input
             type="number"
             onChange={(e) => {
-                console.log(e.currentTarget.value)
-                console.log(e.target.value)
                 setResetAppDataOptions({...resetAppDataOptions, fixtures: +e.currentTarget.value})
             }}
             value={resetAppDataOptions.fixtures}
@@ -217,18 +205,6 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
         <button onClick={() => onResetAppDataConfirm(resetAppDataOptions)}>Reset</button>
     </div>
     )
-                <div className={'importWrapper'}>
-                    <MusicInput
-                        label={'Select track'}
-                        onSelect={(path: string) => {
-                            selectMusicFile(path);
-                        }}
-                        onChange={onChange}
-                    />
-                </div>
-            </Modal>
-        </div>
-    );
 };
 
 export default connect(null, { selectMusicFile, switchAppScreenMode })(Header);

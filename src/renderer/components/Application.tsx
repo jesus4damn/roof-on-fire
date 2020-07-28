@@ -102,19 +102,15 @@ const Application = ({
                     </div>
                         <ResizeContainer>
                             <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
-                            <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                            {appScreenMode === 'main'
+                                ? <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
+                                : <div className="cuesWorkspaceWrapper"><Patch /></div>
+                            }
                         </ResizeContainer>
 
                     {appScreenMode === 'main'
-                        ? <React.Fragment>
-                            <div className="timeLineWorkspaceWrapper">
-                                <TimeLine />
-                            </div>
-                            <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div>
-                        </React.Fragment>
-                        : <div className="patchWorkspaceWrapper">
-                            <Patch />
-                        </div>}
+                        ? <div className="timeLineWorkspaceWrapper"><TimeLine /></div>
+                        : ''}
                 </MusicContextProvider>
             </ContextMenu>
         </div>

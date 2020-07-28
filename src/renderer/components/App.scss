@@ -35,14 +35,15 @@ input {
     // grid-template-rows: 1fr 20%;
     grid-template-rows: 40px 3.4fr 1fr;
     color: #ffffff;
-    // max-height: 100vh;
     font-family: Roboto, sans-serif;
     background:#000;
 }
 .appWrapper.patchMode {
-    grid-template-areas: "main patch";
+    grid-template-areas:
+            "header header"
+            "maincues patch";
     grid-template-columns: 3fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 100px 1fr;
     height: 96vh;
 }
 .appWrapper.patchMode > .mainWorkspaceWrapper {
