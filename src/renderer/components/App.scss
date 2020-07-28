@@ -39,7 +39,16 @@ input {
     font-family: Roboto, sans-serif;
     background:#000;
 }
-
+.appWrapper.patchMode {
+    grid-template-areas: "maincues patch";
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr;
+    height: 96vh;
+}
+.appWrapper.patchMode > .mainWorkspaceWrapper {
+    width: inherit;
+    max-height: 100%;
+}
 .headerWrapper {
     // position: absolute;
     // top: 0;
@@ -69,7 +78,7 @@ input {
     align-content: center;
     justify-content: center;
     align-items: center;
-    height: 68vh;
+    height: 100%;
     width: 69vw;
     overflow-x: hidden;
 }
@@ -94,4 +103,12 @@ input {
     justify-content: center;
     align-items: center;
     background: #000;
+}
+
+.patchWorkspaceWrapper {
+    display: flex;
+    grid-area: patch;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
 }

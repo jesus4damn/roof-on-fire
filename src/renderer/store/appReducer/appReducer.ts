@@ -1,13 +1,13 @@
 import { Reducer } from 'redux';
 import {
-    IActionsScreenSwitchers,
+    IActionsScreenSwitchers, IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import {
     SELECT_MUSIC_FILE, SET_ALLOW_API,
-    SET_CONTEXT_MENU_OPTIONS, SET_MUSIC_LENGTH,
+    SET_CONTEXT_MENU_OPTIONS, SET_MUSIC_LENGTH, SWITCH_APP_SCREEN_MODE,
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
     SWITCH_MAIN_RIGHT_PART,
@@ -18,6 +18,7 @@ import { TFixturesTypes } from '../../../types/fixtureTypes';
 import { getMp3 } from '../../../assets/musicGetter';
 
 export interface IAppState {
+    readonly appScreenMode: IAppScreenModes,
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
     readonly fixtureTypesScreenWindow: TFixturesTypes,
@@ -29,6 +30,7 @@ export interface IAppState {
 }
 
 const defaultState: IAppState = {
+    appScreenMode: 'main',
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,
     fixtureTypesScreenWindow: 'fireMachine',
@@ -43,7 +45,12 @@ export const appReducer: Reducer<IAppState> = (
     state = defaultState,
     action: RootActions
 ): IAppState => {
-    switch (action.type) {
+    switch (action.type)  {
+        case SWITCH_APP_SCREEN_MODE:
+            return {
+                ...state,
+                appScreenMode: action.payload,
+            };
         case SWITCH_MAIN_SCREEN:
             return {
                 ...state,

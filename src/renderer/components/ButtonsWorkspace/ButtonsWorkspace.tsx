@@ -113,7 +113,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                 {fixturesPropertiesScreenWindow === 'cues' && <Cues />}
             </div>
         </div>
-        
+
     </div>
     );
                                                             

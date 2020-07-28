@@ -1,14 +1,54 @@
 import * as React from "react";
-import {connect} from "react-redux";
+import { connect, useSelector } from 'react-redux';
+import { patchFixtures } from '../../store/fixturesReducer/fixturesActions';
+import { RootState } from '../../store/rootReducer';
+import { TFixturesTypes } from '../../../types/fixtureTypes';
+import "./Patch.scss";
+import { useState } from 'react';
 
-const Patch:React.FC = () => {
+interface IProps {
+    patchFixtures: (payload: {count: number, fixtureType: TFixturesTypes}) => Promise<void>
+}
+interface ISelectorProps {
+    fixtureTypes: TFixturesTypes[],
+}
+
+const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
+    const {fixtureTypes}: ISelectorProps = useSelector( (state: RootState) => ({fixtureTypes: state.fixtures.fixtureTypes}));
+    const [selectedType, setSelectedType] = useState('');
+
     return (
-        <div>
+        <div className="patchWrapper">
             <h2>
                 Patch
             </h2>
+            <div className="typesWrapper">
+                {fixtureTypes.map((t, i) =>
+                    <div
+                        className={`patchFixtureWrapper ${t === selectedType ? "selected" : ""}`}
+                        key={t + i}
+                        onClick={() => setSelectedType(t === selectedType ? "" : t)}
+                    >
+                        {t}
+                    </div>
+                )}
+            </div>
+            <div className={"patchControlsWrapper"}>
+                <div className={"row"}>
+                    <div><span>Address</span></div>
+                    <input type="number" />
+                    <div><span>Quantity</span></div>
+                    <input type="number" />
+                    <div><span>Address gap</span></div>
+                    <input type="number" />
+                </div>
+                <div className={"row"}>
+                    <button>Ok</button>
+                    <button>Cancel</button>
+                </div>
+            </div>
         </div>
     )
 };
 
-export default connect(null, null)(Patch)
+export default connect(null, {patchFixtures})(Patch)
