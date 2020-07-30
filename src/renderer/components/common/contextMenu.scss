@@ -178,12 +178,17 @@
 }
 .renameInput input{
   text-align: center;
-  color: #fff;
-  position: relative;
-  margin: 3px 27px 3px 5px;
-  padding: 5px 0;
-  border-color: #4F4F4F;
-  border-width: 0.5px;
+    color: #fff;
+    margin: 8px 0px 0px 0px;
+    padding: 0px 0;
+    border-color: #4F4F4F;
+    outline: none;
+    background: #000000;
+    border-radius: 4px;
+    padding-right: 0;
+    line-height: 2.7;
+    height: 33px;
+    font-size: 14px;
 }
 .renameInputBt{
   color: #C4C4C4;

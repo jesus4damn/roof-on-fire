@@ -87,15 +87,15 @@ const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture, createNew
                     </React.Fragment> : ''
                 )}
                 <Accordeon headerTitle={"Flame Jet"}>
-                    <div className="fixtures">
+                <div className="column" style={{marginTop: '25px'}}>
                         {mockStrings("Flame Jet", 5).map((s, i) =>
                             <div key={s}  className={'positionPachItem'}>
                                 <div className={'PachItemOne'}>{i + 1}</div>
                                 <div className={'PachItemTwo'}>{s}</div>
                             </div>
                         )}
-                    </div>
-                </Accordeon>
+                        </div>
+                                    </Accordeon>
                 <Accordeon headerTitle={"Switch"}>
                     <div className="column" style={{marginTop: '25px'}}>
                         {mockStrings("Switch", 5).map((s, i) =>

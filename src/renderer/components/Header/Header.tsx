@@ -142,11 +142,11 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
                 <button className={activeBtn ? '' :'ActiveBtn'} onClick={() => {
                     setMenuShow(true);
                     setActiveBtn(false);
-
+                    switchAppScreenMode(appScreenMode === 'main' ? 'main' : 'main')
                 }
                 }>Menu</button>
                 <button
-                    style={appScreenMode === 'patch' ? {backgroundColor: 'green'} : {}}
+                    style={appScreenMode === 'patch' ? {backgroundColor: '#222222', color:'#fff'} : {}}
                     onClick={() => switchAppScreenMode(appScreenMode === 'main' ? 'patch' : 'main')}
                 >Patch</button>
                 <button>Outline</button>
@@ -182,6 +182,8 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
     return (
     <div className="modalFormWrapp renameInput">
         <h2>Select InitialParams</h2>
+        <div className="modalFormInner">
+        <div className="modalFormItem">
         <span>fixtures</span>
         <input
             type="number"
@@ -190,24 +192,34 @@ const ResetAppForm: React.FC<IformProps> = ({onResetAppDataConfirm}) => {
             }}
             value={resetAppDataOptions.fixtures}
         />
-        <span>static</span>
-        <input
-            type="number"
-            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, static: +e.currentTarget.value})}
-            value={resetAppDataOptions.static}
-        />
-        <span>dynamic</span>
-        <input
-            type="number"
-            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, dynamic: +e.target.value})}
-            value={resetAppDataOptions.dynamic}
-        />
-        <span>long</span>
-        <input
-            type="number"
-            onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, long: +e.target.value})}
-            value={resetAppDataOptions.long}
-        />
+        </div>
+        <div className="modalFormItem">
+            <span>static</span>
+            <input
+                type="number"
+                onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, static: +e.currentTarget.value})}
+                value={resetAppDataOptions.static}
+            />
+        </div>
+        <div className="modalFormItem">
+            <span>dynamic</span>
+            <input
+                type="number"
+                onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, dynamic: +e.target.value})}
+                value={resetAppDataOptions.dynamic}
+            />
+        </div>
+        <div className="modalFormItem">
+            <span>long</span>
+            <input
+                type="number"
+                onChange={(e) => setResetAppDataOptions({...resetAppDataOptions, long: +e.target.value})}
+                value={resetAppDataOptions.long}
+            />
+        </div>     
+        </div>
+        
+       
         <button onClick={() => onResetAppDataConfirm(resetAppDataOptions)}>Reset</button>
     </div>
     )
