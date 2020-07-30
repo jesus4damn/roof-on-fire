@@ -258,5 +258,6 @@ export const reorderOnEffect = (cue: ICue, direction: TEffects) =>
         dispatch(updateCue({...cue, actions: result}))
 };
 
+
 export type ICuesActions = ICreateCueAction | IDeleteCueAction | IUpdateCueAction | IOnCueSelection
     | ICreateTimelineCueAction | ISetCuesData | IAddFixturesToCue;

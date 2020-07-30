@@ -1,4 +1,4 @@
-import { Action, ActionCreator } from 'redux';
+import { Action, ActionCreator, Dispatch } from 'redux';
 import {
     IActionsScreenSwitchers, IAppScreenModes,
     IContextMenuOption,
@@ -7,9 +7,15 @@ import {
 } from '../../../types/appTypes';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
 import { ThunkDispatch } from 'redux-thunk';
-import { GetStateType } from '../rootReducer';
-import { IFixtureActions } from '../fixturesReducer/fixturesActions';
+import { GetStateType, RootState } from '../rootReducer';
+import { IFixtureActions, sETFixturesSateAC } from '../fixturesReducer/fixturesActions';
 import { controllerAPI } from '../../components/API/API';
+import { RootActions } from '../rootActions';
+import { IInitAppParams, loadPrevious, resetState, saveState } from '../getInitalState';
+import { setInitialFields } from '../fieldsReducer/fieldsActions';
+import { initDevices, setCuesData } from '../cuesReducer/cuesActions';
+import { batch } from 'react-redux';
+import {ThunkAction} from 'redux-thunk';
 
 export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
@@ -84,6 +90,45 @@ export const sendMusicAction = (payload: string) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
         const res = await controllerAPI.sendEvent(payload);
         console.log(res);
+    };
+
+export const storeShowFile = () =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        const state = getState();
+        try {
+            const res = await controllerAPI.saveShowFile(state);
+            saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
+        } catch (e) {
+            saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
+        }
+    };
+
+export const loadShowFile = () =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        console.log('load ==========>');
+        try {
+            const asd = await controllerAPI.sendVal({channel: 1, value: 255})
+        } catch (e) {
+            try {
+                const commonData = loadPrevious();
+                dispatch(sETFixturesSateAC(commonData.fixtures));
+                dispatch(setInitialFields(commonData.fields));
+                dispatch(setCuesData(commonData.cues));
+            } catch (e) {
+                resetState();
+            }
+        }
+    };
+export const resetShowData = (params: IInitAppParams) =>
+    async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+        const common = resetState(params);
+        batch(() => {
+            dispatch(sETFixturesSateAC(common.fixtures));
+            dispatch(setInitialFields(common.fields));
+            dispatch(setCuesData(common.cues));
+        });
+        // @ts-ignore
+        await dispatch(initDevices(common.fixtures.fixtures));
     };
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
