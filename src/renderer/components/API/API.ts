@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IFixture } from '../../../types/fixtureTypes';
+import { RootState } from '../../store/rootReducer';
 
 const route = "http://localhost:5000";
 
@@ -34,5 +35,16 @@ export const controllerAPI = {
         const res = await axios.post(`${route}/fixtures/${type}?fixture=${fixture}&count=${count}`);
         console.log(res);
         return "AAAAAA";
+    },
+    saveShowFile: async (state: RootState) => {
+        try {
+            const res = await axios.post(`${route}/dmx/save`, state);
+            console.log(res);
+            return res;
+
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
     }
 };
