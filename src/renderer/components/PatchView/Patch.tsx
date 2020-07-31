@@ -20,8 +20,9 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
     return (
         <div className="patchWrapper">
             <h2>
-                Patch
+            Device library
             </h2>
+            <div className="DeviceLibraryWrapper">
             <div className="typesWrapper">
                 {fixtureTypes.map((t, i) =>
                     <div
@@ -33,16 +34,21 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
                     </div>
                 )}
             </div>
+            
+            </div>
             <div className={"patchControlsWrapper"}>
-                <div className={"row"}>
-                    <div><span>Address</span></div>
-                    <input type="number" />
-                    <div><span>Quantity</span></div>
-                    <input type="number" />
-                    <div><span>Address gap</span></div>
-                    <input type="number" />
+                <div className={"rowWrapper"}>
+                    <div className={"row"}><div><span>Address</span></div>
+                    <input type="number" /></div>
+                    <div className={"row"}><div><span>Quantity</span></div>
+                    <input type="number" /></div>
+                    <div className={"row"}><div><span>Address gap</span></div>
+                    <input type="number" /></div>
+                    
+                    
+                    
                 </div>
-                <div className={"row"}>
+                <div className={"rowBtn"}>
                     <button>Ok</button>
                     <button>Cancel</button>
                 </div>

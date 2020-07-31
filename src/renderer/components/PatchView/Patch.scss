@@ -1,11 +1,18 @@
 .patchWrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  align-items: center;
+  height: 100%;  
   width: 100%;
   z-index: 10;
   position: relative;
+  background: #444444;
+  border-radius: 2px;
+}
+.DeviceLibraryWrapper{
+  background: #000000;
+  border-radius: 4px;
+  margin: 0 2px;
+  height: 100%;
 }
 .typesWrapper {
   display: flex;
@@ -29,6 +36,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  border-radius: 2px;
 }
 .patchControlsWrapper > * button {
   display: flex;
@@ -38,20 +46,56 @@
   color: #fff;
   width: 100px;
   height: 24px;
+  border: 0;
+  border-radius: 2px;
+  margin-left: 5px;
 }
 .patchControlsWrapper > * input {
-  background-color: #0D0C0C;
   max-width: 75px;
+  width: 48px;
+  height: 20px;
+  color: #fff;
+  outline: none;
+  background: #000000;
+  border-radius: 2px;
+  padding-right: 0;
+  line-height: 1.6;
+  margin-left: 6px;
 }
 .patchControlsWrapper > * div {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.7em;
+  font-size: 0.9em;
+}
+.rowWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 0px 8px 26px;
+  overflow: hidden;
+  flex-wrap: wrap;
 }
 .row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5px;
+  padding: 8px 4px;
+}
+.rowBtn{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0 4px 4px 4px;;
+}
+.patchWrapper h2{
+     font-style: normal;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+    color: #fff;
+    font-size: 13px;
+    line-height: 12px;
+    padding-left: 7px;
 }

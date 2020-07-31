@@ -1,4 +1,8 @@
 
+
+.fixtures{
+    margin-top: 28px;
+}
 .fixtures::before {
   content: '';
   width: 2px;
@@ -9,10 +13,6 @@
   top: 3px;
   left: 0;
 }
-.fixtures{
-    margin-top: 28px;
-}
-
 .fixtureRow {
     display: flex;
     flex-direction: row;
@@ -123,7 +123,7 @@
 .WrapFixturesScroll{
     overflow: scroll;
     width: 100%;
-    height: 59vh;
+    height: 100%;
 }
 .WrapFixturesScroll::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -143,6 +143,7 @@
 .positionPach{
     margin-top: 6px;
     margin-left: 5px;
+    width: max-content;
 }
 .positionPachItem{
     display: flex;
@@ -153,7 +154,7 @@
 .PachItemOne{
     background: #4F4F4F;
     height: 24px;
-    width: 21.4%;
+    width: 82px;
     clip-path: polygon(100% 0%, 100% 48%, 100% 100%, 10% 100%, 0% 50%, 10% 0%);
     border-radius: 0px 5px 5px 0px;
     display: flex;
@@ -164,7 +165,7 @@
 .PachItemTwo{
     background: #4F4F4F;
     height: 24px;
-    width: 44%;
+    width: 193px;
     border-radius:5px ;
     display: flex;
     align-items: center;
@@ -174,7 +175,7 @@
 .PachItemThree{
     background: #4F4F4F;
     height: 24px;
-    width:34%;
+    width:128px;
     border-radius:5px ;
     display: flex;
     align-items: center;

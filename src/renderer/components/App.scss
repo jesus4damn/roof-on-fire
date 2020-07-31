@@ -42,7 +42,7 @@ input {
 }
 .appWrapper.patchMode {
     grid-template-areas: "header header" "maincues patch";
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr 32%;
     grid-template-rows: 30px 1fr;
     height: 100vh;
 }
@@ -68,11 +68,12 @@ input {
     grid-area: maincues;
     display: flex;
     flex-direction: row;
-    //grid-template-areas: "main cues";
-    //grid-template-rows: 1fr 20%;
     position: relative;
-    top: -2px;
-    margin-bottom: 2px;
+    top: -7px;
+    margin-bottom: 0px;
+    // height: 67.2vh;
+    height: auto;
+    overflow: hidden;
 }
 
 .mainWorkspaceWrapper {
@@ -96,6 +97,7 @@ input {
     height: 100%;
     z-index: 100;
     background: #000000;
+    
 }
 
 .timeLineWorkspaceWrapper {
@@ -114,4 +116,13 @@ input {
     align-content: center;
     justify-content: center;
     width: 100%;
+    border-radius: 5px;
+    border: 2px solid #222222;
+    box-sizing: border-box;
+    background: #000;
+    padding: 6px;
+    z-index: 14;
+    position: relative;
+    top: -7px;
+    margin-bottom: 0px;
 }
