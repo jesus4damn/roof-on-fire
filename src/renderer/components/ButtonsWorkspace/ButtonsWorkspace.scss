@@ -1,7 +1,7 @@
 .cuesWrapper {
     // color: green;
     display: grid;
-    grid-template-rows: 14% 1fr;
+    grid-template-rows: 9vh 1fr;
     width: 99%;
     height: 100%;
     position: relative;
@@ -163,10 +163,12 @@
     box-sizing: border-box;
     position: relative;
     line-height: 26px;
-    max-height: 34px;
+    height: auto;
 }
 .cuesWrapperContentScroll{
     overflow: hidden;
+    margin: 5px 2px 0px 2px;
+    width: 100%;
 }
 .cuesWrapperContent {
     width: 99%;
@@ -179,7 +181,7 @@
     border: 2px solid #444444;
     box-sizing: border-box;
     border-radius: 4px;
-    margin: 0 2px 2px 2px;
+    margin: 0px 0px 2px 0px;
     // height: -webkit-fill-available;
     position: relative;
     z-index: 1;

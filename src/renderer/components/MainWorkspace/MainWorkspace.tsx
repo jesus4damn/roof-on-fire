@@ -57,11 +57,11 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
             </div>
 
         <div className="workspaceContent">
-            <div className="workspaceContainer" style={{maxWidth: mainRightScreenSwitcher ? '45%' : '100%',width: mainRightScreenSwitcher ? '45%' : '100%'}}>
+            <div className="workspaceContainer" style={{maxWidth: mainRightScreenSwitcher ? '43%' : '100%',width: mainRightScreenSwitcher ? '43%' : '100%'}}>
                 {mainLeftScreenSwitcher === 'visualiser' && <Visualizer/>}
                 {mainLeftScreenSwitcher === 'cueListWindow' && <CueList />}
             </div>
-            {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{maxWidth: '55%',width: '55%'}} >
+            {mainRightScreenSwitcher && <div  className="workspaceContainer" style={{maxWidth: '57%',width: '57%'}} >
                 {mainRightScreenSwitcher === 'fixtures' && <Fixtures/>}
                 {mainRightScreenSwitcher === 'cuesWindow' && <Cues />}
             </div>}
