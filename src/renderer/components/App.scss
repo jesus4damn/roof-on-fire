@@ -83,31 +83,35 @@ input {
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 69vw;
+    // width: 69vw;
     overflow-x: hidden;
+    flex: 0 0 72%;
 }
-
+.appWrapper.patchMode .mainWorkspaceWrapper{
+    flex: 0 0 100%;
+}
 .cuesWorkspaceWrapper {
     display: flex;
     grid-area: cues;
     align-content: center;
     justify-content: space-between;
     align-items: center;
-    max-height:68vh;
+    // max-height:68vh;
     height: 100%;
     z-index: 100;
     background: #000000;
-    
+    flex: 0 0 28%;   
 }
 
 .timeLineWorkspaceWrapper {
-    grid-area: time;
-    z-index: 22;
+    grid-area: time;  
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
     background: #000;
+    top: -2px;
+    position: relative;
 }
 
 .patchWorkspaceWrapper {

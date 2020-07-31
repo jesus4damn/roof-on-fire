@@ -4,11 +4,13 @@
   border-radius: 5px;
   border: 2px solid #444444;
   border-top: 0;
-  box-sizing: border-box;
-  margin: 0 5px;
+  box-sizing: border-box; 
   background: #444444;
-  width: 35%;
-  // overflow: hidden;
+  width: 35%;  
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .WrapEffect .EffectBt {
