@@ -3,6 +3,7 @@ import { connect, useSelector } from 'react-redux';
 import { patchFixtures } from '../../store/fixturesReducer/fixturesActions';
 import { RootState } from '../../store/rootReducer';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
+import Accordeon from '../common/Accordeon/Accordeon';
 import "./Patch.scss";
 import { useState } from 'react';
 
@@ -23,6 +24,7 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
             Device library
             </h2>
             <div className="DeviceLibraryWrapper">
+            <Accordeon headerTitle={"Crazy Flame Mod 1"}>
             <div className="typesWrapper">
                 {fixtureTypes.map((t, i) =>
                     <div
@@ -34,7 +36,7 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
                     </div>
                 )}
             </div>
-            
+            </Accordeon>
             </div>
             <div className={"patchControlsWrapper"}>
                 <div className={"rowWrapper"}>

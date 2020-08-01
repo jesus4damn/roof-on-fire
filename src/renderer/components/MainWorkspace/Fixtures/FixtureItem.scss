@@ -61,8 +61,11 @@
     }
 }
 .titleParameters{
-    margin: 4px 0 3px 0;
-    font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 4px 0 3px 0;
+  font-size: 14px;
+  text-overflow: ellipsis;
 }
 .paramBlock.paramDmx{
     flex-direction: row;
@@ -119,7 +122,18 @@
     border: 2px solid #444444;
     box-sizing: border-box;
     overflow-y: hidden;
-    background: #000000;
+    background: #000000;    
+}
+.appWrapper.patchMode .WrapFixtures {
+  height: 99.7%;
+  margin-top: 2px;
+  border-radius: 5px;
+  border: 2px solid #444444;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  background: #000000;
+  display: grid;
+  grid-template-rows: 17fr 1fr;
 }
 .WrapFixturesScroll{
     overflow: scroll;
@@ -314,4 +328,40 @@ body {
 .column {
   display: flex;
   flex-direction: column;
+}
+.FixturesRowBtn{
+display: none;
+}
+.appWrapper.patchMode .FixturesRowBtn{
+  color: #fff;
+  font-size: 0.8rem;
+  border-radius: 2px;
+  padding:8px 4px 4px 4px;
+  background: #444444; 
+ display: flex;
+  
+}
+.appWrapper.patchMode .FixturesRowBtn button{ 
+  width: 100px;
+  height: 24px;
+  border: 0;
+  font-weight: 500;
+font-size: 10px;
+line-height: 12px;
+border-radius: 2px;
+text-align: center;
+  color: #fff;
+  &:nth-child(1){    
+    background: #2F80ED;
+    margin-right: 5px;
+  }
+  &:nth-child(2){
+    
+    background: #27AE60;
+  }
+  &:nth-child(3){
+    position: absolute;
+    right: 4px;
+    background: #EB5757;
+  }
 }

@@ -32,7 +32,8 @@
     flex-direction: row;
     flex-wrap: nowrap;
     background-color: #444444;
-    border-radius: 5px;
+    width: 100%;
+    min-height: 52px;
 }
 
 .TableCuesList > * span {
@@ -41,6 +42,7 @@
     padding: 6px;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 }
 
 .headerTableCuesList-active {
