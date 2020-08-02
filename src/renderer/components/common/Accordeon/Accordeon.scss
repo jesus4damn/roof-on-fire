@@ -108,8 +108,6 @@
   left: calc(50% - 4px);
   transition: ease-in-out 0.1s;
 }
-
-
 .AccordionBottom-collapsed {
   height: 0px;
   overflow: hidden;
@@ -119,4 +117,43 @@
 .AccordionBottom{
   height: auto;
   transition: all 2s;
+}
+.WrapFixtures img.FrameAccordionImg-collapsed{
+  display: none;
+}
+.WrapFixtures img.FrameAccordionImg{
+  display: none;
+}
+.DeviceLibraryWrapper img{
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background: #000;
+  fill:"#2f80ed";
+}
+.DeviceLibraryWrapper span{
+  display: none;
+}
+.AccordionBottom .typesWrapper{
+  position: relative;
+  top: 28px;
+  left: 36.21px;
+}
+.AccordionBottom .typesWrapper div{
+  margin-bottom: 9px;
+}
+.DeviceLibraryWrapper .FrameAccordionImg-collapsed{
+  transform: rotate(-90deg);
+  transition: 0.3s all;
+  width: 14px;
+  height: 11px;;
+}
+.DeviceLibraryWrapper .FrameAccordionImg{
+  transform: rotate(0deg);
+  transition: 0.3s all;
+  width: 14px;
+    height: 10px;
+}
+.DeviceLibraryWrapper .FrameAccordion{
+  margin-bottom: 9%;
 }

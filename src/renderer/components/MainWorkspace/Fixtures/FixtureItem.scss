@@ -132,13 +132,17 @@
   box-sizing: border-box;
   overflow-y: hidden;
   background: #000000;
-  display: grid;
-  grid-template-rows: 17fr 1fr;
+  display: flex;
+  flex-direction: column;
 }
 .WrapFixturesScroll{
     overflow: scroll;
     width: 100%;
     height: 100%;
+}
+.appWrapper.patchMode .WrapFixturesScroll{
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .WrapFixturesScroll::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

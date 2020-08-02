@@ -25,17 +25,72 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
             </h2>
             <div className="DeviceLibraryWrapper">
             <Accordeon headerTitle={"Crazy Flame Mod 1"}>
-            <div className="typesWrapper">
-                {fixtureTypes.map((t, i) =>
-                    <div
-                        className={`patchFixtureWrapper ${t === selectedType ? "selected" : ""}`}
-                        key={t + i}
-                        onClick={() => setSelectedType(t === selectedType ? "" : t)}
-                    >
-                        {t}
-                    </div>
-                )}
-            </div>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Flame Jet"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Switch"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Piro Block"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon> <Accordeon headerTitle={"Crazy Flame Mod 1"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Flame Jet"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Switch"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Switch"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon> <Accordeon headerTitle={"Piro Block"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
+            </Accordeon>
+            <Accordeon headerTitle={"Flame Jet"}>
+                <div className="typesWrapper">
+                <div>Flame Jet</div>
+                <div>Switch</div>
+                <div>Piro Block</div>
+                </div>
             </Accordeon>
             </div>
             <div className={"patchControlsWrapper"}>

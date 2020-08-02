@@ -7,8 +7,14 @@ interface IProps {
     headerTitle: string,
     children: any
 }
-
-
+const arrowImg = require('../../../../assets/images/svg/arrow-accordeon.svg');
+export const getArrowImg = () => {
+    return arrowImg;
+};
+const arrowImgCollapsed = require('../../../../assets/images/svg/arrow-collapsed.svg');
+export const getArrowImgCollapsed = () => {
+    return arrowImgCollapsed;
+};
 const Accordeon: React.FC<IProps> = (props) => {
     const [collapsed, setCollapsed] = React.useState(false);
 
@@ -18,6 +24,8 @@ const Accordeon: React.FC<IProps> = (props) => {
                 {props.headerTitle}
             </h2>
             <span className={!collapsed ? 'FrameAccordionImg-collapsed ' : 'FrameAccordionImg'}
+                  onClick={() => setCollapsed(!collapsed)}/>
+                  <img src={getArrowImgCollapsed()} alt="" className={!collapsed ? 'FrameAccordionImg-collapsed' : 'FrameAccordionImg'}
                   onClick={() => setCollapsed(!collapsed)}/>
             <div className={!collapsed ? 'AccordionBottom-collapsed ' : 'AccordionBottom'}>
                 {props.children}
