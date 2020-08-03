@@ -25,7 +25,7 @@ const Accordeon: React.FC<IProps> = (props) => {
             </h2>
             <span className={!collapsed ? 'FrameAccordionImg-collapsed ' : 'FrameAccordionImg'}
                   onClick={() => setCollapsed(!collapsed)}/>
-                  <img src={getArrowImgCollapsed()} alt="" className={!collapsed ? 'FrameAccordionImg-collapsed' : 'FrameAccordionImg'}
+                  <img src={!collapsed ? getArrowImgCollapsed() :  getArrowImg() } alt="" className={!collapsed ? 'FrameAccordionImg-collapsed Imgitem' : 'FrameAccordionImg Imgitem'}
                   onClick={() => setCollapsed(!collapsed)}/>
             <div className={!collapsed ? 'AccordionBottom-collapsed ' : 'AccordionBottom'}>
                 {props.children}

@@ -48,10 +48,19 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
             <Accordeon headerTitle={"Piro Block"}>
                 <div className="typesWrapper">
                 <div>Flame Jet</div>
-                <div>Switch</div>
+                <div>Switch
+                    <Accordeon headerTitle={"Crazy Flame Mod 1"}>
+                    <div className="typesWrapper">
+                    <div>Flame Jet</div>
+                    <div>Switch</div>
+                    <div>Piro Block</div>
+                </div>
+            </Accordeon>
+                </div>
                 <div>Piro Block</div>
                 </div>
-            </Accordeon> <Accordeon headerTitle={"Crazy Flame Mod 1"}>
+            </Accordeon> 
+            <Accordeon headerTitle={"Crazy Flame Mod 1"}>
                 <div className="typesWrapper">
                 <div>Flame Jet</div>
                 <div>Switch</div>
@@ -60,7 +69,15 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
             </Accordeon>
             <Accordeon headerTitle={"Flame Jet"}>
                 <div className="typesWrapper">
-                <div>Flame Jet</div>
+                <div> 
+                    <Accordeon headerTitle={"Flame Jet"}>
+                        <div className="typesWrapper">
+                        <div>Flame Jet</div>
+                        <div>Switch</div>
+                        <div>Piro Block</div>
+                        </div>
+                    </Accordeon>                    
+                </div>
                 <div>Switch</div>
                 <div>Piro Block</div>
                 </div>

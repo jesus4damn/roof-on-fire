@@ -6,6 +6,9 @@
     width: 100%;
     background:#252424;
     overflow: auto;
+     @media(min-width:250px) and (max-width:1050px) {
+        overflow-x: scroll;
+     }
 }
 
 .TableCues {
@@ -14,6 +17,7 @@
     font-size: 14px;
     width: 100%;
     position: relative;
+    min-height: 52px;
 }
 .TableCues td img{
     width: 24px;

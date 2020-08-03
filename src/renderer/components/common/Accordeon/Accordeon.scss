@@ -128,8 +128,7 @@
   width: 10px;
   height: 10px;
   position: absolute;
-  background: #000;
-  fill:"#2f80ed";
+  background: #000;  
 }
 .DeviceLibraryWrapper span{
   display: none;
@@ -140,20 +139,28 @@
   left: 36.21px;
 }
 .AccordionBottom .typesWrapper div{
-  margin-bottom: 9px;
+  margin-bottom: 7px;
+  padding-bottom: 2px;
 }
 .DeviceLibraryWrapper .FrameAccordionImg-collapsed{
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
   transition: 0.3s all;
   width: 14px;
-  height: 11px;;
+  height: 14px;
 }
 .DeviceLibraryWrapper .FrameAccordionImg{
-  transform: rotate(0deg);
+  transform: rotate(-90deg);
   transition: 0.3s all;
   width: 14px;
     height: 10px;
 }
 .DeviceLibraryWrapper .FrameAccordion{
-  margin-bottom: 9%;
+  margin-bottom: 3vh;
+}
+.DeviceLibraryWrapper .typesWrapper .FrameAccordion{
+  position: relative;
+  left: -30px;
+}
+.patchWrapper .DeviceLibraryWrapper h2{
+  padding-left: 0px;
 }

@@ -59,9 +59,13 @@
     z-index: 3;
     height: 26px;
     align-self: flex-end;
-    width: 100%;
+    width: 6vw;
     border: 2px solid #666666;
     box-sizing: border-box;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .image {
