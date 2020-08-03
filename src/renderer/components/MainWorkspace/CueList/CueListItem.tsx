@@ -68,7 +68,7 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
         <div
             onClick={() => setActiveCue()}
             className={'cueListItem'}
-            style={{cursor: 'pointer', backgroundColor: selected ? 'green' : 'inherit'}}
+            style={{cursor: 'pointer', backgroundColor: selected ? '#27AE60' : 'inherit'}}
             onContextMenu={() => {
                 setContextMenuOptions(contextOptions);
             }}

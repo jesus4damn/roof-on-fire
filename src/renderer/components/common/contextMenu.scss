@@ -174,7 +174,7 @@
   height: 2px;
   background: #585454;
   bottom: -7px;
-  left: 38px;
+  left: calc(50% - 81px);
 }
 .renameInput input{
   text-align: center;
@@ -200,6 +200,52 @@
   padding: 6px 6px 4px 5px;
   border: 0.5px solid #C4C4C4;
   font-weight: 100;
+}
+.cuesWrapperContent .modal-content{
+  width: 80%;
+}
+.cuesWrapperContent .modal-child-content{
+  width:100%;
+  overflow: hidden;
+}
+.cuesWrapperContent .renameInput{
+  width:100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 0px;
+  & p{
+      flex:1 1 100%;
+      margin-top: 32px;
+  }
+  & input{
+    max-width: 98%;
+    margin-bottom: 30px;
+    margin: 19px auto 10px auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 45px;
+    width: 80%;
+  }
+  & button{
+    cursor: pointer;
+    align-items: center;
+    background-color: #828282;
+    color: #fff;
+    width: 100%;
+    height: 29px;
+    border: 0;
+    border-radius: 2px;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    margin-top: 17px;
+    &:hover {
+      background-color: #444444;
+      color: #fff;
+  }
+  }
 }
 @keyframes scaleIn {
   0% {

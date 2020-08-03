@@ -14,15 +14,53 @@
     flex-direction: column;
     color: #fff;
     height: 100%;
-    font-size: 14px;
+    font-size: 14px;    
 }
 
 .cueListItem {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap;   
+    width: calc(31vw - 14px);
+    position: relative;  
+    margin-top: 2px;  
 }
-
+.cueListItem::before {
+    content: "";
+    width: 98%;
+    height: 1px;
+    position: absolute;
+    background: #000;
+    opacity: 0.5;
+    border-radius: 1px;
+    bottom: -2px;
+    margin: 0 auto;
+    left: 1%;
+}
+.cueListItem > * span {
+    
+    &:nth-child(1){
+        flex:0 0 7.5%
+    }
+    &:nth-child(2){
+        flex:0 0 30.8%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;    
+    }
+    &:nth-child(3){
+        flex:0 0 16%
+    }
+    &:nth-child(4){
+        flex:0 0 16%
+    }
+    &:nth-child(5){
+        flex:0 0 14.6%
+    }
+    &:nth-child(6){
+        flex:0 0 14.6%;
+    }
+}
 .TableCuesList-active {
     background-color: red;
 }
@@ -32,7 +70,8 @@
     flex-direction: row;
     flex-wrap: nowrap;
     background-color: #444444;
-    border-radius: 5px;
+    width: 100%;
+    min-height: 52px;   
 }
 
 .TableCuesList > * span {
@@ -41,6 +80,25 @@
     padding: 6px;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+    &:nth-child(1){
+        flex:0 0 7.5%
+    }
+    &:nth-child(2){
+        flex:0 0 30.8%
+    }
+    &:nth-child(3){
+        flex:0 0 16%
+    }
+    &:nth-child(4){
+        flex:0 0 16%
+    }
+    &:nth-child(5){
+        flex:0 0 14.6%
+    }
+    &:nth-child(6){
+        flex:0 0 14.6%
+    }
 }
 
 .headerTableCuesList-active {

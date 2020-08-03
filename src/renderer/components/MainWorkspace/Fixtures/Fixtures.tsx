@@ -116,8 +116,15 @@ const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture, createNew
                         )}
                     </div>
                 </Accordeon>
+                
             </div>
-
+            <div className={"FixturesControlsWrapper"}>                
+                <div className={"FixturesRowBtn"}>
+                    <button>Add Device</button>
+                    <button>Add Group</button>
+                    <button>Delete Selected</button>
+                </div>
+            </div>                        
         </div>
 
     );
