@@ -19,10 +19,6 @@ interface IProps {
     appScreenMode: IAppScreenModes
     switchAppScreenMode: (payload: IAppScreenModes) => void
 }
-// const logoImg = require('../../../../assets/images/svg/logoImg.svg');
-// export const getLogoImg = () => {
-//     return logoImg
-// };
 const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode}) => {
     const [menuShown, setMenuShow] = useState(false);
     const menuWrapperRef = React.createRef<HTMLDivElement>();
@@ -121,9 +117,7 @@ const Header:React.FC<IProps> = ({resetData, loadData, saveData, selectMusicFile
             }
         };
         if (menuShown) {
-            window.addEventListener('click', handleOuterClick)
-
-;
+            window.addEventListener('click', handleOuterClick);
         } else {
             window.removeEventListener('click', handleOuterClick);
             setActiveBtn(!activeBtn);

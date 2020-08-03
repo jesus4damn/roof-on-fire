@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Rnd } from 'react-rnd';
 import { connect } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 import {
@@ -97,6 +96,13 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                     Статика
                 </button>
                 <button
+                    className={fixturesPropertiesScreenWindow === 'all' ? "activeButtonsBottom" : ''}
+                    onClick={() => {
+                    switchFixturePropertiesButtonsScreen('all');
+                }}>
+                    Bce
+                </button>
+                <button
                     className={fixturesPropertiesScreenWindow === 'cues' ? "activeButtonsBottom" : ''}
                     onClick={() => {
                     switchFixturePropertiesButtonsScreen('cues');
@@ -107,9 +113,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
         </div>
         <div className="cuesWrapperContentScroll">
             <div className="cuesWrapperContent">
-                {fixturesPropertiesScreenWindow === 'static' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'dynamic' && <Properties />}
-                {fixturesPropertiesScreenWindow === 'long' && <Properties />}
+                {fixturesPropertiesScreenWindow !== 'cues' && <Properties patternsType={fixturesPropertiesScreenWindow} />}
                 {fixturesPropertiesScreenWindow === 'cues' && <Cues />}
             </div>
         </div>

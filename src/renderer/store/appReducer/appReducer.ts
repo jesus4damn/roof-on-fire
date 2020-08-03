@@ -21,7 +21,7 @@ export interface IAppState {
     readonly appScreenMode: IAppScreenModes,
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
-    readonly fixtureTypesScreenWindow: TFixturesTypes,
+    readonly fixtureTypesScreenWindow: TFixturesTypes | 'all',
     readonly fixturesPropertiesScreenWindow: IActionsScreenSwitchers,
     readonly contextMenuOptions: IContextMenuOption[],
     readonly musicFilePath: string,

@@ -10,12 +10,12 @@ import { isPatternField } from '../../../store/fieldsReducer/fieldsReducer';
 
 interface IProps {
     fieldsArr: Array<IField | IPatternField>
-    patternsType: TPatternType | 'cues',
-    setNewFields: (patterns: IPattern[], patternsType: TPatternType) => void
+}
+interface ICommonProps {
+    patternsType: TPatternType | 'cues' | 'all',
 }
 
-const Patterns:React.FC<IProps> = ({patternsType, setNewFields, fieldsArr}) => {
-
+const Patterns:React.FC<IProps & ICommonProps> = ({fieldsArr}) => {
     return (
         <React.Fragment>
             {fieldsArr.map(f => (
@@ -25,14 +25,13 @@ const Patterns:React.FC<IProps> = ({patternsType, setNewFields, fieldsArr}) => {
                     connected={isPatternField(f) ? f.connected : null}
                 />
             ))}
-            {!fieldsArr.length ? <h1></h1> : ''}
+            {!fieldsArr.length ? <h1> </h1> : ''}
         </React.Fragment>
     )
 };
 
-const mapStateToProps = (state: RootState) => ({
-    patternsType: state.app.fixturesPropertiesScreenWindow,
-    fieldsArr: getFieldsArr(state),
+const mapStateToProps = (state: RootState, props: ICommonProps) => ({
+    fieldsArr: getFieldsArr(state, props.patternsType),
 });
 
-export default connect(mapStateToProps, {setNewFields})(Patterns)
+export default connect(mapStateToProps, {})(Patterns)
