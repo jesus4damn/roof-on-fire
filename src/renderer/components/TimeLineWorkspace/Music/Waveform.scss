@@ -7,6 +7,7 @@
     top: calc(50% - 1px);
     border-radius: 9px;   
     outline: none; 
+    cursor: pointer;
 }
 .timelineNavContainer--option input[type=range]::-webkit-slider-thumb{
     -webkit-appearance: none;
@@ -15,4 +16,5 @@
     height: 13px;
     border-radius: 10px;
     box-shadow:  #BDBDBD 0px 0px 0px 3px;
+    cursor: pointer;
 }
