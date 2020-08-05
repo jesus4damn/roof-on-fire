@@ -66,6 +66,7 @@
   margin: 4px 0 3px 0;
   font-size: 14px;
   text-overflow: ellipsis;
+  max-width: 89px;
 }
 .paramBlock.paramDmx{
     flex-direction: row;
@@ -75,8 +76,12 @@
     display: flex;
     flex-direction: column;
 }
-.blockFireMachine input {
+.blockFireMachine input{
   max-width: 89px;
+  outline: none;
+  margin: 2px 0 0px 0;
+  font-size: 14px;
+  padding: 0; 
 }
 .blockDmx{
     width: 33px;

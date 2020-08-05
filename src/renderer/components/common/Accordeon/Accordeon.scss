@@ -111,12 +111,12 @@
 .AccordionBottom-collapsed {
   height: 0px;
   overflow: hidden;
-  transition: all 2s;
+  // transition: all 2s;
   position: relative;
 }
 .AccordionBottom{
   height: auto;
-  transition: all 2s;
+  // transition: all 2s;
 }
 .WrapFixtures img.FrameAccordionImg-collapsed{
   display: none;
@@ -152,14 +152,14 @@
   transform: rotate(-90deg);
   transition: 0.3s all;
   width: 14px;
-    height: 10px;
+  height: 10px;
 }
 .DeviceLibraryWrapper .FrameAccordion{
   margin-bottom: 3vh;
 }
 .DeviceLibraryWrapper .typesWrapper .FrameAccordion{
   position: relative;
-  left: -30px;
+  left: -29.5px;
 }
 .patchWrapper .DeviceLibraryWrapper h2{
   padding-left: 0px;
