@@ -1,6 +1,7 @@
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import {
-    IActionsScreenSwitchers, IAppScreenModes,
+    IActionsScreenSwitchers,
+    IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
     IMainScreenSwitchers
@@ -15,7 +16,6 @@ import { IInitAppParams, loadPrevious, resetState, saveState } from '../getInita
 import { setInitialFields } from '../fieldsReducer/fieldsActions';
 import { initDevices, setCuesData } from '../cuesReducer/cuesActions';
 import { batch } from 'react-redux';
-import {ThunkAction} from 'redux-thunk';
 
 export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
@@ -26,35 +26,56 @@ export const SET_CONTEXT_MENU_OPTIONS = 'app/SET_CONTEXT_MENU_OPTIONS';
 export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
 export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
 export const SET_ALLOW_API = 'app/SET_ALLOW_API';
+export const SET_WHOLE_STATE = 'app/SET_WHOLE_STATE';
 
 
-
+export interface ISetWholeState extends Action {
+    type: typeof SET_WHOLE_STATE,
+    payload: RootState
+}
 export interface ISwitchAppScreenMode extends Action {
-    type: typeof SWITCH_APP_SCREEN_MODE, payload: IAppScreenModes
+    type: typeof SWITCH_APP_SCREEN_MODE,
+    payload: IAppScreenModes
 }
+
 export interface ISwitchMainScreenAction extends Action {
-    type: typeof SWITCH_MAIN_SCREEN, payload: IMainScreenSwitchers
+    type: typeof SWITCH_MAIN_SCREEN,
+    payload: IMainScreenSwitchers
 }
+
 export interface ISwitchMainRightPartAction extends Action {
-    type: typeof SWITCH_MAIN_RIGHT_PART, payload: IMainRightScreenSwitchers
+    type: typeof SWITCH_MAIN_RIGHT_PART,
+    payload: IMainRightScreenSwitchers
 }
+
 export interface ISwitchFixturePropertiesButtonsScreen extends Action {
-    type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN, payload: IActionsScreenSwitchers
+    type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
+    payload: IActionsScreenSwitchers
 }
+
 export interface ISwitchFixtureTypesButtonsScreen extends Action {
-    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload: TFixturesTypes
+    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
+    payload: TFixturesTypes
 }
+
 export interface ISetContextMenuOptions extends Action {
-    type: typeof SET_CONTEXT_MENU_OPTIONS, payload: IContextMenuOption[]
+    type: typeof SET_CONTEXT_MENU_OPTIONS,
+    payload: IContextMenuOption[]
 }
+
 export interface ISelectMusicFile extends Action {
-    type: typeof SELECT_MUSIC_FILE, payload: string
+    type: typeof SELECT_MUSIC_FILE,
+    payload: string
 }
+
 export interface ISetMusicFileLength extends Action {
-    type: typeof SET_MUSIC_LENGTH, payload: number
+    type: typeof SET_MUSIC_LENGTH,
+    payload: number
 }
+
 export interface ISetAllowAPI extends Action {
-    type: typeof SET_ALLOW_API, payload: boolean
+    type: typeof SET_ALLOW_API,
+    payload: boolean
 }
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
@@ -92,31 +113,34 @@ export const sendMusicAction = (payload: string) =>
         console.log(res);
     };
 
-export const storeShowFile = () =>
+export const storeShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const state = getState();
         try {
-            const res = await controllerAPI.saveShowFile(state);
+            const res = await controllerAPI.saveShowFile(state, path);
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
         } catch (e) {
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
         }
     };
 
-export const loadShowFile = () =>
+export const loadShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         console.log('load ==========>');
         try {
-            const asd = await controllerAPI.sendVal({channel: 1, value: 255})
-        } catch (e) {
-            try {
+            if (path) {
+                const wholeState = await controllerAPI.loadShowFile(path);
+                dispatch(sETFixturesSateAC(wholeState.fixtures));
+                dispatch(setInitialFields(wholeState.fields));
+                dispatch(setCuesData(wholeState.cues));
+            } else {
                 const commonData = loadPrevious();
                 dispatch(sETFixturesSateAC(commonData.fixtures));
                 dispatch(setInitialFields(commonData.fields));
                 dispatch(setCuesData(commonData.cues));
-            } catch (e) {
-                resetState();
             }
+        } catch (e) {
+            resetState();
         }
     };
 export const resetShowData = (params: IInitAppParams) =>
@@ -133,4 +157,4 @@ export const resetShowData = (params: IInitAppParams) =>
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState;

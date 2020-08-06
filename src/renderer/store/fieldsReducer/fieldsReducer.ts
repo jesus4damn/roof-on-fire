@@ -5,6 +5,7 @@ import { PICK_UP_FIELD, SET_INITIAL_FIELDS, SET_NEW_FIELDS, UPDATE_FIELD } from 
 import { UPDATE_PATTERN } from '../fixturesReducer/fixturesActions';
 import { UPDATE_CUE } from '../cuesReducer/cuesActions';
 import { generateField } from '../mockDataGenerators';
+import { SET_WHOLE_STATE } from '../appReducer/appActions';
 
 export interface IFieldsState {
     readonly cuesFields: Array<IField | ICueField>,
@@ -89,6 +90,8 @@ export const fieldsReducer: Reducer<IFieldsState> = (
             } else return state;
         case SET_NEW_FIELDS:
             return state;
+        case SET_WHOLE_STATE:
+            return action.payload.fields;
         default:
             return state;
     }
