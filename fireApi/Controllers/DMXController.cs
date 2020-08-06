@@ -3,6 +3,10 @@ using fireApi.Interfaces;
 using System.Threading.Tasks;
 using fireApi.Model;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace fireApi.Controllers
 {
@@ -38,6 +42,23 @@ namespace fireApi.Controllers
         {
             Task.Run(() => _comPortSender.InitDevices(models));
         }
+
+        [HttpPost]
+        [Route("save")]
+        public void Save(object obj)
+        {
+            System.IO.File.WriteAllText(@"D:\path.txt", obj.ToString());
+        }
+
+
+        [HttpPost]
+        [Route("load")]
+        public JObject Load(string file)
+        {
+            string response = File.ReadAllText(@"D:\path.txt");
+            return JObject.Parse(response);
+        }
+
     }
 }
 

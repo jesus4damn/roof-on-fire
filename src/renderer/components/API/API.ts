@@ -2,7 +2,7 @@ import axios from "axios";
 import { IFixture } from '../../../types/fixtureTypes';
 import { RootState } from '../../store/rootReducer';
 
-const route = "http://localhost:5000";
+const route = "http://localhost:52600";
 
 export const controllerAPI = {
     sendEvent: async (event: string) => {
