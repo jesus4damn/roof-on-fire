@@ -2,25 +2,33 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
-import { selectMusicFile, switchAppScreenMode } from '../../store/appReducer/appActions';
+import {
+  loadShowFile,
+  resetShowData,
+  selectMusicFile,
+  storeShowFile,
+  switchAppScreenMode
+} from '../../store/appReducer/appActions';
 import { MusicInput } from '../common/modalContent/AudioInput';
 import { IAppScreenModes } from '../../../types/appTypes';
 import ExcelReader from '../../../data-helper/ExcelReader';
-import { IInitAppParams } from '../../store/getInitalState';
-
+import { getLoadFilePath, IInitAppParams, setSaveFilePath } from '../../store/getInitalState';
+import { RootState } from '../../store/rootReducer';
 require('./Header.scss');
 
 interface IProps {
   hideContextMenu: () => void
   resetData: (params: IInitAppParams) => void
-  loadData: () => void
-  saveData: () => void
-  selectMusicFile: (payload: string) => {},
-  appScreenMode: IAppScreenModes
-  switchAppScreenMode: (payload: IAppScreenModes) => void
 }
 
-const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFile, appScreenMode, switchAppScreenMode }) => {
+interface IConnectedProps {
+  appScreenMode: IAppScreenModes
+  storeShowFile: (path: string) => void
+  loadShowFile: (path: string) => void
+  switchAppScreenMode: (payload: IAppScreenModes) => void
+  selectMusicFile: (payload: string) => {},
+}
+const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, storeShowFile, selectMusicFile, appScreenMode, switchAppScreenMode }) => {
   const [menuShown, setMenuShow] = useState(false);
   const menuWrapperRef = React.createRef<HTMLDivElement>();
   const [activeBtn, setActiveBtn] = useState(false);
@@ -40,7 +48,11 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
       title: 'loadData',
       disabled: false,
       callback: () => {
-        loadData();
+        getLoadFilePath().then((res: string) => {
+          if (res) {
+            loadShowFile(res)
+          }
+        });
         setMenuShow(false);
       }
     },
@@ -48,7 +60,10 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
       title: 'saveData',
       disabled: false,
       callback: () => {
-        saveData();
+        setSaveFilePath().then((path: any) => {
+          console.log(path)
+          storeShowFile(path);
+        });
         setMenuShow(false);
       }
     },
@@ -84,7 +99,7 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
             onSelect={(path: string) => {
               selectMusicFile(path);
             }}
-            onChange={onChange}
+            onChange={() => {}}
           />
         </div>
       );
@@ -105,11 +120,6 @@ const Header: React.FC<IProps> = ({ resetData, loadData, saveData, selectMusicFi
   const closeModal = () => {
     setModalContent(null);
     setIsModalShown(false);
-  };
-
-  const onChange = (value: any) => {
-    console.log(value);
-    //onChange(e.target.files[0])
   };
 
   useEffect(() => {
@@ -236,4 +246,9 @@ const ResetAppForm: React.FC<IformProps> = ({ onResetAppDataConfirm }) => {
   );
 };
 
-export default connect(null, { selectMusicFile, switchAppScreenMode })(Header);
+const mapStateToProps = (state: RootState) => ({
+  contextOptions: state.app.contextMenuOptions,
+  appScreenMode: state.app.appScreenMode
+});
+
+export default connect(mapStateToProps, {selectMusicFile, switchAppScreenMode, storeShowFile, loadShowFile})(Header);

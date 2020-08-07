@@ -4,6 +4,9 @@ import { IFixturesState } from './fixturesReducer/fixturesReducer';
 import { ICuesState } from './cuesReducer/cuesReducer';
 
 const Storage = require('../../main/StoreData');
+const ExternalAPI = require('../../main/ExternalAPI');
+
+const externalAPI = new ExternalAPI({});
 
 export interface IInitAppParams {
     fixtures: number,
@@ -100,4 +103,13 @@ export const saveState = (state: IInitialData) => {
 export const loadPrevious = (): IInitialData => {
     const commonData: IInitialData = dataStorage.get('showData');
     return commonData;
+};
+
+
+export const getLoadFilePath = () => {
+    return externalAPI.getPath()
+};
+
+export const setSaveFilePath = () => {
+    return externalAPI.save()
 };

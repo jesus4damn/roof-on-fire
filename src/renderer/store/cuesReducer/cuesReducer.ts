@@ -10,6 +10,7 @@ import {
     UPDATE_CUE
 } from './cuesActions';
 import { ICue } from '../../../types/cuesTypes';
+import { SET_WHOLE_STATE } from '../appReducer/appActions';
 
 export interface ICuesState {
     readonly selectedCue: ICue | null,
@@ -78,6 +79,8 @@ export const cuesReducer: Reducer<ICuesState> = (
                     ? null
                     : action.cue,
             };
+        case SET_WHOLE_STATE:
+            return action.payload.cues;
         default:
             return state;
     }

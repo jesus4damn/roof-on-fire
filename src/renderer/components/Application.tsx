@@ -25,8 +25,6 @@ import Output from './OutputView/Output';
 require('./App.scss');
 
 interface IProps {
-  storeShowFile: () => void
-  loadShowFile: () => void
   resetShowData: (params: IInitAppParams) => void
   setContextMenuOptions: (payload: IContextMenuOption[]) => void
   contextOptions: IContextMenuOption[]
@@ -34,11 +32,9 @@ interface IProps {
 }
 
 const Application = ({
-                       storeShowFile,
                        setContextMenuOptions,
                        contextOptions,
                        appScreenMode,
-                       loadShowFile,
                        resetShowData
                      }: IProps) => {
 
@@ -46,16 +42,8 @@ const Application = ({
     setContextMenuOptions([]);
   };
 
-  const loadData = () => {
-    loadShowFile();
-  };
-
   const resetData = (params: IInitAppParams) => {
     resetShowData(params);
-  };
-
-  const saveData = () => {
-    storeShowFile();
   };
 
   useEffect(() => {
@@ -70,11 +58,9 @@ const Application = ({
         <MusicContextProvider>
           <div className="headerWrapper">
             <Header
-              appScreenMode={appScreenMode}
               hideContextMenu={hideContextMenu}
               resetData={resetData}
-              loadData={loadData}
-              saveData={saveData}/>
+              />
           </div>
 
           <div className="contentWorkspaceWrapper" style={appScreenMode !== 'output' ? {} : { display: 'none' }}>
@@ -105,7 +91,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-  setContextMenuOptions, switchAppScreenMode, storeShowFile, loadShowFile, resetShowData
+  setContextMenuOptions, switchAppScreenMode, resetShowData
 })(Application);
 
 export default hot(ApplicationContainer);

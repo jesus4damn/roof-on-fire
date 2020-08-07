@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { getMp3, getMusicList, saveMp3, setMp3 } from '../../../../assets/musicGetter';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { getMp3, getMusicList, setMp3 } from '../../../../assets/musicGetter';
 
 interface Iprops {
     label: any,
@@ -8,10 +8,10 @@ interface Iprops {
     onChange: (value: any) => void
 }
 
-const someImg = require('../../../../assets/images/svg/downloadImg.svg');
+const downloadImg = require('../../../../assets/images/svg/downloadImg.svg');
 
-export const getSomeImg = () => {
-    return someImg
+export const getDownloadImg = () => {
+    return downloadImg
 };
 
 export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
@@ -26,11 +26,9 @@ export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
         setMusicList([...musicList, fileName]);
     };
 
-
     return (
         <div>
             <h2>{label}</h2>
-
             <div>
                 {musicList.length
                     ? musicList.map(li =>
@@ -47,7 +45,7 @@ export const MusicInput: React.FC <Iprops> = ({label, onSelect, onChange}) => {
                     name='fileMusic'
                     onChange={onAddFile}
                 />
-                <label htmlFor="fileMusic" style={{backgroundImage:`url(${getSomeImg()})`,
+                <label htmlFor="fileMusic" style={{backgroundImage:`url(${getDownloadImg()})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: '7% 35%',
                 backgroundSize: '10%'
