@@ -107,7 +107,7 @@ class Waveform extends React.Component<IProps, IState> {
     componentDidMount() {
 
         this.wavesurfer = WaveSurfer.create({
-            autoCenter: false,
+            autoCenter: true,
             barWidth: 0,
             // @ts-ignore
             barGap: 22,
@@ -219,7 +219,9 @@ class Waveform extends React.Component<IProps, IState> {
             });
         }, 70));
 
-        this.wavesurfer.load(this.props.musicFilePath);
+        if (this.props.musicFilePath) {
+            this.wavesurfer.load(this.props.musicFilePath);
+        }
     };
 
     handleSpacePress = (e: KeyboardEvent) => {
@@ -235,7 +237,7 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any): void {
-        if (prevProps.musicFilePath !== this.props.musicFilePath) {
+        if (prevProps.musicFilePath !== this.props.musicFilePath && this.props.musicFilePath) {
             console.log(this.props.musicFilePath);
             this.wavesurfer.load(this.props.musicFilePath);
             this.wavesurfer.on('ready', () => {
@@ -331,7 +333,6 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleTrackTimeChange = (time: number) => {
-        console.log(time);
         this.props.setCurrentTime(time);
         this.setState({
             currentTrackTime: time

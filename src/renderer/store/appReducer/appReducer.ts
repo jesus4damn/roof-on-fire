@@ -37,7 +37,7 @@ const defaultState: IAppState = {
     fixtureTypesScreenWindow: 'fireMachine',
     fixturesPropertiesScreenWindow: 'cues',
     contextMenuOptions: [],
-    musicFilePath: getMp3('guanoApes'),
+    musicFilePath: '',
     musicTotalTime: 0,
     allowedAPI: false,
     error: {}
