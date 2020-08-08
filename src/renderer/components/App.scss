@@ -116,11 +116,11 @@ input {
     height: 100%;
     z-index: 100;
     background: #000000;
-    flex: 0 0 28%;   
+    flex: 0 0 28%;
 }
 
 .timeLineWorkspaceWrapper {
-    grid-area: time;  
+    grid-area: time;
     display: flex;
     align-content: center;
     justify-content: center;
@@ -146,4 +146,9 @@ input {
     top: -7px;
     margin-bottom: 0px;
     overflow: hidden;
+}
+.errorMessage {
+    display: flex;
+    color: red;
+    font-size: larger;
 }

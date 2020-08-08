@@ -7,7 +7,7 @@ import {
 } from '../../../types/appTypes';
 import {
     SELECT_MUSIC_FILE, SET_ALLOW_API,
-    SET_CONTEXT_MENU_OPTIONS, SET_MUSIC_LENGTH, SET_WHOLE_STATE, SWITCH_APP_SCREEN_MODE,
+    SET_CONTEXT_MENU_OPTIONS, SET_ERROR, SET_MUSIC_LENGTH, SET_WHOLE_STATE, SWITCH_APP_SCREEN_MODE,
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
     SWITCH_MAIN_RIGHT_PART,
@@ -27,6 +27,7 @@ export interface IAppState {
     readonly musicFilePath: string,
     readonly musicTotalTime: number,
     readonly allowedAPI: boolean,
+    readonly error: {},
 }
 
 const defaultState: IAppState = {
@@ -38,7 +39,8 @@ const defaultState: IAppState = {
     contextMenuOptions: [],
     musicFilePath: getMp3('guanoApes'),
     musicTotalTime: 0,
-    allowedAPI: false
+    allowedAPI: false,
+    error: {}
 };
 
 export const appReducer: Reducer<IAppState> = (
@@ -100,6 +102,11 @@ export const appReducer: Reducer<IAppState> = (
             };
         case SET_WHOLE_STATE:
             return action.payload.app;
+        case SET_ERROR:
+            return {
+                ...state,
+                error: action.payload
+            };
         default:
             return state;
     }

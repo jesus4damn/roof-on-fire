@@ -50,7 +50,6 @@ export const controllerAPI = {
             const res: {data: RootState} = await axios.post(`${route}/dmx/load`, {path: path ? path : ""});
             return res.data;
         } catch (e) {
-            console.log(e);
             throw e;
         }
     },

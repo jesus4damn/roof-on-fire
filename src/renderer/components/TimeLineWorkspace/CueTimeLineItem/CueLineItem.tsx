@@ -32,12 +32,13 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const [cueState, setState] = React.useState(
         {
             isOpen: false,
-            width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
+            width: cueItem.endTime ? cueItem.endTime - cueItem.startTime < 0.2 ? 80 : (cueItem.endTime - cueItem.startTime) * zoom : 100,
             height: 8,
             x: selectedCue && selectedCue.startTime ? selectedCue.startTime * zoom : 1,
             y: 40 + (index * 15),
         }
     );
+
     const calculatePosition = useCallback(() => {
         setState({
             ...cueState,
@@ -58,10 +59,6 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             height: isOpen ? 40 : 8,
         })
     }, [selectedCue]);
-
-    const minus = () => {
-
-    };
 
     const onDragStop = (e: any, d: any) => {
         setState({...cueState, x: d.x, y: d.y });

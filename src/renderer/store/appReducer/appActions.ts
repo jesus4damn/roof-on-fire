@@ -27,15 +27,22 @@ export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
 export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
 export const SET_ALLOW_API = 'app/SET_ALLOW_API';
 export const SET_WHOLE_STATE = 'app/SET_WHOLE_STATE';
+export const SET_ERROR = 'app/SET_ERROR';
 
 
 export interface ISetWholeState extends Action {
     type: typeof SET_WHOLE_STATE,
     payload: RootState
 }
+
 export interface ISwitchAppScreenMode extends Action {
     type: typeof SWITCH_APP_SCREEN_MODE,
     payload: IAppScreenModes
+}
+
+export interface ISetError extends Action {
+    type: typeof SET_ERROR,
+    payload: any
 }
 
 export interface ISwitchMainScreenAction extends Action {
@@ -106,6 +113,9 @@ export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: 
 export const setAllowAPI: ActionCreator<ISetAllowAPI> = (payload: boolean) => ({
     type: SET_ALLOW_API, payload
 });
+export const setError: ActionCreator<ISetError> = (payload: any) => ({
+    type: SET_ERROR, payload
+});
 
 export const sendMusicAction = (payload: string) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
@@ -121,6 +131,7 @@ export const storeShowFile = (path: string) =>
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
         } catch (e) {
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
+            dispatch(setError({load: "Не удалось сохранить файл! Данные сохранены в временное франилище."}));
         }
     };
 
@@ -128,19 +139,27 @@ export const loadShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         console.log('load ==========>');
         try {
-            if (path) {
-                const wholeState = await controllerAPI.loadShowFile(path);
-                dispatch(sETFixturesSateAC(wholeState.fixtures));
-                dispatch(setInitialFields(wholeState.fields));
-                dispatch(setCuesData(wholeState.cues));
+            const wholeState = await controllerAPI.loadShowFile(path);
+            if (wholeState) {
+                dispatch({ type: SET_WHOLE_STATE, payload: wholeState });
             } else {
                 const commonData = loadPrevious();
-                dispatch(sETFixturesSateAC(commonData.fixtures));
-                dispatch(setInitialFields(commonData.fields));
-                dispatch(setCuesData(commonData.cues));
+                dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...commonData} });
+                if (path) {
+                    dispatch(setError({load: "Не удалось загрузить файл! Данные загружены из временного франилища."}))
+                }
             }
         } catch (e) {
-            resetState();
+            console.log(e);
+            try {
+                const commonData = loadPrevious();
+                dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...commonData} });
+                if (path) {
+                    dispatch(setError({load: "Не удалось загрузить файл! Данные загружены из временного франилища."}))
+                }
+            } catch (e) {
+                resetState();
+            }
         }
     };
 export const resetShowData = (params: IInitAppParams) =>
@@ -157,4 +176,4 @@ export const resetShowData = (params: IInitAppParams) =>
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState | ISetError;

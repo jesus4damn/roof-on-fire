@@ -45,17 +45,18 @@ namespace fireApi.Controllers
 
         [HttpPost]
         [Route("save")]
-        public void Save(object obj)
+        public void Save(SaveModel model)
         {
-            System.IO.File.WriteAllText(@"D:\path.txt", obj.ToString());
+         
+            System.IO.File.WriteAllText(@""+model.Path+".txt", model.Data.ToString());
         }
 
 
         [HttpPost]
         [Route("load")]
-        public JObject Load(string file)
+        public JObject Load(LoadModel model)
         {
-            string response = File.ReadAllText(@"D:\path.txt");
+            string response = File.ReadAllText(@"" + model.Path);
             return JObject.Parse(response);
         }
 

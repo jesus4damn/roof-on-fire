@@ -121,7 +121,7 @@ export const createNewCue = (fixtures: IFixture[], field: IField | null, startTi
             ...cueBase,
             id: uuid(),
             startTime: startTime ? startTime : 0,
-            endTime: startTime ? startTime + 1 : 1,
+            endTime: startTime ? startTime + 0.4 : 1,
             actions: newActions.length ? newActions : []
         };
         dispatch(createCue(newCue));
@@ -166,10 +166,20 @@ export const reorderOnEffect = (cue: ICue, direction: TEffects) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const fixtures = getFixtures(getState());
         const actionsFixtures = cue.actions.map(a => ({...a, fixture: fixtures.filter(f => f.id === a.fixtureId)[0]}));
+        let cueCopy = {...cue};
         let part = (cue.endTime - cue.startTime) / (cue.actions.length -1);
         let result:ICueAction[] = [];
         const isParity = cue.actions.length % 2 === 0;
         switch (direction) {
+            case 'Together': {
+                result = actionsFixtures.sort((a, b) => a.fixture.number - b.fixture.number).map((a, i) => {
+                    let clone = {...a, startTime: 0};
+                    delete clone.fixture;
+                    return clone
+                });
+                cueCopy.endTime = cue.startTime + 0.001;
+                break;
+            }
             case 'Forward': {
                 result = actionsFixtures.sort((a, b) => a.fixture.number - b.fixture.number).map((a, i) => {
                     let clone = {...a, startTime: i === 0 ? 0 : +(i * part).toFixed(4)};
@@ -255,7 +265,7 @@ export const reorderOnEffect = (cue: ICue, direction: TEffects) =>
         }
 
 
-        dispatch(updateCue({...cue, actions: result}))
+        dispatch(updateCue({...cueCopy, actions: result}))
 };
 
 

@@ -5,7 +5,7 @@ import Modal from '../common/ModalWrapper';
 import {
   loadShowFile,
   resetShowData,
-  selectMusicFile,
+  selectMusicFile, setError,
   storeShowFile,
   switchAppScreenMode
 } from '../../store/appReducer/appActions';
@@ -22,28 +22,53 @@ interface IProps {
 }
 
 interface IConnectedProps {
+  error: any
   appScreenMode: IAppScreenModes
   storeShowFile: (path: string) => void
   loadShowFile: (path: string) => void
   switchAppScreenMode: (payload: IAppScreenModes) => void
   selectMusicFile: (payload: string) => {},
+  setError: (payload: any) => {},
 }
-const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, storeShowFile, selectMusicFile, appScreenMode, switchAppScreenMode }) => {
-  const [menuShown, setMenuShow] = useState(false);
+const Header: React.FC<IProps & IConnectedProps> = ({ error, resetData, loadShowFile, storeShowFile, selectMusicFile, appScreenMode, switchAppScreenMode }) => {
+  const [menuShown, setMenuShow] = useState< null | 'FILE' | 'MENU'>(null);
   const menuWrapperRef = React.createRef<HTMLDivElement>();
-  const [activeBtn, setActiveBtn] = useState(false);
-  const [modalContent, setModalContent] = useState<any | null>();
+  const [activeBtn, setActiveBtn] = useState<string>('');
+  const [modalContent, setModalContent] = useState<any | null>(null);
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
 
-  const contextOptions = [
+  useEffect(() => {
+    console.log(error)
+    if (error.load) {
+      setModalContent(() =>
+        <div className={'importWrapper'}>
+          <div className={"errorMessage"}>
+          {error.load}
+        </div>
+      </div>);
+      setIsModalShown(true);
+    }
+  }, [error]);
+
+  const contextMenuOptions = [
     {
       title: 'resetState',
       disabled: false,
       callback: () => {
         showModal('reset');
-        setMenuShow(false);
+        setMenuShow(null);
       }
     },
+    {
+      title: 'Import',
+      disabled: false,
+      callback: () => {
+        showModal('music');
+        setMenuShow(null);
+      }
+    },
+  ];
+  const contextFileOptions = [
     {
       title: 'loadData',
       disabled: false,
@@ -53,7 +78,7 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
             loadShowFile(res)
           }
         });
-        setMenuShow(false);
+        setMenuShow(null);
       }
     },
     {
@@ -64,25 +89,9 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
           console.log(path)
           storeShowFile(path);
         });
-        setMenuShow(false);
+        setMenuShow(null);
       }
     },
-    {
-      title: 'Import',
-      disabled: false,
-      callback: () => {
-        showModal('music');
-        setMenuShow(false);
-      }
-    },
-    {
-      title: 'Parse Pdf',
-      disabled: false,
-      callback: () => {
-        showModal('parser');
-        setMenuShow(false);
-      }
-    }
   ];
 
   const onResetAppDataConfirm = (resetAppDataOptions: IInitAppParams) => {
@@ -118,6 +127,9 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
   };
 
   const closeModal = () => {
+    if (error) {
+      setError({});
+    }
     setModalContent(null);
     setIsModalShown(false);
   };
@@ -125,15 +137,15 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
   useEffect(() => {
     const handleOuterClick = (e: any) => {
       if (menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target)) {
-        setMenuShow(false);
-        setActiveBtn(!activeBtn);
+        setMenuShow(null);
+        setActiveBtn('');
       }
     };
     if (menuShown) {
       window.addEventListener('click', handleOuterClick);
     } else {
       window.removeEventListener('click', handleOuterClick);
-      setActiveBtn(!activeBtn);
+      setActiveBtn('');
     }
     return () => {
       window.removeEventListener('click', handleOuterClick);
@@ -145,14 +157,17 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
     <React.Fragment>
       <div className={'headerContent'}>
         <img className={'logoImg'} src="../src/assets/images/svg/logoImg.svg" alt=""/>
-        <button>File</button>
-        <button className={activeBtn ? '' : 'ActiveBtn'} onClick={() => {
-          setMenuShow(true);
-          setActiveBtn(false);
+        <button className={activeBtn === 'FILE' ? 'ActiveBtn' : ''} onClick={() => {
+          setMenuShow("FILE");
+          setActiveBtn('FILE');
+          }}
+        >File</button>
+        <button className={activeBtn === "MENU" ? 'ActiveBtn' : ''} onClick={() => {
+          setMenuShow("MENU");
+          setActiveBtn('MENU');
           switchAppScreenMode(appScreenMode === 'main' ? 'main' : 'main');
-        }
-        }>Menu
-        </button>
+        }}
+        >Menu</button>
         <button
           style={appScreenMode === 'patch' ? { backgroundColor: '#222222', color: '#fff' } : {}}
           onClick={() => switchAppScreenMode(appScreenMode !== 'patch' ? 'patch' : 'main')}
@@ -166,15 +181,21 @@ const Header: React.FC<IProps & IConnectedProps> = ({ resetData, loadShowFile, s
           Output
         </button>
         <>
-          {(menuShown || null) && <div ref={menuWrapperRef} className="contextMenu">
-            {contextOptions.map((o, i) => (
+          {menuShown !== null ? <div ref={menuWrapperRef} className="contextMenu" style={menuShown === "FILE" ? {left: "45px"} : {}}>
+            {menuShown === "MENU" ? contextMenuOptions.map((o, i) => (
               <div key={o.title + i}
                    className={`contextMenu--option${o.disabled ? ' disabled' : ''}`}
                    onClick={o.callback}>
                 {o.title}
               </div>
-            ))}
-          </div>}
+            )) : menuShown === "FILE" ? contextFileOptions.map((o, i) => (
+                <div key={o.title + i}
+                     className={`contextMenu--option${o.disabled ? ' disabled' : ''}`}
+                     onClick={o.callback}>
+                  {o.title}
+                </div>
+            )) : null}
+          </div> : null}
         </>
       </div>
       <Modal
@@ -248,7 +269,8 @@ const ResetAppForm: React.FC<IformProps> = ({ onResetAppDataConfirm }) => {
 
 const mapStateToProps = (state: RootState) => ({
   contextOptions: state.app.contextMenuOptions,
-  appScreenMode: state.app.appScreenMode
+  appScreenMode: state.app.appScreenMode,
+  error: state.app.error
 });
 
-export default connect(mapStateToProps, {selectMusicFile, switchAppScreenMode, storeShowFile, loadShowFile})(Header);
+export default connect(mapStateToProps, {selectMusicFile, switchAppScreenMode, storeShowFile, loadShowFile, setError})(Header);

@@ -7,6 +7,7 @@ import { ICue } from '../../../../types/cuesTypes';
 
 import { throttle } from 'lodash';
 import { useRef } from 'react';
+import { Tooltip } from '@material-ui/core';
 
 require('./Waveform.scss');
 // @ts-ignore
@@ -16,13 +17,13 @@ const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js')
 const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
 
 
-const someImg = require('../../../../assets/images/svg/note.svg');
+const noteImg = require('../../../../assets/images/svg/note.svg');
 const setupMusic = require('../../../../assets/images/svg/setupMusic.svg');
-export const getSomeImg = () => {
-    return someImg;
+export const getNoteImg = () => {
+    return noteImg;
 };
 
-export const getSetupMusic = () => {
+export const getMusicImg = () => {
     return setupMusic;
 };
 
@@ -47,7 +48,7 @@ interface IState {
     zoomValue: number,
     parentDivWidth: number
     stopBtn: boolean
-    zIndexOver: boolean
+    leftOffset: number
 }
 
 class Waveform extends React.Component<IProps, IState> {
@@ -99,13 +100,14 @@ class Waveform extends React.Component<IProps, IState> {
             zoomValue: 0,
             parentDivWidth: 800,
             stopBtn: false,
-            zIndexOver: false
+            leftOffset: 0
         };
     }
 
     componentDidMount() {
 
         this.wavesurfer = WaveSurfer.create({
+            autoCenter: false,
             barWidth: 0,
             // @ts-ignore
             barGap: 22,
@@ -118,7 +120,7 @@ class Waveform extends React.Component<IProps, IState> {
             forceDecode: true,
             maxCanvasWidth: 14000,
             minPxPerSec: 50,
-            normalize: false,
+            normalize: true,
             pixelRatio: 1,
             partialRender: true,
             progressColor: '#2D5BFF',
@@ -142,8 +144,15 @@ class Waveform extends React.Component<IProps, IState> {
                     // plugin options ...
                 }),
                 CursorPlugin.create({
-                    cursor: this.waveformCursor
-                    // plugin options ...
+                    cursor: this.waveformCursor,
+                    showTime: true,
+                    opacity: 1,
+                    customShowTimeStyle: {
+                        'background-color': '#aaa',
+                        color: '#fff',
+                        padding: '2px',
+                        'font-size': '10px'
+                    }
                 }),
                 MinimapPlugin.create({
                     container: this.minimapRef,
@@ -192,7 +201,8 @@ class Waveform extends React.Component<IProps, IState> {
         this.wavesurfer.on('scroll', throttle((e: any) => {
 
             this.setState({
-                parentDivWidth: e.target.width
+                parentDivWidth: e.target.width,
+                leftOffset: e.target.scrollLeft
             });
 
             this.cuesWrapperRef.current.scrollLeft = e.target.scrollLeft;
@@ -301,7 +311,9 @@ class Waveform extends React.Component<IProps, IState> {
     };
 
     handleZoom = (val: number) => {
-        this.wavesurfer.zoom(this.state.zoomValue + val);
+        if (this.state.zoomValue + val > 1) {
+            this.wavesurfer.zoom(this.state.zoomValue + val);
+        }
     };
 
     clearSelections = () => {
@@ -331,22 +343,18 @@ class Waveform extends React.Component<IProps, IState> {
         this.handleZoom(-delta / 100);
     };
 
-    handleZIndexChange = (val: boolean) => {
-        this.setState({zIndexOver: val})
-    };
-
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
                 <div ref={this.waveform} className='waveWrapper'>
                     <div ref={this.cuesWrapperRef} className={'scrollWrap'}>
                         <ReactCursorPosition className={'cursorContainer'}
-                                             style={{ width: `${this.state.parentDivWidth}px`, zIndex: this.state.zIndexOver ? "inherit" : "inherit" }}>
+                                             style={{ width: `${this.state.parentDivWidth}px`}}>
                             <CueTimeLine
-                                handleZIndexChange={this.handleZIndexChange}
                                 parentDivWidth={this.state.parentDivWidth}
                                 zoom={this.state.zoomValue}
                                 cues={this.props.cues}
+                                leftOffset={this.state.leftOffset}
                             />
                             {this.props.children}
                         </ReactCursorPosition>
@@ -359,27 +367,28 @@ class Waveform extends React.Component<IProps, IState> {
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
-                        <Button className={`${this.state.stopBtn ? 'playBtn' : 'stopBtn'}`} onClick={() => {
-                            this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
-                            this.handlePlay();
-                        }}
-                                disabled={!this.state.loaded}
-                        >
-                            {'Play'}
-                        </Button>
-                        <Button onClick={() => {
-                            this.handleStop();
-                        }}>
-                            {'Stop'}
-                        </Button>
-                        <Button onClick={() => {
-                            this.clearSelections();
-                        }}>
-                            Clear
-                        </Button>
+                        <Tooltip title={this.state.playing ? "Pause" : "Play"}>
+                            <Button className={`${this.state.stopBtn ? 'playBtn' : 'stopBtn'}`} onClick={() => {
+                                this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
+                                this.handlePlay();
+                            }}
+                                    disabled={!this.state.loaded}
+                            />
+                        </Tooltip>
+                        <Tooltip title={"Stop"}>
+                            <Button onClick={() => {
+                                this.handleStop();
+                            }}/>
+                        </Tooltip>
+                        <Tooltip title={"Clear Selections"}>
+                            <Button onClick={() => {
+                                this.clearSelections();
+                            }}/>
+                        </Tooltip>
+
 
                         <div className={'trackTimeSpan'}>
-                            <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
+                            <div>0</div>
                             <span> : </span>
                             <div>{this.state.currentTrackTime > 60 ? (this.state.currentTrackTime / 60).toFixed(0) : 0}</div>
                             <span> : </span>
@@ -405,7 +414,7 @@ class Waveform extends React.Component<IProps, IState> {
                     <div className={'timelineNavContainer'}>
                         <div className={'musicNote'}>
                             <button style={{
-                                backgroundImage: `url(${getSomeImg()})`,
+                                backgroundImage: `url(${getNoteImg()})`,
                                 backgroundSize: '60%',
                                 backgroundPosition: 'center center',
                                 backgroundRepeat: 'no-repeat'
@@ -417,7 +426,7 @@ class Waveform extends React.Component<IProps, IState> {
                                 {'Note'}
                             </button>
                             <button style={{
-                                backgroundImage: `url(${getSetupMusic()})`,
+                                backgroundImage: `url(${getMusicImg()})`,
                                 backgroundSize: '60%',
                                 backgroundPosition: 'center center',
                                 backgroundRepeat: 'no-repeat'
@@ -431,7 +440,7 @@ class Waveform extends React.Component<IProps, IState> {
                             </button>
                         </div>
                         <div className={'btnPrecent'}>
-                            <span>50%</span>
+                            <span>{this.state.zoomValue}%</span>
                         </div>
                         <div className={'Minimap'} ref={this.setMinimapRef}/>
                     </div>
