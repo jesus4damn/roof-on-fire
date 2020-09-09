@@ -47,14 +47,14 @@ const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, posi
            style={canDrop ? {zIndex: 81, backgroundColor: canDrop ? '#3cd07a2e' : !canDrop ? '#be494969' : ''} : {}}
        >
            <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
-           {cues.map((c: ICue, i: number) =>
+           {cues.map((c: ICue, i: number) => (
                <CueTimeLineItem
                    key={c.id}
                    zoom={zoom}
                    cueItem={c}
                    index={i}
                />
-           )}
+           ))}
            <span>a</span>
        </div>
     );

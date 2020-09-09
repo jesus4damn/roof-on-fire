@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import { Rnd } from 'react-rnd';
-import { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
@@ -38,7 +38,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             y: 40 + (index * 15),
         }
     );
-
+    const cueRef = useRef<HTMLDivElement>(null);
     const calculatePosition = useCallback(() => {
         setState({
             ...cueState,
@@ -88,6 +88,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const onSelect = () => {
         setSelectedCue(cueItem);
     };
+    useEffect(() => {
+        if (cueRef && cueRef.current && selectedCue && selectedCue.id === cueItem.id) {
+            cueRef.current.scrollIntoView()
+        }
+    }, [selectedCue]);
 
     return (
         <Rnd
@@ -114,7 +119,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             onDragStop={onDragStop}
             onResize={onResize}
         >
-            <div>
+            <div ref={cueRef}>
                 {cueState.isOpen
                     ? <React.Fragment>
                         <span>{cueItem.startTime.toFixed(2)} ===> </span>

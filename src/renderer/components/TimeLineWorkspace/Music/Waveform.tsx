@@ -199,7 +199,6 @@ class Waveform extends React.Component<IProps, IState> {
         });
 
         this.wavesurfer.on('scroll', throttle((e: any) => {
-
             this.setState({
                 parentDivWidth: e.target.width,
                 leftOffset: e.target.scrollLeft
@@ -344,11 +343,23 @@ class Waveform extends React.Component<IProps, IState> {
         this.handleZoom(-delta / 100);
     };
 
+    handleScrollY = (up: boolean) => {
+        this.cuesWrapperRef.current.scrollTop = up
+          ? this.cuesWrapperRef.current.scrollTop >= 50
+            ? this.cuesWrapperRef.current.scrollTop - 50
+            : 0
+          : this.cuesWrapperRef.current.scrollTop + 50;
+    };
+
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
                 <div ref={this.waveform} className='waveWrapper'>
                     <div ref={this.cuesWrapperRef} className={'scrollWrap'}>
+                        <div className="leftNavWrapper">
+                            <button style={{}} onClick={() => this.handleScrollY(true)}>{">"}</button>
+                            <button style={{}} onClick={() => this.handleScrollY(false)}>{"<"}</button>
+                        </div>
                         <ReactCursorPosition className={'cursorContainer'}
                                              style={{ width: `${this.state.parentDivWidth}px`}}>
                             <CueTimeLine
