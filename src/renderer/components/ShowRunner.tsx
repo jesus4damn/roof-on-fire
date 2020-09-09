@@ -55,7 +55,7 @@ class ShowRunner extends React.Component<IMusicContext & any> {
                 }
             })
         });
-        console.log(events);
+        //console.log(events);
         this.setState({
             events: events
         })
