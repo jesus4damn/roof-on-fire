@@ -12,7 +12,7 @@ import { ContextMenu } from './common/ContextWrapper';
 // @ts-ignore
 import {
   loadShowFile,
-  resetShowData,
+  resetShowData, selectMusicFile,
   setContextMenuOptions,
   switchAppScreenMode
 } from '../store/appReducer/appActions';
@@ -20,6 +20,7 @@ import { IAppScreenModes, IContextMenuOption } from '../../types/appTypes';
 import { MusicContextProvider } from '../misicContext/musicContext';
 import Patch from './PatchView/Patch';
 import Output from './OutputView/Output';
+import ErrorBoundary from './common/ErrorBounary/ErrorBounary';
 
 require('./App.scss');
 
@@ -29,6 +30,7 @@ interface IProps {
     contextOptions: IContextMenuOption[]
     appScreenMode: IAppScreenModes
     loadShowFile: (path: string) => void
+    selectMusicFile: (payload: string) => void,
 }
 
 const Application = ({
@@ -36,7 +38,8 @@ const Application = ({
                          contextOptions,
                          appScreenMode,
                          resetShowData,
-                        loadShowFile
+                        loadShowFile,
+                       selectMusicFile
                      }: IProps) => {
 
     const hideContextMenu = () => {
@@ -53,27 +56,34 @@ const Application = ({
     }, []);
 
     return (
+      <ErrorBoundary onErrorCallback={() => resetData({fixtures: 12, static: 27, dynamic: 27, long: 12})}>
         <div
             className={`appWrapper ${appScreenMode === 'patch' ? 'patchMode' : appScreenMode === 'output' ? 'outputMode' : ''}`}>
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
                 <MusicContextProvider>
+                  <ErrorBoundary onErrorCallback={() => resetData({fixtures: 12, static: 27, dynamic: 27, long: 12})}>
                     <div className="headerWrapper">
                         <Header
                             hideContextMenu={hideContextMenu}
                             resetData={resetData}
                         />
                     </div>
-
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => loadShowFile("")}>
                     <div className="contentWorkspaceWrapper"
                          style={appScreenMode !== 'output' ? {} : { display: 'none' }}>
                         <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                         {appScreenMode === 'main'
                             ? <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div> : ''}
                     </div>
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => selectMusicFile("")}>
                     <div className="timeLineWorkspaceWrapper"
                          style={appScreenMode !== 'main' ? { display: 'none' } : {}}>
                         <TimeLine/>
                     </div>
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => loadShowFile("")}>
                     {appScreenMode === 'output'
                         ? <div className="outputWorkspaceWrapper">
                             <Output/>
@@ -81,10 +91,11 @@ const Application = ({
                         : appScreenMode === 'patch' ? <div className="patchWorkspaceWrapper">
                             <Patch/>
                         </div> : ''}
-
+                  </ErrorBoundary>
                 </MusicContextProvider>
             </ContextMenu>
         </div>
+      </ErrorBoundary>
     );
 };
 
@@ -94,7 +105,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-    setContextMenuOptions, switchAppScreenMode, resetShowData, loadShowFile
+    setContextMenuOptions, switchAppScreenMode, resetShowData, loadShowFile, selectMusicFile
 })(Application);
 
 export default hot(ApplicationContainer);
