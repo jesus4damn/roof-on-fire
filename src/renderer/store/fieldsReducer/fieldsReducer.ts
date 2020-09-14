@@ -19,7 +19,7 @@ export interface IFieldsState {
     }
 }
 
-const defaultState: IFieldsState = {
+export const defaultState: IFieldsState = {
     cuesFields: [],
     fireMachines: {
         staticFields: [],

@@ -30,7 +30,7 @@ export interface IAppState {
     readonly error: {},
 }
 
-const defaultState: IAppState = {
+export const defaultState: IAppState = {
     appScreenMode: 'main',
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,

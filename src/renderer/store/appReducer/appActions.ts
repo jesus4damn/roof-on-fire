@@ -127,7 +127,7 @@ export const storeShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const state = getState();
         try {
-            const res = await controllerAPI.saveShowFile(state, path);
+            await controllerAPI.saveShowFile(state, path);
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
         } catch (e) {
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
@@ -158,18 +158,16 @@ export const loadShowFile = (path: string) =>
                     dispatch(setError({load: "Не удалось загрузить файл! Данные загружены из временного франилища."}))
                 }
             } catch (e) {
-                resetState();
+                const commonData = resetState();
+                let state = getState();
+                dispatch({ type: SET_WHOLE_STATE, payload: {...state, ...commonData} });
             }
         }
     };
 export const resetShowData = (params: IInitAppParams) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const common = resetState(params);
-        batch(() => {
-            dispatch(sETFixturesSateAC(common.fixtures));
-            dispatch(setInitialFields(common.fields));
-            dispatch(setCuesData(common.cues));
-        });
+        dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...common} });
         // @ts-ignore
         await dispatch(initDevices(common.fixtures.fixtures));
     };

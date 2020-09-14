@@ -19,7 +19,7 @@ export interface ICuesState {
 }
 
 
-const defaultState: ICuesState = {
+export const defaultState: ICuesState = {
     selectedCue: null,
     cues: [],
     timelineCues: [],

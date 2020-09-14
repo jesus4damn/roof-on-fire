@@ -91,25 +91,41 @@ export const getInitialState = (initParams?: IInitAppParams):IInitialData => {
 };
 
 export const resetState = (params?: IInitAppParams): IInitialData => {
-    const initialData = getInitialState(params);
     //dataStorage.set('showData', initialData);
-    return initialData;
+    return getInitialState(params);
 };
 
 export const saveState = (state: IInitialData) => {
-    dataStorage.set('showData', state);
+    try {
+        dataStorage.set('showData', state);
+    } catch (e) {
+        console.log(e)
+    }
 };
 
 export const loadPrevious = (): IInitialData => {
-    const commonData: IInitialData = dataStorage.get('showData');
-    return commonData;
+    try {
+        const commonData: IInitialData = dataStorage.get('showData');
+        return commonData;
+    } catch (e) {
+        //dataStorage.set('showData', initialData);
+        return getInitialState();
+    }
 };
 
 
 export const getLoadFilePath = () => {
-    return externalAPI.getPath()
+    try {
+        return externalAPI.getPath()
+    } catch (e) {
+        return getInitialState();
+    }
 };
 
 export const setSaveFilePath = () => {
-    return externalAPI.save()
+    try {
+        return externalAPI.save()
+    } catch (e) {
+        return getInitialState();
+    }
 };

@@ -23,7 +23,7 @@ export interface IFixturesState {
     readonly fixtureTypes: TFixturesTypes[],
 }
 
-const defaultState: IFixturesState = {
+export const defaultState: IFixturesState = {
     patterns: {
         fireMachine: [],
         fireWorks: [],
