@@ -9,17 +9,17 @@ import {
   storeShowFile,
   switchAppScreenMode
 } from '../../store/appReducer/appActions';
-import { MusicInput } from '../common/modalContent/AudioInput';
+import { MusicInput, TextPatternsInput } from '../common/modalContent/AudioInput';
 import { IAppScreenModes } from '../../../types/appTypes';
-import ExcelReader from '../../../data-helper/ExcelReader';
 import { getLoadFilePath, IInitAppParams, setSaveFilePath } from '../../store/getInitalState';
 import { RootState } from '../../store/rootReducer';
+import { IPattern } from '../../../types/fixtureTypes';
 
 require('./Header.scss');
 
 interface IProps {
   hideContextMenu: () => void
-  resetData: (params: IInitAppParams) => void
+  resetData: (params: IInitAppParams, patterns?: IPattern[]) => void
 }
 
 interface IConnectedProps {
@@ -75,7 +75,15 @@ const Header: React.FC<IProps & IConnectedProps> = ({
         showModal('music');
         setMenuShow(null);
       }
-    }
+    },
+    {
+      title: 'Parse',
+      disabled: false,
+      callback: () => {
+        showModal('parser');
+        setMenuShow(null);
+      }
+    },
   ];
   const contextFileOptions = [
     {
@@ -125,7 +133,12 @@ const Header: React.FC<IProps & IConnectedProps> = ({
     } else if (type === 'parser') {
       setModalContent(() =>
         <div className={'importWrapper'}>
-          <ExcelReader/>
+          <TextPatternsInput
+            label={'Select txt file'}
+            onSelect={(patterns: IPattern []) => {
+              resetData({fixtures: 12, static: 27, dynamic: 27, long: 12}, patterns)
+            }}
+          />
         </div>
       );
     } else {

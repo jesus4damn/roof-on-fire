@@ -6,16 +6,14 @@ import {
     IMainRightScreenSwitchers,
     IMainScreenSwitchers
 } from '../../../types/appTypes';
-import { TFixturesTypes } from '../../../types/fixtureTypes';
+import { IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import { ThunkDispatch } from 'redux-thunk';
 import { GetStateType, RootState } from '../rootReducer';
-import { IFixtureActions, sETFixturesSateAC } from '../fixturesReducer/fixturesActions';
+import { IFixtureActions } from '../fixturesReducer/fixturesActions';
 import { controllerAPI } from '../../components/API/API';
 import { RootActions } from '../rootActions';
 import { IInitAppParams, loadPrevious, resetState, saveState } from '../getInitalState';
-import { setInitialFields } from '../fieldsReducer/fieldsActions';
-import { initDevices, setCuesData } from '../cuesReducer/cuesActions';
-import { batch } from 'react-redux';
+import { initDevices } from '../cuesReducer/cuesActions';
 
 export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
@@ -164,9 +162,14 @@ export const loadShowFile = (path: string) =>
             }
         }
     };
-export const resetShowData = (params: IInitAppParams) =>
+export const resetShowData = (params: IInitAppParams, patterns?: IPattern[]) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
-        const common = resetState(params);
+        const common = resetState(patterns ? {
+            fixtures: getState().fixtures.fixtures.length,
+            static: 1,
+            dynamic: 1,
+            long: 1
+        } : params, patterns);
         dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...common} });
         // @ts-ignore
         await dispatch(initDevices(common.fixtures.fixtures));

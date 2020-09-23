@@ -21,11 +21,12 @@ import { MusicContextProvider } from '../misicContext/musicContext';
 import Patch from './PatchView/Patch';
 import Output from './OutputView/Output';
 import ErrorBoundary from './common/ErrorBounary/ErrorBounary';
+import { IPattern } from '../../types/fixtureTypes';
 
 require('./App.scss');
 
 interface IProps {
-    resetShowData: (params: IInitAppParams) => void
+    resetShowData: (params: IInitAppParams, patterns?: IPattern[]) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     contextOptions: IContextMenuOption[]
     appScreenMode: IAppScreenModes
@@ -46,8 +47,8 @@ const Application = ({
         setContextMenuOptions([]);
     };
 
-    const resetData = (params: IInitAppParams) => {
-        resetShowData(params);
+    const resetData = (params: IInitAppParams, patterns?: IPattern[]) => {
+        resetShowData(params, patterns);
     };
 
     useEffect(() => {
