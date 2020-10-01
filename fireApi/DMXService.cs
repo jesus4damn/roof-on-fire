@@ -59,17 +59,27 @@ namespace fireApi
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            string PortName = ComPortNames(VID, PID).FirstOrDefault();
-            serialPort = new SerialPort(PortName);
-            serialPort.DataBits = 8;
-            serialPort.Handshake = Handshake.None;
-            serialPort.Parity = Parity.None;
-            serialPort.StopBits = StopBits.Two;
-            if (!serialPort.IsOpen)
+            try
             {
-                serialPort.Open();
+                List<string> PortName = ComPortNames(VID, PID);
+                if(PortName.Count()==0)
+                {
+                    throw new Exception("Sorry port not found");
+                }
+                serialPort = new SerialPort(PortName.FirstOrDefault());
+                serialPort.DataBits = 8;
+                serialPort.Handshake = Handshake.None;
+                serialPort.Parity = Parity.None;
+                serialPort.StopBits = StopBits.Two;
+                if (!serialPort.IsOpen)
+                {
+                    serialPort.Open();
+                }
             }
-
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
             while (!stoppingToken.IsCancellationRequested)
             {
                 var buffer = _comPortSender.GetBuffer();
