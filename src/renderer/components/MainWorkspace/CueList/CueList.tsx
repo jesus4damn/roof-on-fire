@@ -96,39 +96,40 @@ const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelec
                                     <span>Offset</span>
                                     <span>Type</span>
                                 </div>
-
-                                {cues.map((cue: ICue, index: number) => (
-                                    <Draggable
-                                        key={cue.id}
-                                        draggableId={cue.id}
-                                        index={index}
-                                    >
-                                        {(provided, snapshot) => {
-                                            return (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.dragHandleProps}
-                                                    {...provided.draggableProps}
-                                                    style={getItemStyle(
+                                    <div style={{overflowY: "auto", maxWidth: "100%"}}>
+                                        {cues.map((cue: ICue, index: number) => (
+                                          <Draggable
+                                            key={cue.id}
+                                            draggableId={cue.id}
+                                            index={index}
+                                          >
+                                              {(provided, snapshot) => {
+                                                  return (
+                                                    <div
+                                                      ref={provided.innerRef}
+                                                      {...provided.dragHandleProps}
+                                                      {...provided.draggableProps}
+                                                      style={getItemStyle(
                                                         provided.draggableProps.style,
                                                         snapshot.isDragging
-                                                    )}
-                                                >
-                                                    <CueListItem
-                                                        key={cue.id}
-                                                        cue={cue} index={index}
-                                                        selected={selectedCue && selectedCue.id === cue.id}
-                                                        setSelectedCue={setSelectedCueCallback}
-                                                        updateCue={updateCueCallback}
-                                                        deleteCue={deleteCue}
-                                                        setContextMenuOptions={setContextMenuOptions}
-                                                    />
-                                                </div>
-                                            );
-                                        }}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
+                                                      )}
+                                                    >
+                                                        <CueListItem
+                                                          key={cue.id}
+                                                          cue={cue} index={index}
+                                                          selected={selectedCue && selectedCue.id === cue.id}
+                                                          setSelectedCue={setSelectedCueCallback}
+                                                          updateCue={updateCueCallback}
+                                                          deleteCue={deleteCue}
+                                                          setContextMenuOptions={setContextMenuOptions}
+                                                        />
+                                                    </div>
+                                                  );
+                                              }}
+                                          </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
                                 </div>
                             )}
                         </Droppable>

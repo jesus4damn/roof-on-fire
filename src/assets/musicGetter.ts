@@ -6,14 +6,11 @@ export type TMusic = typeof musicLib;
 
 let musicLib = {
     bloodGang: require('./music/bloodGang.mp3'),
-    guanoApes: require('./music/guanoApes.mp3'),
 };
 
 export const getMp3 = (key: string):string => {
     const userDataPath = (electron.app || electron.remote.app).getPath('userData');
     console.log(key);
-    // @ts-ignore
-    console.log(musicLib[key]);
     // @ts-ignore
     if (musicLib[key]) {
         // @ts-ignore

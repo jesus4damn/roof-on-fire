@@ -1,10 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { updateCue } from '../../../../store/cuesReducer/cuesActions';
-import { RootState } from '../../../../store/rootReducer';
-import { getSelectedCue } from '../../../../store/cuesReducer/cuesSelector';
-import { ICue, ICueAction } from '../../../../../types/cuesTypes';
-import { useState } from 'react';
+import { ICue } from '../../../../../types/cuesTypes';
 
 require('./EffectControllers.scss');
 
@@ -13,8 +8,8 @@ interface IProps {
     reorderOnEffect: (cue: ICue, direction: TEffects) => void
 }
 
-export type TEffects = 'Forward' | 'Backward' | 'Inside' | 'Outside';
-export const effects: TEffects[] = ['Forward', 'Backward', 'Inside', 'Outside'];
+export type TEffects = 'Forward' | 'Backward' | 'Inside' | 'Outside' | 'Together';
+export const effects: TEffects[] = ['Forward', 'Backward', 'Inside', 'Outside', 'Together'];
 
 
 const EffectControllers: React.FC<IProps> = ({ selectedCue, reorderOnEffect }) => {
@@ -25,6 +20,8 @@ const EffectControllers: React.FC<IProps> = ({ selectedCue, reorderOnEffect }) =
             reorderOnEffect(selectedCue, effName);
         }
     };
+
+    const animation = () => {};
 
     return (
         <div className="WrapEffect">
@@ -50,7 +47,7 @@ const EffectControllers: React.FC<IProps> = ({ selectedCue, reorderOnEffect }) =
             )}
             <div className="EffectWrapTest">
                     <span className="EffectItemTest">
-                    Test
+                    Example
                     </span>
                 <div className="Effecttest">
                     <span className="Effecttest-active"></span>
@@ -67,9 +64,5 @@ const EffectControllers: React.FC<IProps> = ({ selectedCue, reorderOnEffect }) =
         </div>
     );
 };
-
-const mapStateToProps = (state: RootState) => ({
-    selectedCue: getSelectedCue(state)
-});
 
 export default EffectControllers;

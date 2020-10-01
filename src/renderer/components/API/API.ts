@@ -2,7 +2,7 @@ import axios from "axios";
 import { IFixture } from '../../../types/fixtureTypes';
 import { RootState } from '../../store/rootReducer';
 
-const route = "http://localhost:52600";
+const route = "http://localhost:5000";
 
 export const controllerAPI = {
     sendEvent: async (event: string) => {
@@ -36,15 +36,21 @@ export const controllerAPI = {
         console.log(res);
         return "AAAAAA";
     },
-    saveShowFile: async (state: RootState) => {
+    saveShowFile: async (state: RootState, path: string) => {
         try {
-            const res = await axios.post(`${route}/dmx/save`, state);
-            console.log(res);
+            const res = await axios.post(`${route}/dmx/save`, {path: path, data: state});
             return res;
-
         } catch (e) {
             console.log(e);
             throw e;
         }
-    }
+    },
+    loadShowFile: async (path: string) => {
+        try {
+            const res: {data: RootState} = await axios.post(`${route}/dmx/load`, {path: path ? path : ""});
+            return res.data;
+        } catch (e) {
+            throw e;
+        }
+    },
 };

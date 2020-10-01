@@ -55,7 +55,7 @@ class ShowRunner extends React.Component<IMusicContext & any> {
                 }
             })
         });
-        console.log(events);
+        //console.log(events);
         this.setState({
             events: events
         })
@@ -63,7 +63,7 @@ class ShowRunner extends React.Component<IMusicContext & any> {
 
     timeListner = (time: number) => {
         if (this.state.events[+time.toFixed(1)]) {
-            console.log('UPDATE ====>');
+            //console.log('UPDATE ====>');
             // console.log(this.state.events[+time.toFixed(1)]);
             this.state.events[+time.toFixed(1)].forEach(e => this.props.updateFixtureShot(e))
         }

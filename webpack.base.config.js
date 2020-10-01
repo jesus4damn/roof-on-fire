@@ -28,7 +28,7 @@ module.exports = {
             /^core-js/, /react/,
             /redux/, /wavesurfer/,
             /^uuid/, 'reselect', 'xlsx', /webpack/,
-            'uws', 'dmx', 'axios'
+            'uws', 'dmx', 'axios', /@material/
         ]
     })]
 };

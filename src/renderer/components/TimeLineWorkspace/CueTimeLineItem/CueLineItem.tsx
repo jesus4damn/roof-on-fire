@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ICue } from '../../../../types/cuesTypes';
 import { Rnd } from 'react-rnd';
-import { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
@@ -32,12 +32,13 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const [cueState, setState] = React.useState(
         {
             isOpen: false,
-            width: cueItem.endTime ? (cueItem.endTime - cueItem.startTime) * zoom : 100,
+            width: cueItem.endTime ? cueItem.endTime - cueItem.startTime < 0.2 ? 80 : (cueItem.endTime - cueItem.startTime) * zoom : 100,
             height: 8,
             x: selectedCue && selectedCue.startTime ? selectedCue.startTime * zoom : 1,
             y: 40 + (index * 15),
         }
     );
+    const cueRef = useRef<HTMLDivElement>(null);
     const calculatePosition = useCallback(() => {
         setState({
             ...cueState,
@@ -58,10 +59,6 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             height: isOpen ? 40 : 8,
         })
     }, [selectedCue]);
-
-    const minus = () => {
-
-    };
 
     const onDragStop = (e: any, d: any) => {
         setState({...cueState, x: d.x, y: d.y });
@@ -91,6 +88,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const onSelect = () => {
         setSelectedCue(cueItem);
     };
+    useEffect(() => {
+        if (cueRef && cueRef.current && selectedCue && selectedCue.id === cueItem.id) {
+            cueRef.current.scrollIntoView()
+        }
+    }, [selectedCue]);
 
     return (
         <Rnd
@@ -117,7 +119,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             onDragStop={onDragStop}
             onResize={onResize}
         >
-            <div>
+            <div ref={cueRef}>
                 {cueState.isOpen
                     ? <React.Fragment>
                         <span>{cueItem.startTime.toFixed(2)} ===> </span>

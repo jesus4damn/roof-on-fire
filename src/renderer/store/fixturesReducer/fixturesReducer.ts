@@ -12,6 +12,7 @@ import {
     UPDATE_PATTERN
 } from './fixturesActions';
 import { generateMockFixtures } from '../mockDataGenerators';
+import { SET_WHOLE_STATE } from '../appReducer/appActions';
 
 export interface IFixturesState {
     readonly patterns: {
@@ -22,7 +23,7 @@ export interface IFixturesState {
     readonly fixtureTypes: TFixturesTypes[],
 }
 
-const defaultState: IFixturesState = {
+export const defaultState: IFixturesState = {
     patterns: {
         fireMachine: [],
         fireWorks: [],
@@ -108,6 +109,8 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
         case SET_FIXTURES_STATE:
             return action.payload;
+        case SET_WHOLE_STATE:
+            return action.payload.fixtures;
         default:
             return state;
     }

@@ -1,21 +1,19 @@
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import {
-    IActionsScreenSwitchers, IAppScreenModes,
+    IActionsScreenSwitchers,
+    IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
     IMainScreenSwitchers
 } from '../../../types/appTypes';
-import { TFixturesTypes } from '../../../types/fixtureTypes';
+import { IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import { ThunkDispatch } from 'redux-thunk';
 import { GetStateType, RootState } from '../rootReducer';
-import { IFixtureActions, sETFixturesSateAC } from '../fixturesReducer/fixturesActions';
+import { IFixtureActions } from '../fixturesReducer/fixturesActions';
 import { controllerAPI } from '../../components/API/API';
 import { RootActions } from '../rootActions';
 import { IInitAppParams, loadPrevious, resetState, saveState } from '../getInitalState';
-import { setInitialFields } from '../fieldsReducer/fieldsActions';
-import { initDevices, setCuesData } from '../cuesReducer/cuesActions';
-import { batch } from 'react-redux';
-import {ThunkAction} from 'redux-thunk';
+import { initDevices } from '../cuesReducer/cuesActions';
 
 export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
@@ -26,35 +24,63 @@ export const SET_CONTEXT_MENU_OPTIONS = 'app/SET_CONTEXT_MENU_OPTIONS';
 export const SELECT_MUSIC_FILE = 'app/SELECT_MUSIC_FILE';
 export const SET_MUSIC_LENGTH = 'app/SET_MUSIC_LENGTH';
 export const SET_ALLOW_API = 'app/SET_ALLOW_API';
+export const SET_WHOLE_STATE = 'app/SET_WHOLE_STATE';
+export const SET_ERROR = 'app/SET_ERROR';
 
 
+export interface ISetWholeState extends Action {
+    type: typeof SET_WHOLE_STATE,
+    payload: RootState
+}
 
 export interface ISwitchAppScreenMode extends Action {
-    type: typeof SWITCH_APP_SCREEN_MODE, payload: IAppScreenModes
+    type: typeof SWITCH_APP_SCREEN_MODE,
+    payload: IAppScreenModes
 }
+
+export interface ISetError extends Action {
+    type: typeof SET_ERROR,
+    payload: any
+}
+
 export interface ISwitchMainScreenAction extends Action {
-    type: typeof SWITCH_MAIN_SCREEN, payload: IMainScreenSwitchers
+    type: typeof SWITCH_MAIN_SCREEN,
+    payload: IMainScreenSwitchers
 }
+
 export interface ISwitchMainRightPartAction extends Action {
-    type: typeof SWITCH_MAIN_RIGHT_PART, payload: IMainRightScreenSwitchers
+    type: typeof SWITCH_MAIN_RIGHT_PART,
+    payload: IMainRightScreenSwitchers
 }
+
 export interface ISwitchFixturePropertiesButtonsScreen extends Action {
-    type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN, payload: IActionsScreenSwitchers
+    type: typeof SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
+    payload: IActionsScreenSwitchers
 }
+
 export interface ISwitchFixtureTypesButtonsScreen extends Action {
-    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN, payload: TFixturesTypes
+    type: typeof SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
+    payload: TFixturesTypes
 }
+
 export interface ISetContextMenuOptions extends Action {
-    type: typeof SET_CONTEXT_MENU_OPTIONS, payload: IContextMenuOption[]
+    type: typeof SET_CONTEXT_MENU_OPTIONS,
+    payload: IContextMenuOption[]
 }
+
 export interface ISelectMusicFile extends Action {
-    type: typeof SELECT_MUSIC_FILE, payload: string
+    type: typeof SELECT_MUSIC_FILE,
+    payload: string
 }
+
 export interface ISetMusicFileLength extends Action {
-    type: typeof SET_MUSIC_LENGTH, payload: number
+    type: typeof SET_MUSIC_LENGTH,
+    payload: number
 }
+
 export interface ISetAllowAPI extends Action {
-    type: typeof SET_ALLOW_API, payload: boolean
+    type: typeof SET_ALLOW_API,
+    payload: boolean
 }
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
@@ -85,6 +111,9 @@ export const setMusicFileLength: ActionCreator<ISetMusicFileLength> = (payload: 
 export const setAllowAPI: ActionCreator<ISetAllowAPI> = (payload: boolean) => ({
     type: SET_ALLOW_API, payload
 });
+export const setError: ActionCreator<ISetError> = (payload: any) => ({
+    type: SET_ERROR, payload
+});
 
 export const sendMusicAction = (payload: string) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
@@ -92,45 +121,60 @@ export const sendMusicAction = (payload: string) =>
         console.log(res);
     };
 
-export const storeShowFile = () =>
+export const storeShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const state = getState();
         try {
-            const res = await controllerAPI.saveShowFile(state);
+            await controllerAPI.saveShowFile(state, path);
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
         } catch (e) {
             saveState({ fixtures: state.fixtures, fields: state.fields, cues: state.cues });
+            dispatch(setError({load: "Не удалось сохранить файл! Данные сохранены в временное франилище."}));
         }
     };
 
-export const loadShowFile = () =>
+export const loadShowFile = (path: string) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         console.log('load ==========>');
         try {
-            const asd = await controllerAPI.sendVal({channel: 1, value: 255})
+            const wholeState = await controllerAPI.loadShowFile(path);
+            if (wholeState) {
+                dispatch({ type: SET_WHOLE_STATE, payload: wholeState });
+            } else {
+                const commonData = loadPrevious();
+                dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...commonData} });
+                if (path) {
+                    dispatch(setError({load: "Не удалось загрузить файл! Данные загружены из временного франилища."}))
+                }
+            }
         } catch (e) {
+            console.log(e);
             try {
                 const commonData = loadPrevious();
-                dispatch(sETFixturesSateAC(commonData.fixtures));
-                dispatch(setInitialFields(commonData.fields));
-                dispatch(setCuesData(commonData.cues));
+                dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...commonData} });
+                if (path) {
+                    dispatch(setError({load: "Не удалось загрузить файл! Данные загружены из временного франилища."}))
+                }
             } catch (e) {
-                resetState();
+                const commonData = resetState();
+                let state = getState();
+                dispatch({ type: SET_WHOLE_STATE, payload: {...state, ...commonData} });
             }
         }
     };
-export const resetShowData = (params: IInitAppParams) =>
+export const resetShowData = (params: IInitAppParams, patterns?: IPattern[]) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
-        const common = resetState(params);
-        batch(() => {
-            dispatch(sETFixturesSateAC(common.fixtures));
-            dispatch(setInitialFields(common.fields));
-            dispatch(setCuesData(common.cues));
-        });
+        const common = resetState(patterns ? {
+            fixtures: getState().fixtures.fixtures.length,
+            static: 1,
+            dynamic: 1,
+            long: 1
+        } : params, patterns);
+        dispatch({ type: SET_WHOLE_STATE, payload: {...getState(), ...common} });
         // @ts-ignore
         await dispatch(initDevices(common.fixtures.fixtures));
     };
 
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
-    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode;
+    | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState | ISetError;

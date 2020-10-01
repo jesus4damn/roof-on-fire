@@ -13,44 +13,48 @@ interface IProps {
     parentDivWidth: number,
     zoom: number,
     cues: ICue[],
-    handleZIndexChange: (val: boolean) => void
+    leftOffset: number
 }
 
-const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, position, handleZIndexChange}) => {
-    const [{ isOver, canDrop, item }, drop] = useDrop({
+const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, position, leftOffset}) => {
+    const [{ isOver, canDrop, item, offs }, drop] = useDrop({
         accept: [dragTypes.FIXTURE, dragTypes.CUE_FIELD, dragTypes.PATTERN_FIELD],
         drop: () => {
-                return { cueList: 'CUE_TIMELINE', startTime: position.x / zoom }
+                return { cueList: 'CUE_TIMELINE', startTime: times }
             },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop(),
-            item: monitor.getItem()
+            item: monitor.getItem(),
+            offs: monitor.getSourceClientOffset()
         }),
     });
-    const [visibleOverlay, setVisibleOverlay] = useState<boolean>(false);
+    const [times, setTimes] = useState(0);
+
     useEffect(() => {
-        if (item && item.id) {
-            setVisibleOverlay(true);
+        if (item && offs) {
+            setTimes(offs && offs.x ? (offs.x + leftOffset) / zoom  : 3)
         } else {
-            setVisibleOverlay(false);
+            setTimes(0)
         }
-    }, [item]);
+
+    }, [offs, item]);
+
     return (
        <div
            ref={drop}
            className={"cueLineContainer"}
-           style={visibleOverlay ? {zIndex: 81, backgroundColor: isOver && canDrop ? '#3cd07a2e' : !canDrop ? '#be494969' : ''} : {}}
+           style={canDrop ? {zIndex: 81, backgroundColor: canDrop ? '#3cd07a2e' : !canDrop ? '#be494969' : ''} : {}}
        >
            <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
-           {cues.map((c: ICue, i: number) =>
+           {cues.map((c: ICue, i: number) => (
                <CueTimeLineItem
                    key={c.id}
                    zoom={zoom}
                    cueItem={c}
                    index={i}
                />
-           )}
+           ))}
            <span>a</span>
        </div>
     );

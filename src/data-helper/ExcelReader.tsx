@@ -61,7 +61,6 @@ class ExcelReader extends Component {
           value="Process Triggers"
           onClick={this.handleFile} />
       </div>
-
     )
   }
 }

@@ -80,15 +80,20 @@ namespace fireApi
             {
                 throw (ex);
             }
-            while (!stoppingToken.IsCancellationRequested)
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    var buffer = _comPortSender.GetBuffer();
+                    byte[] zero = new byte[] { 0x00 };
+                    serialPort.BaudRate = 96000;
+                    serialPort.Write(zero, 0, zero.Length);
+                    serialPort.BaudRate = 250000;
+                    serialPort.Write(buffer, 0, buffer.Length);
+                    await Task.Delay(10, stoppingToken);
+                }
+            }
+            catch (Exception e)
             {
-                var buffer = _comPortSender.GetBuffer();
-                byte[] zero = new byte[] { 0x00 };
-                serialPort.BaudRate = 96000;
-                serialPort.Write(zero, 0, zero.Length);
-                serialPort.BaudRate = 250000;
-                serialPort.Write(buffer, 0, buffer.Length);
-                await Task.Delay(10, stoppingToken);
+
             }
         }
     }

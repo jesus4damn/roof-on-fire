@@ -11,88 +11,92 @@ import { IInitAppParams } from '../store/getInitalState';
 import { ContextMenu } from './common/ContextWrapper';
 // @ts-ignore
 import {
-    loadShowFile,
-    resetShowData,
-    setContextMenuOptions,
-    storeShowFile,
-    switchAppScreenMode
+  loadShowFile,
+  resetShowData, selectMusicFile,
+  setContextMenuOptions,
+  switchAppScreenMode
 } from '../store/appReducer/appActions';
 import { IAppScreenModes, IContextMenuOption } from '../../types/appTypes';
 import { MusicContextProvider } from '../misicContext/musicContext';
 import Patch from './PatchView/Patch';
+import Output from './OutputView/Output';
+import ErrorBoundary from './common/ErrorBounary/ErrorBounary';
+import { IPattern } from '../../types/fixtureTypes';
 
 require('./App.scss');
 
 interface IProps {
-    storeShowFile: () => void
-    loadShowFile: () => void
-    resetShowData: (params: IInitAppParams) => void
+    resetShowData: (params: IInitAppParams, patterns?: IPattern[]) => void
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
     contextOptions: IContextMenuOption[]
     appScreenMode: IAppScreenModes
+    loadShowFile: (path: string) => void
+    selectMusicFile: (payload: string) => void,
 }
 
 const Application = ({
-                         storeShowFile,
                          setContextMenuOptions,
                          contextOptions,
                          appScreenMode,
-                         loadShowFile,
-                         resetShowData
+                         resetShowData,
+                        loadShowFile,
+                       selectMusicFile
                      }: IProps) => {
 
     const hideContextMenu = () => {
         setContextMenuOptions([]);
     };
 
-    const loadData = () => {
-        loadShowFile();
-    };
-
-    const resetData = (params: IInitAppParams) => {
-        resetShowData(params)
-    };
-
-    const saveData = () => {
-        storeShowFile();
+    const resetData = (params: IInitAppParams, patterns?: IPattern[]) => {
+        resetShowData(params, patterns);
     };
 
     useEffect(() => {
-        resetData({ fixtures: 8, static: 5, dynamic: 5, long: 5 });
-        return () => {
-        };
+        loadShowFile('');
+        return () => {};
     }, []);
 
     return (
-        <div className={`appWrapper ${appScreenMode === 'patch' ? 'patchMode' : ''}`}>
+      <ErrorBoundary onErrorCallback={() => resetData({fixtures: 12, static: 27, dynamic: 27, long: 12})}>
+        <div
+            className={`appWrapper ${appScreenMode === 'patch' ? 'patchMode' : appScreenMode === 'output' ? 'outputMode' : ''}`}>
             <ContextMenu options={contextOptions} onClose={hideContextMenu}>
                 <MusicContextProvider>
+                  <ErrorBoundary onErrorCallback={() => resetData({fixtures: 12, static: 27, dynamic: 27, long: 12})}>
                     <div className="headerWrapper">
                         <Header
-                            appScreenMode={appScreenMode}
                             hideContextMenu={hideContextMenu}
                             resetData={resetData}
-                            loadData={loadData}
-                            saveData={saveData}/>
+                        />
                     </div>
-
-                    <div className="contentWorkspaceWrapper">
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => loadShowFile("")}>
+                    <div className="contentWorkspaceWrapper"
+                         style={appScreenMode !== 'output' ? {} : { display: 'none' }}>
                         <div className="mainWorkspaceWrapper"><MainWorkspace/></div>
                         {appScreenMode === 'main'
                             ? <div className="cuesWorkspaceWrapper"><CuesWorkspace/></div> : ''}
                     </div>
-                    <div className="timeLineWorkspaceWrapper" style={appScreenMode === 'main' ? {} : {display: 'none'}}>
-                         <TimeLine/>
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => selectMusicFile("")}>
+                    <div className="timeLineWorkspaceWrapper"
+                         style={appScreenMode !== 'main' ? { display: 'none' } : {}}>
+                        <TimeLine/>
                     </div>
-                    {appScreenMode === 'main'
-                        ? ""
-                        : <div className="patchWorkspaceWrapper">
+                  </ErrorBoundary>
+                  <ErrorBoundary onErrorCallback={() => loadShowFile("")}>
+                    {appScreenMode === 'output'
+                        ? <div className="outputWorkspaceWrapper">
+                            <Output/>
+                        </div>
+                        : appScreenMode === 'patch' ? <div className="patchWorkspaceWrapper">
                             <Patch/>
-                        </div>}
-
+                        </div> : ''}
+                  </ErrorBoundary>
                 </MusicContextProvider>
             </ContextMenu>
         </div>
+      </ErrorBoundary>
     );
 };
 
@@ -102,7 +106,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const ApplicationContainer = connect(mapStateToProps, {
-    setContextMenuOptions, switchAppScreenMode, storeShowFile, loadShowFile, resetShowData
+    setContextMenuOptions, switchAppScreenMode, resetShowData, loadShowFile, selectMusicFile
 })(Application);
 
 export default hot(ApplicationContainer);
