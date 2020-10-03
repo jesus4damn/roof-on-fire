@@ -2,44 +2,119 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-width: 45%;
   overflow: hidden;
-  overflow-x: auto;
+}
+.onePanel {
+  // min-width: 30%;
+  // max-width: 45%;
+  width: 45%;
+  table {
+    border-collapse: collapse;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+}
+.twoPanel {
+  // max-width: 45%;
+  // min-width: 30%;
+  width: 45%;
+  .navGroupButton{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  button {
+    flex: 1 0 20%;
+  }
+}
+}
+.onePanel,
+.twoPanel {
+  .navGroup button {
+    background: #333333;
+    border-radius: 2px;
+    text-align: center;
+    padding: 5px 10px;
+    color: #a2a2a2;
+    font-size: 12px;
+    box-sizing: border-box;
+    position: relative;
+    line-height: 26px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  table img {
+    width: 24px;
+    height: auto;
+  }
+  table {
+    border: 2px solid #444444;
+    border-collapse: collapse;
+    text-align: center;
+    display: block;
+    height: 90vh;
+
+    display: block;
+    overflow: auto;
+  }
+  table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+  .navGroupButton {
+    background: transparent;
+    .navGroupButtonActive {
+      background: #2f80ed;
+      color: #fff;
+    }
+  }
 }
 .WrapControls {
   padding-top: 2px;
-  border: 2px solid #444444;
-  border-top: 0;
   box-sizing: border-box;
-  background: #444444;
+  background: #252424;
   max-width: 10%;
-  width: 8%;
-  height: 100%;
+  width: 10%;
+  height: 90vh;
   margin: 0px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  font-size: 12px;
+  .ControlsItem {
+    transform: scale(0.9);
+    span:nth-child(2) {
+      background: #444;
+    }
+  }
 }
 
 .WrapControls .ControlsBt {
-  background: #27AE60;
+  background: #27ae60;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25), inset 0px 0.5px 1px rgba(255, 255, 255, 0.2);
-  // border-radius: 5px;
-  width: 94%;
+  width: 99%;
   height: 48px;
   outline: none;
   border: 0;
   color: #fff;
   box-sizing: border-box;
   transform: scale(0.8);
-  margin: 4px 4px 8px 4px;
+  margin: 4px 4px 0px 0px;
 }
 
 .ControlsItem {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin:  0;
+  margin: 0;
   transform: scale(0.8);
 }
 
@@ -61,4 +136,18 @@
   color: #fff;
   border-radius: 0 0 5px 5px;
   padding: 5px 0;
+}
+.BtnInterItem:nth-child(1) {
+  margin-bottom: 20px;
+}
+.BtnInterItem:nth-child(1) button {
+  background: #828282;
+}
+.BtnConsoleInteractions button {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 0.5px 1px rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+.wrapTableCues {
+  height: 100vh;
+  overflow: hidden;
 }
