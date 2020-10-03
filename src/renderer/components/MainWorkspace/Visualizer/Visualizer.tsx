@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useMusicContext } from '../../../misicContext/musicContext';
-import { IFixture } from '../../../../types/fixtureTypes';
-import { StageWrapper } from './effects/Fire';
-import { useEffect, useState } from 'react';
+import { IFixture, IPattern, IPatternStep } from '../../../../types/fixtureTypes';
+import { useEffect, useMemo, useState } from 'react';
 import { DragSourceMonitor, useDrag } from 'react-dnd';
 import { dragTypes } from '../../../../types/dragTypes';
 
@@ -21,24 +20,15 @@ export interface IProps {
 }
 
 const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updateFixture, addFixturesToCue }) => {
-    const context = useMusicContext();
-    const [enabled, setEnabled] = useState(false);
     const [active, setActive] = React.useState(false);
-    let [asd, setAsd] = useState([{startTime: 0}, {startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0},{startTime: 0}]);
-    let [width, setWidth] = useState(222);
 
     const updateCueCallback = (cueId: string) => {
         addFixturesToCue(fixtures.filter(f => f.selected), cueId)
     };
 
-    useEffect(() => {
-        let part = width / (asd.length -1);
-        setAsd(asd.map((asd, i) => ({startTime: i * part})))
-    }, [width]);
     return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <div className="visualizerWrapper">
-            <span>{context.musicContext.currentTime.toFixed(2)}</span>
             <button onClick={() => setAllowAPI(!allowedAPI)}
                     style={{color: allowedAPI ? "green" : "red"}}
             >
@@ -47,16 +37,20 @@ const Visualizer: React.FC<IProps> = ({ fixtures, allowedAPI, setAllowAPI, updat
             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: "80%"}}>
                 {fixtures && fixtures.length
-                    ? fixtures.map(f => <VisualizerFixture key={f.id} fixture={f} updateFixture={updateFixture} updateCue={updateCueCallback}/>)
+                    ? fixtures.map(f => <VisualizerFixture key={f.id}
+                                                           fixture={f}
+                                                           updateFixture={updateFixture}
+                                                           updateCue={updateCueCallback}
+                    />)
                     : null}
             </div>
             <div className="counterBtn">
-        <button className={active ? "fixturesBtnPosition " : "fixturesBtnPosition-active"} onClick={() => setActive(!active)}>
-                Все
-            </button>
-        <button className={'fixturesBtnPosition'}  >
-                Позиция Т1
-            </button>
+            <button className={active ? "fixturesBtnPosition " : "fixturesBtnPosition-active"} onClick={() => setActive(!active)}>
+                    Все
+                </button>
+            <button className={'fixturesBtnPosition'}  >
+                    Позиция Т1
+                </button>
             <button className={'fixturesBtnPosition'}  >
                 Позиция Т2
             </button>
@@ -81,6 +75,12 @@ interface IFixtureProps {
     updateCue: (cueId: string) => void
 }
 
+const calculateAngle = (dmx: number) => {
+    let isMinus = dmx < 128;
+    const minMax = 100;
+    return Number((minMax / 128) * (dmx - 128)).toFixed();
+};
+
 const VisualizerFixture:React.FC<IFixtureProps> = ({updateFixture, fixture, updateCue}: IFixtureProps) => {
     const [{ isDragging }, drag, preview] = useDrag({
         item: { id: fixture.selected ? fixture.id : 'noId', type: dragTypes.FIXTURE },
@@ -101,16 +101,58 @@ const VisualizerFixture:React.FC<IFixtureProps> = ({updateFixture, fixture, upda
         }),
         canDrag: (monitor => !!(fixture.selected && fixture.activePattern && fixture.activePattern.id))
     });
-
+    const [renderFire, setRenderFire] = useState(false);
+    useEffect(() => {
+        if (fixture.shot && !renderFire) {
+            setRenderFire(true)
+        }
+    }, [fixture]);
     return (
         <div
             key={fixture.id}
-            className={`fixtureViz ${fixture.shot ? "shot" : ""}`}
+            className="fixtureViz"
             onClick={() => updateFixture({...fixture, selected: !fixture.selected})}
             ref={drag}
         >
+            {fixture.activePattern && renderFire
+                ? <AnimationShot pattern={fixture.activePattern} unmount={() => setRenderFire(false)}/>
+                : null}
             <img src={fixture.img ? fixture.img : ''} className={`fixtureVizImg ${fixture.selected ? "active" : ""}`}/>
             <span className={`fixturesNumber ${fixture.selected ? "active" : ""}`}>{fixture.number}</span>
         </div>
     )
 };
+
+interface IAnimationProps {
+    pattern: IPattern,
+    unmount: () => void
+}
+
+const AnimationShot: React.FC<IAnimationProps> = React.memo(({pattern, unmount}: IAnimationProps) => {
+    const {tick} = useMusicContext();
+    const [currentStep, setCurrentStep] = useState<IPatternStep | null>(null);
+    const [times, setTimes] = useState<IPatternStep[]>(pattern.steps);
+    const startTime = useMemo(() => tick, []);
+    const [progress, setProgress] = useState(tick);
+    useEffect(() => {
+        if (times[0]) {
+            if (tick >= progress) {
+                setProgress(times[0].time + progress);
+                setCurrentStep(times[0]);
+                setTimes([...times].slice(1));
+            }
+        } else {
+            unmount();
+        }
+    }, [tick]);
+
+    return (
+        <span
+            style={currentStep && currentStep.type === "shot"
+                ? { transform: `rotate(${calculateAngle(currentStep.angle)}deg)` }
+                : {backgroundColor: 'transparent'}}
+            className="fixtureShot"
+        >
+        </span>
+    );
+});

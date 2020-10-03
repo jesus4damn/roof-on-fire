@@ -209,7 +209,7 @@ class Waveform extends React.Component<IProps, IState> {
 
         this.wavesurfer.on('audioprocess', throttle(() => {
             this.handleTrackTimeChange(this.wavesurfer.getCurrentTime());
-        }, 75));
+        }, 100));
 
         this.wavesurfer.on('zoom', throttle((val: number) => {
             this.setState({
