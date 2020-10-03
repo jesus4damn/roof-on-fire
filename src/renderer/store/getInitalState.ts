@@ -58,6 +58,7 @@ export interface IInitialData {
 }
 
 export const getInitialState = (initParams?: IInitAppParams, patterns?: IPattern[]):IInitialData => {
+    console.log(patterns);
     let init:IInitAppParams = initParams ? initParams : {fixtures: 5, static: 5, dynamic: 5, long: 5};
     const fixtures = generateMockFixtures(init.fixtures ? init.fixtures : 5 );
     const patternsS = patterns

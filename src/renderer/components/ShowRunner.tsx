@@ -12,7 +12,14 @@ interface IState {
     events: {[key: number]: {id: string, shot: boolean}[]}
 }
 
-class ShowRunner extends React.Component<IMusicContext & any> {
+interface IProps {
+    currentTime: number,
+    status: any,
+    sendMusicAction: (status: string) => void
+    updateFixtureShot: (e: any) => void
+}
+
+class ShowRunner extends React.Component<IProps & any> {
     state: IState = {
         events: {}
     };
@@ -23,14 +30,14 @@ class ShowRunner extends React.Component<IMusicContext & any> {
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
-        if (prevProps.context.musicContext.currentTime.toFixed(1) !== this.props.context.musicContext.currentTime.toFixed(1)) {
-            this.timeListner(this.props.context.musicContext.currentTime);
+        if (prevProps.currentTime !== this.props.currentTime) {
+            this.timeListner(this.props.currentTime);
         }
         if (prevProps.cues !== this.props.cues) {
             this.createTimeEvents(this.props.cues)
         }
-        if (prevProps.context.musicContext.status !== this.props.context.musicContext.status) {
-            this.props.sendMusicAction(this.props.context.musicContext.status);
+        if (prevProps.status !== this.props.status) {
+            this.props.sendMusicAction(this.props.status);
         }
     }
 

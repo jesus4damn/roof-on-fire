@@ -63,7 +63,6 @@ interface ITextProps {
     onSelect: (patterns: IPattern[]) => void
 }
 export const TextPatternsInput: React.FC <ITextProps> = ({label, onSelect}) => {
-
     const onAddFile = async (e: any) => {
         //onChange(e.target.files[0]);
         let file: File = e.target.files[0];
@@ -71,7 +70,6 @@ export const TextPatternsInput: React.FC <ITextProps> = ({label, onSelect}) => {
         if (patterns.length) {
             onSelect(patterns);
         }
-        console.log(patterns)
     };
 
     return (

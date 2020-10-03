@@ -44,7 +44,7 @@
     margin-bottom: 10px;
 }
 
-.fixtureViz.shot::before {
+.fixtureShot {
     content: ' ';
     display: flex;
     height: 50px;
@@ -54,6 +54,7 @@
     color: orange;
     left: 11px;
     z-index: 15;
+    transform-origin: center bottom;
     background-color: red;
 }
 .fixtureViz img{

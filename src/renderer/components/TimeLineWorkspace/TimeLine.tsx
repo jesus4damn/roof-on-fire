@@ -20,19 +20,18 @@ interface IConnectedProps {
 type TProps = IConnectedProps & any & any;
 
 const TimeLine: React.FC<TProps> = ({ cues, musicFilePath, setMusicFileLength }) => {
-    const context = useMusicContext();
+    const {setMusicContext, musicContext, setCurrentTime, currentTime} = useMusicContext();
 ///TODO(Victor) think about how better to tranfer position props between waveForm and cues
     return (
-            <div
-                className={'timelineTrack'}
-                //style={{ width: `${audioLength / 100}px` }}
-            >
-                <ShowRunner context={context}/>
+            <div className={'timelineTrack'}>
+                <ShowRunner currentTime={currentTime}
+                            status={musicContext.status}
+                            />
                 <Waveform
                     musicFilePath={musicFilePath}
-                    setCurrentTime={(val: number) => {context.setMusicContext({...context.musicContext, currentTime: val})}}
-                    setTotalTime={(val: number) => {context.setMusicContext({...context.musicContext, totalTime: val})}}
-                    setContextStatus={(val: string) => {context.setMusicContext({...context.musicContext, status: val})}}
+                    setCurrentTime={(val: number) => {setCurrentTime(val)}}
+                    setTotalTime={(val: number) => {setMusicContext({...musicContext, totalTime: val})}}
+                    setContextStatus={(val: string) => {setMusicContext({...musicContext, status: val})}}
                     cues={cues}
                     setMusicFileLength={setMusicFileLength}
                 >
