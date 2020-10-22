@@ -2,13 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
 import { getFixtureGroups, getFixtures, getFixturesTypes } from '../../../store/fixturesReducer/fixturesSelector';
-import { IFixture, IFixturesGroup, TFixturesTypes } from '../../../../types/fixtureTypes';
+import { IFixture, IFixturesGroup, TFixturesGroups, TFixturesTypes } from '../../../../types/fixtureTypes';
 import FixtureItem from './FixtureItem';
-import { updateFixture } from '../../../store/fixturesReducer/fixturesActions';
+import { selectFixturesGroup, updateFixture } from '../../../store/fixturesReducer/fixturesActions';
 import { IField } from '../../../../types/fieldsTypes';
 import { createNewCue, initDevices } from '../../../store/cuesReducer/cuesActions';
 import Accordeon from '../../common/Accordeon/Accordeon';
-import { generateMockFixtures } from '../../../store/mockDataGenerators';
 
 require('./FixtureItem.scss');
 
@@ -19,10 +18,11 @@ interface IProps {
     createNewCue: (fixtures: IFixture[], field: IField | null, startTime?: number) => void
     updateFixture: (fixture: IFixture) => void
     initDevices: (fixtures: IFixture[]) => void
+    selectFixturesGroup: (group: TFixturesGroups) => void
 }
 
 
-const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture, createNewCue, fixtureTypes, initDevices }) => {
+const Fixtures: React.FC<IProps> = ({ fixtures, updateFixture, createNewCue, fixtureTypes, initDevices, selectFixturesGroup }) => {
     const createNewCueCallback = (time: number) => {
         createNewCue(fixtures.filter(f => f.selected && f.activePattern), null, time)
     };
@@ -57,30 +57,30 @@ const Fixtures: React.FC<IProps> = ({ fixtures, groups, updateFixture, createNew
                                 })}
                             </div>
                             <div className={'positionPach'}>
-                                <div className={'positionPachItem'}>
-                                    <div className={'PachItemOne'}>12</div>
+                                <div className={'positionPachItem'} onClick={() => selectFixturesGroup('all')}>
+                                    <div className={'PachItemOne'}>{fixtures.length}</div>
                                     <div className={'PachItemTwo'}>Все</div>
-                                    <div className={'PachItemThree'}>12</div>
+                                    <div className={'PachItemThree'}>{fixtures.length}</div>
                                 </div>
-                                <div className={'positionPachItem'}>
-                                    <div className={'PachItemOne'}>12</div>
+                                <div className={'positionPachItem'} onClick={() => selectFixturesGroup('odd')}>
+                                    <div className={'PachItemOne'}>{fixtures.length}</div>
                                     <div className={'PachItemTwo'}>Чётные</div>
-                                    <div className={'PachItemThree'}>6</div>
+                                    <div className={'PachItemThree'}>{fixtures.length / 2}</div>
                                 </div>
-                                <div className={'positionPachItem'}>
-                                    <div className={'PachItemOne'}>11</div>
+                                <div className={'positionPachItem'} onClick={() => selectFixturesGroup('even')}>
+                                    <div className={'PachItemOne'}>{fixtures.length}</div>
                                     <div className={'PachItemTwo'}>Нечётные</div>
-                                    <div className={'PachItemThree'}>6</div>
+                                    <div className={'PachItemThree'}>{fixtures.length / 2}</div>
                                 </div>
-                                <div className={'positionPachItem'}>
-                                    <div className={'PachItemOne'}>11</div>
+                                <div className={'positionPachItem'} onClick={() => selectFixturesGroup('left')}>
+                                    <div className={'PachItemOne'}>{fixtures.length}</div>
                                     <div className={'PachItemTwo'}>Левые</div>
-                                    <div className={'PachItemThree'}>6</div>
+                                    <div className={'PachItemThree'}>{fixtures.length / 2}</div>
                                 </div>
-                                <div className={'positionPachItem'}>
-                                    <div className={'PachItemOne'}>11</div>
+                                <div className={'positionPachItem'} onClick={() => selectFixturesGroup('right')}>
+                                    <div className={'PachItemOne'}>{fixtures.length}</div>
                                     <div className={'PachItemTwo'}>Правые</div>
-                                    <div className={'PachItemThree'}>6</div>
+                                    <div className={'PachItemThree'}>{fixtures.length / 2}</div>
                                 </div>
                             </div>
                         </Accordeon>
@@ -137,4 +137,4 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 
-export default connect(mapStateToProps, { updateFixture, createNewCue, initDevices })(Fixtures);
+export default connect(mapStateToProps, { updateFixture, createNewCue, initDevices, selectFixturesGroup })(Fixtures);

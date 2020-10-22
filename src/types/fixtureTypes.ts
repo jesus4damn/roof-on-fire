@@ -17,6 +17,8 @@ export interface IFixtureBase {
 
 export type TFixturesTypes = 'fireMachine' | 'fireWorks' | 'dimmer'
 
+export type TFixturesGroups = 'all' | 'left' | 'right' | 'odd' | 'even'
+
 export interface IParamsDMX {
     dmxOutput: number,
     physicalOutput: number | string,

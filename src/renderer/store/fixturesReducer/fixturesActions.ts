@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from 'redux';
-import { IFixture, IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
+import { IFixture, IPattern, TFixturesGroups, TFixturesTypes } from '../../../types/fixtureTypes';
 import { IFixturesState } from './fixturesReducer';
 import {ThunkDispatch} from "redux-thunk";
 import { GetStateType } from '../rootReducer';
@@ -15,10 +15,11 @@ export const UPDATE_FIXTURE_SHOT = 'fixtures/UPDATE_FIXTURE_SHOT';
 export const SET_SELECTED_FIXTURES_PATTERN = 'fixtures/SET_SELECTED_FIXTURES_PATTERN';
 export const UPDATE_PATTERN = 'fixtures/UPDATE_SELECTED_FIXTURES_PATTERN';
 export const SET_FIXTURE_PATTERN = 'fixtures/UPDATE_FIXTURE_PATTERN';
+export const SELECT_GROUP = 'fixtures/SELECT_GROUP';
 
 export type IFixtureActions = IPatchFixturesAC | IDeleteFixtureAC
     | IUpdateFixtureAC | IUpdatePattern | ISETFixturesSateAC
-    | ISetSelectedFixturesPattern | ISetFixturePattern | IUpdateFixtureShotAC;
+    | ISetSelectedFixturesPattern | ISetFixturePattern | IUpdateFixtureShotAC | ISelectFixturesGroupAC;
 
 export interface IPatchFixturesAC extends Action {
     type: typeof PATCH_FIXTURES, payload: IFixture[]
@@ -31,6 +32,9 @@ export interface IDeleteFixtureAC extends Action {
 }
 export interface IUpdateFixtureAC extends Action {
     type: typeof UPDATE_FIXTURE, fixture: IFixture
+}
+export interface ISelectFixturesGroupAC extends Action {
+    type: typeof SELECT_GROUP, group: TFixturesGroups
 }
 export interface IUpdateFixtureShotAC extends Action {
     type: typeof UPDATE_FIXTURE_SHOT, fixture: {id: string, shot: boolean, activePattern: IPattern}
@@ -53,6 +57,9 @@ export const deleteFixtureAC: ActionCreator<IDeleteFixtureAC> = (fixtureId: stri
 
 export const updateFixture = (fixture: IFixture):IUpdateFixtureAC =>
     ({ type: UPDATE_FIXTURE, fixture });
+
+export const selectFixturesGroup = (group: TFixturesGroups):ISelectFixturesGroupAC =>
+    ({ type: SELECT_GROUP, group });
 
 export const updateFixtureShot = (fixture: { id: string, shot: boolean, action: ICueAction }) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
