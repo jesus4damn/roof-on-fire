@@ -42,9 +42,10 @@ export const VisStage = ({ fixtures, enabled }: any) => {
     }, enabled);
 
     const renderFixture = (fixture:IFixture, index: number) =>  {
-        return  (
-            <Container width={50} height={300} x={(index + 1) *40} key={fixture.id + 'viz'}>
+        // @ts-ignore
+        return  (<Container width={50} height={300} x={(index + 1) *40} key={fixture.id + 'viz'}>
                 {/*<Bunny index={index + 1} motion={motion}/>*/}
+              {/*// @ts-ignore*/}
                 <Sprite
                     y={350}
                     tint={Math.random() * 0xE8D4CD}
@@ -58,8 +59,8 @@ export const VisStage = ({ fixtures, enabled }: any) => {
         if (fixtures && fixtures.length) {
             return fixtures.map( (f:IFixture, i: number) => renderFixture(f, i))
         } else {
-            return (
-                <Sprite
+            // @ts-ignore
+            return (<Sprite
                     y={250}
                     tint={Math.random() * 0xE8D4CD}
                     image="https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png"

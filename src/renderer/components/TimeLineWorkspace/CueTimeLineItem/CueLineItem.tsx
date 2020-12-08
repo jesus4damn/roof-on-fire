@@ -122,10 +122,11 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
             <div ref={cueRef}>
                 {cueState.isOpen
                     ? <React.Fragment>
-                        <span>{cueItem.startTime.toFixed(2)} ===> </span>
+                        <span>{cueItem.startTime.toFixed(2) + '==>'}  </span>
                         <span>{cueItem.endTime.toFixed(2)}</span>
                         {/*<span onClick={minus}>{cueItem.startTime}{isDragging ? '' : '=>>'}{cueItem.endTime}</span>*/}
-                        {cueItem.actions.map(a => <span key={a.id} style={{left: `${a.startTime * zoom -5}px`}} className={'timelineCue-triangle'}> </span>)}
+                        {cueItem.actions.map(a => <span key={a.id} style={{left: `${a.startTime * zoom -5}px`}}
+                                                        className={'timelineCue-triangle'}> </span>)}
                     </React.Fragment>
                     : null}
             </div>

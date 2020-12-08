@@ -62,7 +62,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
         <div className="selectionButtonsSetting">
             <div className="selectionButtonsTop">
                 {fixturesTypes.length && fixturesTypes.map(ft => {
-                    return (
+                    return ft === "fireMachine" ? (
                         <button className={fixtureTypesScreenWindow === ft ? 'activeButtonsTop' : ''}
                                 key={'fixtureTypeButton' + ft}
                                 onClick={() => {
@@ -70,7 +70,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
                                 }}>
                             {ft}
                         </button>
-                    );
+                    ) : null;
                 })}
             </div>
             <div className="selectionButtonsBottom">

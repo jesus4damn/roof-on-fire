@@ -11,15 +11,6 @@
   table {
     border-collapse: collapse;
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 .twoPanel {
   // max-width: 45%;
@@ -107,6 +98,8 @@
   color: #fff;
   box-sizing: border-box;
   transform: scale(0.8);
+  opacity: 0.2;
+  pointer-events: none;
   margin: 4px 4px 0px 0px;
 }
 
@@ -115,6 +108,8 @@
   justify-content: center;
   flex-wrap: wrap;
   margin: 0;
+  opacity: 0.2;
+  pointer-events: none;
   transform: scale(0.8);
 }
 

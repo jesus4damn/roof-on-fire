@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
-import { IFixture, IFixturesGroup, IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
+import { IFixture, IFixturesGroup, IPattern, TFixturesGroups, TFixturesTypes } from '../../../types/fixtureTypes';
 import {
     DELETE_FIXTURE,
     PATCH_FIXTURES, SELECT_GROUP,
@@ -14,6 +14,7 @@ import {
 import { generateMockFixtures } from '../mockDataGenerators';
 import { SET_WHOLE_STATE } from '../appReducer/appActions';
 import { isEven } from '../../utils/Helpers';
+import * as _ from 'lodash';
 
 export interface IFixturesState {
     readonly patterns: {
@@ -35,6 +36,29 @@ export const defaultState: IFixturesState = {
     fixtureTypes: ['fireMachine', 'fireWorks', 'dimmer']
 };
 
+const groupFilter = (i: number, groupType: TFixturesGroups, fixturesCount: number) => {
+    switch(groupType) {
+        case 'even': return isEven(i);
+        case 'odd': return !isEven(i);
+        case 'left': return i < fixturesCount / 2;
+        case 'right': return i > (fixturesCount / 2) - 0.01;
+        default: {
+            return true;
+        }
+    }
+};
+const getGroups = (fixtures: IFixture[]):IFixturesGroup[] => {
+    const groupsTypes = <TFixturesGroups[]>['all', 'left', 'right', 'odd', 'even']
+    let fixturesIds = fixtures.map(f => f.id);
+    return groupsTypes.map(group => {
+        return {
+            id: group,
+            fixturesIds: fixturesIds.filter((id, i) => groupFilter(i, group, fixturesIds.length)),
+            selected: false,
+        }
+    })
+}
+
 export const fixturesReducer: Reducer<IFixturesState> = (
     state = defaultState,
     action: RootActions
@@ -43,34 +67,31 @@ export const fixturesReducer: Reducer<IFixturesState> = (
         case PATCH_FIXTURES:
             return {
                 ...state,
-                fixtures: action.payload
+                fixtures: action.payload,
+                groups: getGroups(action.payload)
             };
         case DELETE_FIXTURE:
             return state;
         case UPDATE_FIXTURE:{
-            let idx = state.fixtures.map(f => f.id).indexOf(action.fixture.id);
+            let idx = _.findIndex(state.fixtures, {id: action.fixture.id})
             let newFixtures = [...state.fixtures];
             newFixtures[idx] = {...newFixtures[idx], ...action.fixture};
             return {
                 ...state,
-                fixtures: newFixtures
+                fixtures: newFixtures,
+                groups: state.fixtures[idx].selected !== action.fixture.selected
+                  ? state.groups.map(gr => ({...gr, selected: false}))
+                  : state.groups
             };
         }
         case SELECT_GROUP: {
-            const isSelect = (i: number) => {
-                switch(action.group) {
-                    case 'even': return isEven(i);
-                    case 'odd': return !isEven(i);
-                    case 'left': return i < state.fixtures.length / 2;
-                    case 'right': return i > (state.fixtures.length / 2) - 0.01;
-                    default: {
-                        return true;
-                    }
-                }
-            };
             return {
                 ...state,
-                fixtures: state.fixtures.map((f, i) => ({...f, selected: isSelect(i)}))
+                fixtures: state.fixtures.map((f, i) =>
+                  ({...f, selected: groupFilter(i, action.group, state.fixtures.length)})),
+                groups: state.groups.map(gr => action.group === gr.id
+                  ? {...gr, selected: true}
+                  : {...gr, selected: false})
             };
         }
         case UPDATE_FIXTURE_SHOT: {
@@ -130,9 +151,9 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
         }
         case SET_FIXTURES_STATE:
-            return action.payload;
+            return { ...action.payload, groups: getGroups(action.payload.fixtures) };
         case SET_WHOLE_STATE:
-            return action.payload.fixtures;
+            return { ...action.payload.fixtures, groups: getGroups(action.payload.fixtures.fixtures) };
         default:
             return state;
     }

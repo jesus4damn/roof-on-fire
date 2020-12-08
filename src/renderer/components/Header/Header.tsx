@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
 import {
@@ -41,9 +41,9 @@ const Header: React.FC<IProps & IConnectedProps> = ({
                                                       appScreenMode,
                                                       switchAppScreenMode
                                                     }) => {
-  const [menuShown, setMenuShow] = useState<null | 'FILE' | 'MENU'>(null);
+  const [menuShown, setMenuShow] = useState<null | 'FILE' | 'MENU'>(() => null);
   const menuWrapperRef = React.createRef<HTMLDivElement>();
-  const [activeBtn, setActiveBtn] = useState<string>('');
+  const [activeBtn, setActiveBtn] = useState<string>(() => '');
   const [modalContent, setModalContent] = useState<any | null>(null);
   const [isModalShown, setIsModalShown] = useState<boolean>(false);
   useEffect(() => {
@@ -61,7 +61,7 @@ const Header: React.FC<IProps & IConnectedProps> = ({
 
   const contextMenuOptions = [
     {
-      title: 'resetState',
+      title: 'Reset State',
       disabled: false,
       callback: () => {
         showModal('reset');
@@ -69,7 +69,7 @@ const Header: React.FC<IProps & IConnectedProps> = ({
       }
     },
     {
-      title: 'Import',
+      title: 'Import Music',
       disabled: false,
       callback: () => {
         showModal('music');
@@ -77,7 +77,7 @@ const Header: React.FC<IProps & IConnectedProps> = ({
       }
     },
     {
-      title: 'Parse',
+      title: 'Parse .TXT',
       disabled: false,
       callback: () => {
         showModal('parser');
@@ -116,7 +116,7 @@ const Header: React.FC<IProps & IConnectedProps> = ({
     closeModal();
   };
 
-  const showModal = (type: 'music' | 'reset' | 'parser') => {
+  const showModal = useCallback((type: 'music' | 'reset' | 'parser') => {
     if (type === 'music') {
       setModalContent(() =>
         <div className={'importWrapper'}>
@@ -147,19 +147,19 @@ const Header: React.FC<IProps & IConnectedProps> = ({
       );
     }
     setIsModalShown(true);
-  };
+  }, [resetData, selectMusicFile]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (error) {
       setError({});
     }
     setModalContent(null);
     setIsModalShown(false);
-  };
+  }, [error]);
 
   useEffect(() => {
     const handleOuterClick = (e: any) => {
-      if (menuShown && menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target)) {
+      if (menuWrapperRef.current && e.target && !menuWrapperRef.current.contains(e.target)) {
         setMenuShow(null);
         setActiveBtn('');
       }
@@ -172,9 +172,8 @@ const Header: React.FC<IProps & IConnectedProps> = ({
     }
     return () => {
       window.removeEventListener('click', handleOuterClick);
-
     };
-  }, [menuShown]);
+  }, [menuShown, menuWrapperRef]);
 
   return (
     <React.Fragment>

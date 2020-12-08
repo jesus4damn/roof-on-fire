@@ -78,7 +78,8 @@
   "license": "SEE LICENSE",
   "homepage": "https://https://github.com/Benedikt89/roof-on-fire",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/compat-data": "^7.12.7",
+    "@babel/core": "^7.12.9",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.5",

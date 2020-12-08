@@ -55,7 +55,7 @@ export interface IFixture extends IFixtureBase{
     id: string
 }
 export interface IFixturesGroup {
-    id: string,
+    id: TFixturesGroups,
     fixturesIds: string[],
     selected: boolean,
 }

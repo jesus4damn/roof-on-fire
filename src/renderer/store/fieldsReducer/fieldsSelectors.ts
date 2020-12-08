@@ -23,4 +23,4 @@ export const getFieldsArr = (state: RootState, patternType?: IActionsScreenSwitc
     }
 };
 
-export const getCuesFields = (state: RootState) => state.fields.cuesFields;
+export const getCuesFields = (state: RootState) => state.fields.cuesFields || [];

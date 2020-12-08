@@ -16,7 +16,7 @@ interface ISelectorProps {
 
 const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
     const {fixtureTypes}: ISelectorProps = useSelector( (state: RootState) => ({fixtureTypes: state.fixtures.fixtureTypes}));
-    const [selectedType, setSelectedType] = useState('');
+    const [selectedType, setSelectedType] = useState(false);
 
     return (
         <div className="patchWrapper">
@@ -24,93 +24,16 @@ const Patch:React.FC<IProps> = ({patchFixtures}:IProps) => {
             Device library
             </h2>
             <div className="DeviceLibraryWrapper">
-            <Accordeon headerTitle={"Crazy Flame Mod 1"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Flame Jet"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Switch"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Piro Block"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch
-                    <Accordeon headerTitle={"Crazy Flame Mod 1"}>
-                    <div className="typesWrapper">
-                    <div>Flame Jet</div>
-                    <div>Switch</div>
-                    <div>Piro Block</div>
-                </div>
-            </Accordeon>
-                </div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon> 
-            <Accordeon headerTitle={"Crazy Flame Mod 1"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Flame Jet"}>
-                <div className="typesWrapper">
-                <div> 
-                    <Accordeon headerTitle={"Flame Jet"}>
-                        <div className="typesWrapper">
-                        <div>Flame Jet</div>
-                        <div>Switch</div>
-                        <div>Piro Block</div>
-                        </div>
-                    </Accordeon>                    
-                </div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Switch"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Switch"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon> <Accordeon headerTitle={"Piro Block"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
-            <Accordeon headerTitle={"Flame Jet"}>
-                <div className="typesWrapper">
-                <div>Flame Jet</div>
-                <div>Switch</div>
-                <div>Piro Block</div>
-                </div>
-            </Accordeon>
+              <Accordeon headerTitle={"Crazy Flame Mod 1"} selected={selectedType} onClick={(val) => setSelectedType(val)}>
+                  <div className="typesWrapper">
+                    <div>Crazy Flame</div>
+                  </div>
+              </Accordeon>
+
             </div>
+
             <div className={"patchControlsWrapper"}>
+              <span>{selectedType ? 'Crazy Flame' : ''}</span>
                 <div className={"rowWrapper"}>
                     <div className={"row"}><div><span>Address</span></div>
                     <input type="number" /></div>

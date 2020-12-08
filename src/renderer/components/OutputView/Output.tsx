@@ -17,20 +17,20 @@ const Output: React.FC = () => {
     fixtures: getFixtures(state),
     timeLineCues: getTimelineCues(state)
   }));
-  const fixturesRowWrapperRef = useRef(null);
+  const fixturesRowWrapperRef = useRef<HTMLDivElement>(null);
   const [activeType, setActiveType] = useState<TFixturesTypes>(fixturesTypes[0]);
   const [activeFixture, setActiveFixture] = useState<string>(fixtures[0].id);
 
-const scrollFixturesBar = (left: boolean) => {
-  if (fixturesRowWrapperRef !== null && fixturesRowWrapperRef.current ) {
-    fixturesRowWrapperRef.current.scrollLeft = left
-? fixturesRowWrapperRef.current.scrollLeft >= 50
-  ? fixturesRowWrapperRef.current.scrollLeft - 50
-  : 0
-: fixturesRowWrapperRef.current.scrollLeft + 50;
-  }
-  
-}
+  const scrollFixturesBar = (left: boolean) => {
+    if (fixturesRowWrapperRef && fixturesRowWrapperRef.current) {
+      fixturesRowWrapperRef.current.scrollLeft = left
+        ? fixturesRowWrapperRef.current.scrollLeft >= 50
+          ? fixturesRowWrapperRef.current.scrollLeft - 50
+          : 0
+        : fixturesRowWrapperRef.current.scrollLeft + 50;
+    }
+
+  };
 
   ////TODO Vratch design output tables and buttons navigation
   return (
@@ -38,7 +38,7 @@ const scrollFixturesBar = (left: boolean) => {
       <div className="outputCol onePanel">
         <div className="navGroup">
           <div className="navGroupButton">
-            {fixturesTypes.map(b => (
+            {fixturesTypes.filter(ft => ft === 'fireMachine').map(b => (
               <button
                 key={b}
                 className={activeType === b ? 'navGroupButtonActive' : ''}
@@ -62,8 +62,8 @@ const scrollFixturesBar = (left: boolean) => {
                 <td>Prefire</td>
               </tr>
               {timeLineCues.map((c, i) =>
-                c.actions.map(a => (
-                  <tr>
+                c.actions.map((a, i) => (
+                  <tr key={a.id+i}>
                     <OutputRow action={a} index={i} key={a.id} onUpdate={() => {}} />
                   </tr>
                 ))
