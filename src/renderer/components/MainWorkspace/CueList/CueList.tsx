@@ -18,7 +18,7 @@ interface IProps {
     cues: ICue[],
     musicTotalTime: number,
     selectedCue: ICue | null,
-    setSelectedCue: (cue: ICue) => void
+    setSelectedCue: (cueId: string) => void
     updateCue: (cue: ICue) => void
     deleteCue: (cueId: string, isTimeline: boolean) => void,
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
@@ -58,7 +58,7 @@ const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelec
             return 2;
         }
     };
-    const setSelectedCueCallback = useCallback(cue => setSelectedCue(cue), []);
+    const setSelectedCueCallback = useCallback(cueId => setSelectedCue(cueId), []);
     const updateCueCallback = useCallback(cue => updateCue(cue), []);
 
     const onDragEnd = (result: any) => {

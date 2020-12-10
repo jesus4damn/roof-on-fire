@@ -16,7 +16,7 @@ interface IProps {
     leftOffset: number
 }
 
-const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, position, leftOffset}) => {
+const CueTimeLine: React.FC<IProps & ICursorPosition & any> = React.memo(({cues, zoom, position, leftOffset}) => {
     const [{ isOver, canDrop, item, offs }, drop] = useDrop({
         accept: [dragTypes.FIXTURE, dragTypes.CUE_FIELD, dragTypes.PATTERN_FIELD],
         drop: () => {
@@ -39,6 +39,16 @@ const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, posi
         }
 
     }, [offs, item]);
+    const calculateI = (i: number):number => {
+        let x = 0;
+        if (i / 8 === 0) {
+            return 0
+        }
+        if (i / 8 > 1) {
+            x = Math.floor(i/8)
+        }
+        return x > 0 ? i - (x * 8) : i
+    }
 
     return (
        <div
@@ -46,19 +56,19 @@ const CueTimeLine: React.FC<IProps & ICursorPosition & any> = ({cues, zoom, posi
            className={"cueLineContainer"}
            style={canDrop ? {zIndex: 81, backgroundColor: canDrop ? '#3cd07a2e' : !canDrop ? '#be494969' : ''} : {}}
        >
-           <span className={'x-y-mousePos'}>{` x = ${position.x} + y${position.y}`}</span>
+           <span className={'x-y-mousePos'}>{position && ` x = ${position.x} + y${position.y}`}</span>
            {cues.map((c: ICue, i: number) => (
                <CueTimeLineItem
                    key={c.id}
                    zoom={zoom}
-                   cueItem={c}
-                   index={i}
+                   cueId={c.id}
+                   index={calculateI(i)}
                />
            ))}
            <span>a</span>
        </div>
     );
-};
+});
 
 
 export default CueTimeLine;

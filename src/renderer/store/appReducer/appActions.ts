@@ -175,6 +175,12 @@ export const resetShowData = (params: IInitAppParams, patterns?: IPattern[]) =>
         await dispatch(initDevices(common.fixtures.fixtures));
     };
 
+export const onDeletePressed = () =>
+  async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {};
+
+export const onSpacePressed = () =>
+  async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {};
+
 export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
     | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState | ISetError;

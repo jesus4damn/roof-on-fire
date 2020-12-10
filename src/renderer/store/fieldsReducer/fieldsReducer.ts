@@ -81,12 +81,17 @@ export const fieldsReducer: Reducer<IFieldsState> = (
                 }
             } else return state;
         case UPDATE_CUE:
-            let fieldIndex = state.cuesFields.map(f => isCueField(f) ? f.connected.id : null).indexOf(action.cue.id);
-            if (fieldIndex >= 0) {
-                return {
-                    ...state,
-                    cuesFields: state.cuesFields.map((f, i) => i === fieldIndex ? {...f, connected: action.cue} : f)
-                }
+            if (action.cue.id) {
+                let fieldIndex = state.cuesFields
+                  .map(f => isCueField(f) ? f.connected.id : null)
+                  .indexOf(action.cue.id);
+                if (fieldIndex >= 0) {
+                    let newCues = [...state.cuesFields.splice(fieldIndex, 1, {...state.cuesFields[fieldIndex], ...action.cue})]
+                    return {
+                        ...state,
+                        cuesFields: newCues
+                    }
+                } else return state;
             } else return state;
         case SET_NEW_FIELDS:
             return state;

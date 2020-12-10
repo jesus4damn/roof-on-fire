@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Modal from '../common/ModalWrapper';
 import {
   loadShowFile,
-  selectMusicFile,
+  selectMusicFile, setAllowAPI,
   setError,
   storeShowFile,
   switchAppScreenMode
@@ -20,6 +20,8 @@ require('./Header.scss');
 interface IProps {
   hideContextMenu: () => void
   resetData: (params: IInitAppParams, patterns?: IPattern[]) => void
+  setAllowAPI: (v: boolean) => void;
+  allowedAPI: boolean;
 }
 
 interface IConnectedProps {
@@ -30,6 +32,8 @@ interface IConnectedProps {
   switchAppScreenMode: (payload: IAppScreenModes) => void
   selectMusicFile: (payload: string) => {},
   setError: (payload: any) => {},
+  setAllowAPI: (v: boolean) => void;
+  allowedAPI: boolean;
 }
 
 const Header: React.FC<IProps & IConnectedProps> = ({
@@ -39,7 +43,9 @@ const Header: React.FC<IProps & IConnectedProps> = ({
                                                       storeShowFile,
                                                       selectMusicFile,
                                                       appScreenMode,
-                                                      switchAppScreenMode
+                                                      switchAppScreenMode,
+                                                      setAllowAPI,
+                                                      allowedAPI
                                                     }) => {
   const [menuShown, setMenuShow] = useState<null | 'FILE' | 'MENU'>(() => null);
   const menuWrapperRef = React.createRef<HTMLDivElement>();
@@ -204,6 +210,16 @@ const Header: React.FC<IProps & IConnectedProps> = ({
         >
           Output
         </button>
+        {process.env.START_HOT && <button onClick={() => setAllowAPI(!allowedAPI)}
+                                          style={{ position: 'absolute', right: '150px', color: allowedAPI ? 'green' : 'red' }}
+        >
+          {allowedAPI ? 'Enabled' : 'Disabled'}
+        </button>}
+        <button onClick={() => setAllowAPI(!allowedAPI)}
+                style={{ position: 'absolute', right: '15px', color: allowedAPI ? 'green' : 'red' }}
+        >
+          {allowedAPI ? 'Enabled' : 'Disabled'}
+        </button>
         <>
           {menuShown !== null ?
             <div ref={menuWrapperRef} className="contextMenu" style={menuShown === 'FILE' ? { left: '45px' } : {}}>
@@ -285,8 +301,6 @@ const ResetAppForm: React.FC<IformProps> = ({ onResetAppDataConfirm }) => {
           />
         </div>
       </div>
-
-
       <button onClick={() => onResetAppDataConfirm(resetAppDataOptions)}>Reset</button>
     </div>
   );
@@ -295,7 +309,8 @@ const ResetAppForm: React.FC<IformProps> = ({ onResetAppDataConfirm }) => {
 const mapStateToProps = (state: RootState) => ({
   contextOptions: state.app.contextMenuOptions,
   appScreenMode: state.app.appScreenMode,
-  error: state.app.error
+  error: state.app.error,
+  allowedAPI: state.app.allowedAPI,
 });
 
 export default connect(mapStateToProps, {
@@ -303,5 +318,6 @@ export default connect(mapStateToProps, {
   switchAppScreenMode,
   storeShowFile,
   loadShowFile,
-  setError
+  setError,
+  setAllowAPI
 })(Header);

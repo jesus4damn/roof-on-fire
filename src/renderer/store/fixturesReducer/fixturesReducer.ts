@@ -1,6 +1,13 @@
 import { Reducer } from 'redux';
 import { RootActions } from '../rootActions';
-import { IFixture, IFixturesGroup, IPattern, TFixturesGroups, TFixturesTypes } from '../../../types/fixtureTypes';
+import {
+    IFixture,
+    IFixturesGroup,
+    IPattern,
+    IShot,
+    TFixturesGroups,
+    TFixturesTypes
+} from '../../../types/fixtureTypes';
 import {
     DELETE_FIXTURE,
     PATCH_FIXTURES, SELECT_GROUP,
@@ -21,6 +28,7 @@ export interface IFixturesState {
         readonly [Fixture in TFixturesTypes]: IPattern[]
     },
     readonly fixtures: IFixture[],
+    readonly shootingFixtures: IShot[],
     readonly groups: IFixturesGroup[],
     readonly fixtureTypes: TFixturesTypes[],
 }
@@ -32,6 +40,7 @@ export const defaultState: IFixturesState = {
         dimmer: []
     },
     fixtures: generateMockFixtures(8),
+    shootingFixtures: [],
     groups: [],
     fixtureTypes: ['fireMachine', 'fireWorks', 'dimmer']
 };
@@ -95,12 +104,20 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
         }
         case UPDATE_FIXTURE_SHOT: {
-            let idx = state.fixtures.map(f => f.id).indexOf(action.fixture.id);
+            let idx = _.findIndex(state.fixtures, {id: action.fixture.id});
+            let shootId = _.findIndex(state.shootingFixtures, {id: action.fixture.id});
             let newFixtures = [...state.fixtures];
             newFixtures[idx] = {...newFixtures[idx], ...action.fixture};
+            let shootingFixtures = [...state.shootingFixtures];
+            if (shootId < 0 && action.fixture.shot) {
+                shootingFixtures.push({ id: action.fixture.id, pattern: action.fixture.activePattern })
+            } else if (shootId >= 0 && !action.fixture.shot) {
+                shootingFixtures.filter(f => f.id !== action.fixture.id)
+            }
             return {
                 ...state,
-                fixtures: newFixtures
+                fixtures: newFixtures,
+                shootingFixtures: shootingFixtures
             };
         }
         case SET_SELECTED_FIXTURES_PATTERN:
@@ -151,9 +168,9 @@ export const fixturesReducer: Reducer<IFixturesState> = (
             };
         }
         case SET_FIXTURES_STATE:
-            return { ...action.payload, groups: getGroups(action.payload.fixtures) };
+            return { ...state, ...action.payload, groups: getGroups(action.payload.fixtures) };
         case SET_WHOLE_STATE:
-            return { ...action.payload.fixtures, groups: getGroups(action.payload.fixtures.fixtures) };
+            return { ...state, ...action.payload.fixtures, groups: getGroups(action.payload.fixtures.fixtures) };
         default:
             return state;
     }

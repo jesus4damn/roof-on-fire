@@ -5,7 +5,7 @@ import {ThunkDispatch} from "redux-thunk";
 import { GetStateType } from '../rootReducer';
 import { controllerAPI } from '../../components/API/API';
 import { ICueAction } from '../../../types/cuesTypes';
-import { getPatternByAction } from './fixturesSelector';
+import { getFixtureById, getPatternByAction } from './fixturesSelector';
 
 export const PATCH_FIXTURES = 'fixtures/PATCH_FIXTURE';
 export const SET_FIXTURES_STATE = 'fixtures/SET_FIXTURES_STATE';
@@ -63,15 +63,14 @@ export const selectFixturesGroup = (group: TFixturesGroups):ISelectFixturesGroup
 
 export const updateFixtureShot = (fixture: { id: string, shot: boolean, action: ICueAction }) =>
     async (dispatch: ThunkDispatch<{}, {}, IFixtureActions>, getState: GetStateType) => {
-        const found = getState().fixtures.fixtures.filter(f => f.id === fixture.id)[0];
+        const found = getFixtureById(getState(), fixture.id);
         const pattern = getPatternByAction(getState(), fixture.action);
         const allowedAPI = getState().app.allowedAPI;
-        let fixCopy = {...fixture};
+        let fixCopy = {...fixture, activePattern: pattern};
         delete fixCopy.action;
         if (found && found.startAddress) {
             try {
-
-                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: {...fixCopy, activePattern: pattern}});
+                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: fixCopy});
                 if (allowedAPI) {
                     //const res = await controllerAPI.sendVal({ channel: found.startAddress, value: fixture.shot ? 255 : 0});
                     const res = await controllerAPI.sendFixture({...found, activePattern: pattern});
@@ -79,7 +78,7 @@ export const updateFixtureShot = (fixture: { id: string, shot: boolean, action: 
                 }
             } catch (e) {
                 console.log(e);
-                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: {...fixCopy, activePattern: pattern}});
+                dispatch({type: UPDATE_FIXTURE_SHOT, fixture: fixCopy});
             }
         }
     };

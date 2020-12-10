@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { ICue } from '../../../../types/cuesTypes';
+import { ICue, ICueLineCue } from '../../../../types/cuesTypes';
 import { Rnd } from 'react-rnd';
-import { ReactElement, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
-import { getSelectedCue, getTimelineCues } from '../../../store/cuesReducer/cuesSelector';
+import { getSelectedCue, getTimelineCueById } from '../../../store/cuesReducer/cuesSelector';
 import { setSelectedCue, updateCue } from '../../../store/cuesReducer/cuesActions';
 
 require('./CueLine.scss');
+
 export type Enable = {
     bottom?: boolean;
     bottomLeft?: boolean;
@@ -20,22 +21,32 @@ export type Enable = {
 }
 
 interface IProps {
-    cueItem: ICue,
-    selectedCue: ICue | null,
+    cueId: string,
     index: number,
     zoom: number,
-    setSelectedCue: (cue: ICue) => void
-    updateCue: (cue: ICue) => void
+}
+interface IConnectedProps {
+    cueItem: ICueLineCue,
+    selectedCue: ICue | null,
+    setSelectedCue: (cueId: string) => void
+    updateCue: (cue: Partial<ICue>) => void
 }
 
-const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCue, zoom, index, updateCue }) => {
+const CueTimeLineItem: React.FC<IProps & IConnectedProps> = ({
+                                               cueItem,
+                                               selectedCue,
+                                               setSelectedCue,
+                                               zoom,
+                                               index,
+                                               updateCue
+                                           }) => {
     const [cueState, setState] = React.useState(
         {
             isOpen: false,
             width: cueItem.endTime ? cueItem.endTime - cueItem.startTime < 0.2 ? 80 : (cueItem.endTime - cueItem.startTime) * zoom : 100,
             height: 8,
             x: selectedCue && selectedCue.startTime ? selectedCue.startTime * zoom : 1,
-            y: 40 + (index * 15),
+            y: 10 + (index * 15),
         }
     );
     const cueRef = useRef<HTMLDivElement>(null);
@@ -52,7 +63,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     }, [zoom, cueItem]);
 
     useEffect(() => {
-        let isOpen = selectedCue && selectedCue.id === cueItem.id ? true : false;
+        let isOpen = !!(selectedCue && selectedCue.id === cueItem.id);
         setState({
             ...cueState,
             isOpen: isOpen,
@@ -63,7 +74,7 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const onDragStop = (e: any, d: any) => {
         setState({...cueState, x: d.x, y: d.y });
         updateCue({
-            ...cueItem,
+            id: cueItem.id,
             startTime: +(d.x / zoom).toFixed(2),
             endTime: +((d.x + cueState.width) / zoom).toFixed(2)
         });
@@ -79,14 +90,14 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     const onResizeEnd = () => {
         let part = (cueState.width / zoom) / (cueItem.actions.length -1);
         updateCue({
-            ...cueItem,
+            id: cueItem.id,
             endTime: +((cueState.x + cueState.width) / zoom).toFixed(2),
             actions: cueItem.actions.map( (a, i) => i === 0 ? {...a, startTime: 0} : {...a, startTime: i * part})
         })
     };
 
     const onSelect = () => {
-        setSelectedCue(cueItem);
+        setSelectedCue(cueItem.id);
     };
     useEffect(() => {
         if (cueRef && cueRef.current && selectedCue && selectedCue.id === cueItem.id) {
@@ -105,7 +116,6 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
                 height: cueState.height,
             }}
             onResizeStop={onResizeEnd}
-            //dragAxis={'x'}
             bounds={".cursorContainer"}
             enableResizing={{
                 top:false,
@@ -134,10 +144,9 @@ const CueTimeLineItem: React.FC<IProps> = ({ cueItem, selectedCue, setSelectedCu
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState, props: IProps) => ({
     selectedCue: getSelectedCue(state),
+    cueItem: getTimelineCueById(state, props.cueId)
 });
 
 export default connect(mapStateToProps, {setSelectedCue, updateCue })(CueTimeLineItem);
-
-const HandleComponent: ReactElement = <span className={'actionMarker'} >O</span>;

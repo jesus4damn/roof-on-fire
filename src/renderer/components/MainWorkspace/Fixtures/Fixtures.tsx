@@ -15,7 +15,7 @@ interface IProps {
   fixtures: IFixture[],
   groups: IFixturesGroup[],
   fixtureTypes: TFixturesTypes[],
-  createNewCue: (fixtures: IFixture[], field: IField | null, startTime?: number) => void
+  createNewCue: (field: IField | null, startTime?: number) => void
   updateFixture: (fixture: IFixture) => void
   initDevices: (fixtures: IFixture[]) => void
   selectFixturesGroup: (group: TFixturesGroups) => void
@@ -31,34 +31,32 @@ const Fixtures: React.FC<IProps> = ({ fixtures,
                                       selectFixturesGroup,
                                     }) => {
   const createNewCueCallback = (time: number) => {
-    createNewCue(fixtures.filter(f => f.selected && f.activePattern), null, time);
+    createNewCue( null, time);
   };
 
   const onInitDevices = (dev: IFixture) => {
     initDevices(fixtures.map(f => f.id === dev.id ? dev : f));
   };
 
-  console.log(groups)
-
   return (
     <div className="WrapFixtures">
       <div className="WrapFixturesScroll">
-        {fixtureTypes.map(t =>
-          t === 'fireMachine' ? <React.Fragment key={t}>
+        {fixtureTypes.map((t, i) =>
+          t === 'fireMachine' ? <React.Fragment key={t + i}>
             <Accordeon headerTitle={'Crazy Flame Mod 1'} expanded={true}>
               <div className="fixtures">
-                {fixtures.map(f => {
-                  return (
+                {fixtures.map(f => (
                     <FixtureItem key={f.id}
                                  fixture={f}
                                  update={updateFixture}
                                  onInitDevices={onInitDevices}
-                                 createNewCueCallback={createNewCueCallback} />
-                  );
-                })}
+                    />
+                  )
+                )}
               </div>
               <div className={'positionPach'}>
                 {groups.map(gr => <div
+                  key={gr+'key'}
                   className='positionPachItem'
                   onClick={() => selectFixturesGroup(gr.id)}
                   style={{color: gr.selected ?  '#27ae60' : ''}}

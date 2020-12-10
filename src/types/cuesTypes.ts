@@ -20,3 +20,10 @@ export interface ICueAction {
     totalTime: number
     active: boolean,
 }
+
+export interface ICueLineCue {
+    id: string,
+    startTime: number,
+    endTime: number,
+    actions: ICueAction[]
+}

@@ -60,7 +60,6 @@ const CueEditor:React.FC<IProps> = ({selectedCue, updateCue, setContextMenuOptio
         if (!result.destination || !selectedCue) {
             return;
         }
-
         let part = (selectedCue.endTime - selectedCue.startTime) / (selectedCue.actions.length -1);
         if (selectedCue.actions[result.source.index] && selectedCue.actions[result.destination.index]) {
             updateCue({

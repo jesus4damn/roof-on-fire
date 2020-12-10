@@ -8,3 +8,6 @@ export interface IContextMenuOption {
     disabled: boolean,
     callback: () => void,
 }
+export type Partial<T> = {
+    [P in keyof T]?: T[P];
+};

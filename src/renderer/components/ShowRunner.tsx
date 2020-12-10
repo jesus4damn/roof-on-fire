@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { IMusicContext } from '../misicContext/musicContext';
 import { connect } from 'react-redux';
 import { RootState } from '../store/rootReducer';
-import { getTimelineCues } from '../store/cuesReducer/cuesSelector';
-import { getFixtures } from '../store/fixturesReducer/fixturesSelector';
+import { getTimelineCuesTimes } from '../store/cuesReducer/cuesSelector';
 import { updateFixtureShot } from '../store/fixturesReducer/fixturesActions';
-import { ICue, ICueAction } from '../../types/cuesTypes';
+import { ICueAction, ICueLineCue } from '../../types/cuesTypes';
 import { sendMusicAction } from '../store/appReducer/appActions';
+import * as _ from 'lodash';
 
 interface IState {
-    events: {[key: number]: {id: string, shot: boolean}[]}
+    events: {[key: number]: {id: string, shot: boolean, done: boolean, action: ICueAction}[]}
 }
 
 interface IProps {
@@ -18,8 +17,10 @@ interface IProps {
     sendMusicAction: (status: string) => void
     updateFixtureShot: (e: any) => void
 }
-
-class ShowRunner extends React.Component<IProps & any> {
+interface IConnected {
+    cues: ICueLineCue[],
+}
+class ShowRunner extends React.Component<IProps & IConnected & any> {
     state: IState = {
         events: {}
     };
@@ -32,8 +33,17 @@ class ShowRunner extends React.Component<IProps & any> {
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
         if (prevProps.currentTime !== this.props.currentTime) {
             this.timeListner(this.props.currentTime);
+            if (prevProps.currentTime < this.props.currentTime) {
+                let newEvents = {...this.state.events}
+                Object.keys(this.state.events).forEach(key => {
+                    if (key > this.props.currentTime) {
+                        newEvents[+key] = newEvents[+key].map(e => ({...e, done: false}));
+                    }
+                })
+                this.setState({events: newEvents})
+            }
         }
-        if (prevProps.cues !== this.props.cues) {
+        if (_.differenceWith(prevProps.cues, this.props.cues, _.isEqual).length) {
             this.createTimeEvents(this.props.cues)
         }
         if (prevProps.status !== this.props.status) {
@@ -41,38 +51,52 @@ class ShowRunner extends React.Component<IProps & any> {
         }
     }
 
-    createTimeEvents = (cues:ICue[]) => {
-        console.log('createTimeEvents ====>');
-        let events: {[key: number]: {id: string, shot: boolean, action: ICueAction}[]} = {};
-        cues.forEach((c: ICue) => {
+    shouldComponentUpdate(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean {
+        //console.log(_.differenceWith(nextProps.cues, this.props.cues, _.isEqual).length)
+        return (nextProps.currentTime !== this.props.currentTime) ||
+          _.differenceWith(nextProps.cues, this.props.cues, _.isEqual).length > 0 ||
+        (nextProps.status !== this.props.status)
+    }
+
+    createTimeEvents = (cues:ICueLineCue[]) => {
+        let events: {[key: number]: {id: string, shot: boolean, done: boolean, action: ICueAction}[]} = {};
+        cues.forEach((c: ICueLineCue) => {
             c.actions.forEach((a:ICueAction, i: number) => {
                 let timeOn = +(+c.startTime + a.startTime).toFixed(1);
                 let timeOff = +(+c.startTime + a.startTime + 0.2).toFixed(1);
 
                 if (events[timeOn]) {
-                    events[timeOn].push({id: a.fixtureId, shot: true, action: a});
-
+                    events[timeOn].push({id: a.fixtureId, shot: true, done: false, action: a});
                 } else {
-                    events[timeOn] = [{id: a.fixtureId, shot: true, action: a}];
+                    events[timeOn] = [{id: a.fixtureId, shot: true, done: false, action: a}];
                 }
                 if(events[timeOff]) {
-                    events[timeOff].push({id: a.fixtureId, shot: false, action: a});
+                    events[timeOff].push({id: a.fixtureId, shot: false, done: false, action: a});
                 } else {
-                    events[timeOff] = [{id: a.fixtureId, shot: false, action: a}];
+                    events[timeOff] = [{id: a.fixtureId, shot: false, done: false, action: a}];
                 }
             })
         });
-        //console.log(events);
+        console.log('createTimeEvents ====>');
         this.setState({
             events: events
         })
     };
 
     timeListner = (time: number) => {
-        if (this.state.events[+time.toFixed(1)]) {
-            //console.log('UPDATE ====>');
-            // console.log(this.state.events[+time.toFixed(1)]);
-            this.state.events[+time.toFixed(1)].forEach(e => this.props.updateFixtureShot(e))
+        let fixed = +time.toFixed(1);
+        let prev = +time.toFixed(1) - 0.1;
+        if (this.state.events[fixed]) {
+            //console.log('UPDATE ====>' + fixed);
+            let toShot = [...this.state.events[fixed]];
+            if (this.state.events[prev] && this.state.events[prev].filter(e => !e.done).length) {
+                toShot = [...toShot, ...this.state.events[+time.toFixed(1) - 0.1].filter(e => !e.done)]
+            }
+            this.setState(() => ({events: {
+                ...this.state.events,
+                    [prev]: this.state.events[prev] ? this.state.events[prev].map(e => ({...e, done: true})) : null
+                }}))
+            toShot.forEach(e => this.props.updateFixtureShot(e))
         }
     };
 
@@ -84,8 +108,7 @@ class ShowRunner extends React.Component<IProps & any> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-    cues: getTimelineCues(state),
-    fixtures: getFixtures(state)
+    cues: getTimelineCuesTimes(state),
 });
 
 export default connect(mapStateToProps, {updateFixtureShot, sendMusicAction})(ShowRunner);

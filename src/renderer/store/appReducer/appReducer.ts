@@ -15,7 +15,6 @@ import {
 } from './appActions';
 import { RootActions } from '../rootActions';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
-import { getMp3 } from '../../../assets/musicGetter';
 
 export interface IAppState {
     readonly appScreenMode: IAppScreenModes,

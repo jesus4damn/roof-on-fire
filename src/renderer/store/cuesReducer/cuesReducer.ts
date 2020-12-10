@@ -11,6 +11,7 @@ import {
 } from './cuesActions';
 import { ICue } from '../../../types/cuesTypes';
 import { SET_WHOLE_STATE } from '../appReducer/appActions';
+import * as _ from 'lodash';
 
 export interface ICuesState {
     readonly selectedCue: ICue | null,
@@ -57,27 +58,43 @@ export const cuesReducer: Reducer<ICuesState> = (
             };
         case UPDATE_CUE:
             if (action.cue.id) {
-                let toSet = {...action.cue, actions: action.cue.actions.sort((a, b) => a.startTime - b.startTime)};
+                let index = _.findIndex(state.cues, {id: action.cue.id})
+                let timeIndex = _.findIndex(state.timelineCues, {id: action.cue.id})
+                let toSet = (oldCue: ICue):ICue => ({
+                    ...oldCue,
+                    ...action.cue,
+                    actions: action.cue.actions
+                      ? action.cue.actions.sort((a, b) => a.startTime - b.startTime)
+                      : oldCue.actions
+                });
+                let timelineCues = [...state.timelineCues];
+                if (timeIndex >= 0) {
+                    timelineCues[timeIndex] = toSet(timelineCues[timeIndex]);
+                    if (action.cue.startTime || action.cue.endTime) {
+                        timelineCues.sort((a, b) => a.startTime - b.startTime)
+                    }
+                }
                 return {
                     ...state,
-                    cues: state.cues.map(c => c.id === action.cue.id ? toSet : c),
-                    timelineCues: state.timelineCues.map(c => c.id === action.cue.id ? toSet : c).sort((a, b) => a.startTime - b.startTime),
+                    cues: index >= 0 ? [...state.cues.splice(index, 1, toSet(state.cues[index]))] : state.cues,
+                    timelineCues: timelineCues,
                     selectedCue: (state.selectedCue
                         && state.selectedCue.id === action.cue.id)
-                        ? toSet
+                        ? toSet(state.selectedCue)
                         : state.selectedCue,
                 };
             } else return state;
 
         case SET_SELECTED_CUE:
             // console.log(state.cues);
-            // console.log(state.timelineCues);
+            let index = _.findIndex(state.cues, {id: action.cueId})
+            let timeIndex = _.findIndex(state.timelineCues, {id: action.cueId})
             return {
                 ...state,
                 selectedCue: (state.selectedCue
-                && state.selectedCue.id === action.cue.id)
+                && state.selectedCue.id === action.cueId)
                     ? null
-                    : action.cue,
+                    : index >= 0 ? state.cues[index] : timeIndex >= 0 ? state.timelineCues[timeIndex] : null,
             };
         case SET_WHOLE_STATE:
             return action.payload.cues;

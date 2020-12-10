@@ -1,22 +1,23 @@
 import * as React from 'react';
+import { useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
-import { IFixture, IPattern } from '../../../../types/fixtureTypes';
+import { IFixture } from '../../../../types/fixtureTypes';
 
 import { IContextMenuOption } from '../../../../types/appTypes';
 import { setContextMenuOptions } from '../../../store/appReducer/appActions';
-import { useCallback, useState } from 'react';
 import FormsModal, { IInputField } from '../../common/modalContent/FormsModal';
 import PickerModal from '../../common/modalContent/PickerModal';
 import Modal from '../../common/ModalWrapper';
-import { useDrag, DragSourceMonitor } from 'react-dnd';
+import { DragSourceMonitor, useDrag } from 'react-dnd';
 import Field from '../components/Field';
 import { ICue } from '../../../../types/cuesTypes';
 import { ICueField, IField } from '../../../../types/fieldsTypes';
 import { getSelectedFixtures } from '../../../store/fixturesReducer/fixturesSelector';
 import {
     createNewCue,
-    createTimelineCue, deleteCue,
+    createTimelineCue,
+    deleteCue,
     setSelectedCue,
     updateCue
 } from '../../../store/cuesReducer/cuesActions';
@@ -27,12 +28,12 @@ import { dragTypes } from '../../../../types/dragTypes';
 interface IProps {
     field: ICueField | IField,
     selectedFixtures: IFixture[]
-    createNewCue: (fixtures: IFixture[], field: IField | null, startTime?: number) => void,
+    createNewCue: (field: IField | null, startTime?: number) => void,
     updateCue: (cue: ICue) => void,
     deleteCue: (cueId: string, isTimeline: boolean) => void,
     updateField: (field: IField | ICueField, fieldType: string) => void,
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
-    setSelectedCue: (cue: ICue | null) => void
+    setSelectedCue: (cueId: string) => void
     createTimelineCue: (cue: ICue, startTime: number) => void
 }
 
@@ -128,7 +129,7 @@ const CueFieldWrapper: React.FC<IProps> = ({
             title: 'Record cue',
             disabled: !selectedFixtures.length,
             callback: () => {
-                createNewCue(selectedFixtures, field);
+                createNewCue(field);
             }
         },
         {
@@ -148,12 +149,12 @@ const CueFieldWrapper: React.FC<IProps> = ({
     ];
 
     const setActiveCue = useCallback(() => {
-        setSelectedCue(connected);
+        setSelectedCue(connected ? connected.id : '');
     }, []);
 
     const onUpdateCue = <Key extends keyof ICue, Value extends ICue[Key]>(key: Key, value: Value) => {
         if (connected !== null) {
-            const toUpdate = { ...connected, [key]: value };
+            const toUpdate = { id: connected.id, [key]: value };
             console.log(toUpdate);
             //updatePattern(toUpdate);
         }

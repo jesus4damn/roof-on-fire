@@ -1,22 +1,25 @@
 .timelineBlock {
   z-index: 22;
-    color: #fff;
-    height: 100%;
-    width: 100%;
-    max-width: 100%;
-    background-color: black;
-    position: relative;
-    // background: url('../../assets/timecode.svg');
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  background-color: black;
+  position: relative;
+  // background: url('../../assets/timecode.svg');
 }
+
 .waveWrapper {
   z-index: 22;
-    position: relative;
+  position: relative;
 }
+
 .waveWrapper > wave::-webkit-scrollbar {
-    width: 4px;
-    height: 8px;
-    background-color: #4F4F4F;
+  width: 4px;
+  height: 8px;
+  background-color: #4F4F4F;
 }
+
 .leftNavWrapper {
   position: fixed;
   left: 0px;
@@ -26,6 +29,7 @@
   height: 20%;
   justify-content: space-around;
 }
+
 .leftNavWrapper > button {
   display: flex;
   border-radius: 50%;
@@ -42,230 +46,80 @@
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
+
 .waveWrapper > wave::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    // border-radius: 10px;
-    background-color: #222222;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  // border-radius: 10px;
+  background-color: #222222;
 }
 
 .waveWrapper > wave::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .waveWrapper > wave::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #C4C4C4;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #C4C4C4;
 }
 
 .waveWrapper > wave {
-    position: inherit;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    color: #4F4F4F;
+  position: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: #4F4F4F;
 }
 
 .timelineTrack {
   z-index: 22;
-    min-height: 100%;
-    width: 100%;
+  min-height: 100%;
+  width: 100%;
 }
-.waveWrapper timeline{
-    background: #444444;
-    padding-bottom: 24px;
-    box-sizing: border-box;
-    // margin-top: 2px;
+
+.waveWrapper timeline {
+  background: #444444;
+  padding-bottom: 24px;
+  box-sizing: border-box;
+  // margin-top: 2px;
 }
-.timelineNavContainer wave{
-    background-color: #222;
-    border-radius:0 4px 4px 0;
+
+.timelineNavContainer wave {
+  background-color: #222;
+  border-radius: 0 4px 4px 0;
 }
+
 .x-y-mousePos {
-    position: absolute;
-    bottom: 15px;
-    z-index: 15;
+  position: absolute;
+  bottom: 15px;
+  z-index: 15;
 }
 
 
 .timelineControllerWrapper {
-    width: 100%;
-    position: relative;
-    bottom: 0;
-    left: 0;
-    background-color: #444;
-    right: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 4px 0px;
-    box-sizing: border-box;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background-color: #444;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 4px 0px;
+  box-sizing: border-box;
 }
+
 .timelinePlayerActionsContainer {
-    position: relative;
-    top: 0;
-    left: 8px;
-    z-index: 15;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    button{
-        width: 24px;
-        height: 24px;
-        top: calc(50% - 12px);
-       background: #222222;
-       border-radius: 2px;
-       position: relative;
-       color: transparent;
-        border-color: transparent;
-        cursor: pointer;
+  position: relative;
+  top: 0;
+  left: 8px;
+  z-index: 15;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
 
-
-   &:nth-child(2)::before{
-    content:'';
-   background-color: #BDBDBD;
-   position: absolute;
-   top:calc(50% - 4px);
-   width: 8px;
-   height: 8px;
-   left: calc(50% - 4px);
-}
-   &:nth-child(3)::before{
-    content:'';
-    background-color: #BDBDBD;
-    position: absolute;
-    top:calc(50% - 4px);
-    width: 8px;
-    height: 8px;
-    left: calc(50% - 4px);
-    border-radius: 50%;
-}
-    }
-}
-   .playBtn::before{
-            content:'';
-           background-color: #BDBDBD;
-           position: absolute;
-           top:calc(50% - 4px);
-           width: 3px;
-           height: 8px;
-           left: calc(50% - 0px);
-       }
-      .playBtn::after{
-        content:'';
-       background-color: #BDBDBD;
-       position: absolute;
-       top:calc(50% - 4px);
-       width: 3px;
-       height: 8px;
-       left: calc(50% - 4px);
-   }
-.stopBtn::before{
-    content: '';
-    position: absolute;
-    top: calc(50% - 4px);
-    left: calc(50% - 4px);
-    border-top: 4px solid transparent;
-    border-left: 8px solid #BDBDBD;
-    border-bottom: 4px solid transparent;
-    border-radius: 2px;
-}
-.timelineNavContainer {
-    height: 24px;
-    z-index: 15;
-    height: 24px;
-    width: 310px;
-    align-self: flex-end;
-    display: flex;
-}
-.trackTimeSpan {
-    height: 24px;
-    margin-right: 11px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    width: 100%;
-    background: #222222;
-    color: #fff;
-    position: relative;
-    top: calc(50% - 12px);
-    margin-top: 1px;
-    line-height: -28px;
-    margin-left: 2px;
-    font-size: 13px;
-    border-radius: 2px;
-    }
-.trackTimeSpan > div {
-    margin: 0 3px;
-    padding: 2px;
-    width:15px;
-    text-align: center;
-
-
-}
-.trackTimeSpan  .TimeSpanMillisecond{
-    width: 30px;
-}
-.timelineNavContainer--option{
-    position: relative;
-    height: 24px;
-}
-.cuesWrapperInside {
-    height: 100%;
-    min-width: 500px;
-    position: relative;
-}
-.cursorContainer {
-    position: absolute;
-    height: 100%;
-}
-.scrollWrap {
-    width: 100%;
-    height: 100%;
-    overflow-x: scroll;
-    position: absolute;
-    /* top: 0px; */
-    /* left: 0; */
-    /* right: 0; */
-    /* bottom: 0; */
-}
-.scrollWrapl::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #222222;
-}
-
-.scrollWrap::-webkit-scrollbar {
-    width: 8px;
-}
-
-.scrollWrap::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #C4C4C4;
-}
-.btnPrecent{
-    background-color: #222;
-    border-radius:  4px 0 0 4px;
-    height: 24px;
-    display: flex;
-    width: 40px;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-    margin-right: 4px;
-}
-.btnPrecent span{
-    font-size: 13px;
-}
-.Minimap{
-    width: 200px;
-}
-.musicNote{
-    margin-right: 10px;
-    box-sizing: border-box;
-}
-.musicNote button {
+  button {
     width: 24px;
     height: 24px;
     top: calc(50% - 12px);
@@ -274,12 +128,189 @@
     position: relative;
     color: transparent;
     border-color: transparent;
-    margin: 0 1px;
-    &:nth-child(1){
-        border-radius: 4px 0 0 4px;
-                }
-    &:nth-child(2) {
+    cursor: pointer;
 
-                border-radius: 0 4px 4px 0;
-        }
+
+    &:nth-child(2)::before {
+      content: '';
+      background-color: #BDBDBD;
+      position: absolute;
+      top: calc(50% - 4px);
+      width: 8px;
+      height: 8px;
+      left: calc(50% - 4px);
+    }
+
+    &:nth-child(3)::before {
+      content: '';
+      background-color: #BDBDBD;
+      position: absolute;
+      top: calc(50% - 4px);
+      width: 8px;
+      height: 8px;
+      left: calc(50% - 4px);
+      border-radius: 50%;
+    }
+  }
+}
+
+.playBtn::before {
+  content: '';
+  background-color: #BDBDBD;
+  position: absolute;
+  top: calc(50% - 4px);
+  width: 3px;
+  height: 8px;
+  left: calc(50% - 0px);
+}
+
+.playBtn::after {
+  content: '';
+  background-color: #BDBDBD;
+  position: absolute;
+  top: calc(50% - 4px);
+  width: 3px;
+  height: 8px;
+  left: calc(50% - 4px);
+}
+
+.stopBtn::before {
+  content: '';
+  position: absolute;
+  top: calc(50% - 4px);
+  left: calc(50% - 4px);
+  border-top: 4px solid transparent;
+  border-left: 8px solid #BDBDBD;
+  border-bottom: 4px solid transparent;
+  border-radius: 2px;
+}
+
+.timelineNavContainer {
+  height: 24px;
+  z-index: 15;
+  height: 24px;
+  width: 310px;
+  align-self: flex-end;
+  display: flex;
+}
+
+.trackTimeSpan {
+  height: 24px;
+  margin-right: 11px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  background: #222222;
+  color: #fff;
+  position: relative;
+  top: calc(50% - 12px);
+  margin-top: 1px;
+  line-height: -28px;
+  margin-left: 2px;
+  font-size: 13px;
+  border-radius: 2px;
+}
+
+.trackTimeSpan > div {
+  margin: 0 3px;
+  padding: 2px;
+  width: 15px;
+  text-align: center;
+
+
+}
+
+.trackTimeSpan .TimeSpanMillisecond {
+  width: 30px;
+}
+
+.timelineNavContainer--option {
+  position: relative;
+  height: 24px;
+}
+
+.cuesWrapperInside {
+  height: 100%;
+  min-width: 500px;
+  position: relative;
+}
+
+.cursorContainer {
+  position: relative;
+  margin-top: 20px;
+  height: calc(100% - 20px);
+}
+
+.scrollWrap {
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+  position: absolute;
+  /* top: 0px; */
+  /* left: 0; */
+  /* right: 0; */
+  /* bottom: 0; */
+}
+
+.scrollWrapl::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #222222;
+}
+
+.scrollWrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollWrap::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #C4C4C4;
+}
+
+.btnPrecent {
+  background-color: #222;
+  border-radius: 4px 0 0 4px;
+  height: 24px;
+  display: flex;
+  width: 40px;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+}
+
+.btnPrecent span {
+  font-size: 13px;
+}
+
+.Minimap {
+  width: 200px;
+}
+
+.musicNote {
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+.musicNote button {
+  width: 24px;
+  height: 24px;
+  top: calc(50% - 12px);
+  background: #222222;
+  border-radius: 2px;
+  position: relative;
+  color: transparent;
+  border-color: transparent;
+  margin: 0 1px;
+
+  &:nth-child(1) {
+    border-radius: 4px 0 0 4px;
+  }
+
+  &:nth-child(2) {
+
+    border-radius: 0 4px 4px 0;
+  }
 }

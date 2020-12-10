@@ -9,14 +9,14 @@ interface ICommonProps {
     cue: ICue
     index: number
     selected: boolean
-    setSelectedCue: (cue: ICue) => void
+    setSelectedCue: (cueId: string) => void
     updateCue: (cue: ICue) => void
     deleteCue: (cueId: string, isTimeline: boolean) => void,
     setContextMenuOptions: (payload: IContextMenuOption[]) => void
 }
 
 
-type TProps = ICommonProps & any & any;
+type TProps = ICommonProps & any;
 
 const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, updateCue, deleteCue, setContextMenuOptions}) => {
     const [cueCopy, setCueCopy] = useState<ICue>(cue);
@@ -31,7 +31,7 @@ const CueListItem: React.FC<TProps> = ({cue, index, selected, setSelectedCue, up
     }, [cue]);
 
     const setActiveCue = () => {
-        setSelectedCue(cue);
+        setSelectedCue(cue.id);
     };
 
     const onTotalTimeChange = (val: number) => {

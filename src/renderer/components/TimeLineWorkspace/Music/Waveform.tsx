@@ -14,7 +14,7 @@ require('./Waveform.scss');
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
 const CursorPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.cursor.js');
 const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js');
-const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
+//const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
 
 
 const noteImg = require('../../../../assets/images/svg/note.svg');
@@ -28,7 +28,6 @@ export const getMusicImg = () => {
 };
 
 interface IProps {
-    children: any
     setCurrentTime: (time: number) => void
     setTotalTime: (time: number) => void
     setContextStatus: (val: string) => void
@@ -146,7 +145,7 @@ class Waveform extends React.Component<IProps, IState> {
                 CursorPlugin.create({
                     cursor: this.waveformCursor,
                     showTime: true,
-                    opacity: 1,
+                    opacity: 0.2,
                     customShowTimeStyle: {
                         'background-color': '#aaa',
                         color: '#fff',
@@ -156,17 +155,20 @@ class Waveform extends React.Component<IProps, IState> {
                 }),
                 MinimapPlugin.create({
                     container: this.minimapRef,
+                    showOverview: true,
+                    overviewBorderColor: 'green',
+                    overviewBorderSize: 0.2,
                     waveColor: '#828282',
-                    progressColor: '#222',
+                    progressColor: '#373737',
                     height: 24,
                     backgroundColor: '#222',
                     forceDecode: true
                 }),
-                RegionsPlugin.create({
-                    maxRegions: 1,
-                    wrapper: this.regionRef,
-                    wavesurfer: this.waveformTimeLine
-                })
+                // RegionsPlugin.create({
+                //     maxRegions: 1,
+                //     wrapper: this.regionRef,
+                //     wavesurfer: this.waveformTimeLine
+                // })
             ]
         });
 
@@ -177,24 +179,24 @@ class Waveform extends React.Component<IProps, IState> {
         });
 
         this.wavesurfer.on('ready', () => {
-            this.wavesurfer.setVolume(0.25);
+            this.wavesurfer.setVolume(0.05);
             this.handleZoom(200);
             this.setState({
                 loaded: true,
                 duration: this.wavesurfer.getDuration(),
                 speed: this.wavesurfer.getPlaybackRate(),
-                volume: 0.25,
+                volume: 0.05,
                 parentDivWidth: this.wavesurfer.getDuration() * 20
             });
             this.props.setTotalTime(this.wavesurfer.getDuration());
             this.props.setMusicFileLength(this.wavesurfer.getDuration());
 
-            this.wavesurfer.enableDragSelection({
-                drag: true,
-                resize: true,
-                loop: true,
-                color: 'rgba(0, 0, 255, 0.1)'
-            });
+            // this.wavesurfer.enableDragSelection({
+            //     drag: true,
+            //     resize: true,
+            //     loop: true,
+            //     color: 'rgba(0, 0, 255, 0.1)'
+            // });
             window.addEventListener('keydown', this.handleSpacePress);
         });
 
@@ -216,7 +218,7 @@ class Waveform extends React.Component<IProps, IState> {
                 zoomValue: val,
                 parentDivWidth: val * this.state.duration
             });
-        }, 70));
+        }, 50));
 
         if (this.props.musicFilePath) {
             this.wavesurfer.load(this.props.musicFilePath);
@@ -350,16 +352,31 @@ class Waveform extends React.Component<IProps, IState> {
             : 0
           : this.cuesWrapperRef.current.scrollTop + 50;
     };
+    // shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<IState>, nextContext: any): boolean {
+    //     return !(this.state.loaded && nextState.currentTrackTime !== this.state.currentTrackTime)
+    //
+    //     // loaded: boolean,
+    //     //   playing: boolean,
+    //     //   pos: number,
+    //     //   duration: number,
+    //     //   speed: number,
+    //     //   volume: number,
+    //     //   currentTrackTime: number,
+    //     //   zoomValue: number,
+    //     //   parentDivWidth: number
+    //     // stopBtn: boolean
+    //     // leftOffset: number
+    // }
 
     render() {
         return (
             <div className='timelineBlock' onWheel={this.handleWheel}>
                 <div ref={this.waveform} className='waveWrapper'>
                     <div ref={this.cuesWrapperRef} className={'scrollWrap'}>
-                        <div className="leftNavWrapper">
+                        {/*<div className="leftNavWrapper">
                             <button style={{}} onClick={() => this.handleScrollY(true)}>{">"}</button>
                             <button style={{}} onClick={() => this.handleScrollY(false)}>{"<"}</button>
-                        </div>
+                        </div>*/}
                         <ReactCursorPosition className={'cursorContainer'}
                                              style={{ width: `${this.state.parentDivWidth}px`}}>
                             <CueTimeLine
@@ -368,7 +385,6 @@ class Waveform extends React.Component<IProps, IState> {
                                 cues={this.props.cues}
                                 leftOffset={this.state.leftOffset}
                             />
-                            {this.props.children}
                         </ReactCursorPosition>
                     </div>
                     <div className={'wave'} ref={this.wave}/>

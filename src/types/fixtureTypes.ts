@@ -54,6 +54,10 @@ export interface IPatternStep {
 export interface IFixture extends IFixtureBase{
     id: string
 }
+export interface IShot {
+    id: string,
+    pattern: IPattern
+}
 export interface IFixturesGroup {
     id: TFixturesGroups,
     fixturesIds: string[],

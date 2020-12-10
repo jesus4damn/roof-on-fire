@@ -28,7 +28,7 @@ export interface ISetCuesData {
 
 export interface IOnCueSelection {
     type: typeof SET_SELECTED_CUE,
-    cue: ICue
+    cueId: string
 }
 
 export interface ICreateCueAction extends Action {
@@ -47,7 +47,7 @@ export interface IDeleteCueAction extends Action {
 }
 
 export interface IUpdateCueAction extends Action {
-    type: typeof UPDATE_CUE, cue: ICue
+    type: typeof UPDATE_CUE, cue: Partial<ICue>
 }
 
 export interface IAddFixturesToCue extends Action {
@@ -66,12 +66,12 @@ export const deleteCue: ActionCreator<IDeleteCueAction> = (cueId: string, isTime
     type: DELETE_CUE, cueId, isTimeline
 });
 
-export const updateCue: ActionCreator<IUpdateCueAction> = (cue: ICue) => ({
-    type: UPDATE_CUE, cue
-});
+export const updateCue: ActionCreator<IUpdateCueAction> = (cue: Partial<ICue>) => {
+    return {type: UPDATE_CUE, cue}
+};
 
-export const setSelectedCue: ActionCreator<IOnCueSelection> = (cue: ICue) => ({
-    type: SET_SELECTED_CUE, cue
+export const setSelectedCue: ActionCreator<IOnCueSelection> = (cueId: string) => ({
+    type: SET_SELECTED_CUE, cueId
 });
 
 export const setCuesData: ActionCreator<ISetCuesData> = (state: ICuesState) => ({
@@ -99,8 +99,9 @@ const cueActionBase: ICueAction = {
     active: false
 };
 
-export const createNewCue = (fixtures: IFixture[], field: IField | null, startTime?: number) =>
+export const createNewCue = (field: IField | null, startTime?: number) =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
+    let fixtures = getFixtures(getState()).filter(f => f.selected && f.activePattern)
         const part = 1 / (fixtures.length -1);
         const newActions: ICueAction[] = fixtures.map((f, i) => {
             if (f.activePattern !== null) {
@@ -132,9 +133,10 @@ export const createNewCue = (fixtures: IFixture[], field: IField | null, startTi
         }
     };
 
-export const addFixturesToCue = (fixtures: IFixture[]) =>
+export const addFixturesToCue = () =>
     async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {
         const cue = getSelectedCue(getState());
+        const fixtures = getFixtures(getState()).filter(f => f.selected);
         if (cue && cue.id) {
             const part = (cue.endTime - cue.startTime) / (fixtures.length -1);
             const newActions: ICueAction[] = fixtures.map((f, i) => {
