@@ -3,6 +3,7 @@ import {
     IActionsScreenSwitchers, IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
+    IMainScreenSettingsSwitcher,
     IMainScreenSwitchers
 } from '../../../types/appTypes';
 import {
@@ -11,12 +12,14 @@ import {
     SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN,
     SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN,
     SWITCH_MAIN_RIGHT_PART,
-    SWITCH_MAIN_SCREEN
+    SWITCH_MAIN_SCREEN,
+    SWITCH_MAIN_SCREEN_SETTINGS
 } from './appActions';
 import { RootActions } from '../rootActions';
 import { TFixturesTypes } from '../../../types/fixtureTypes';
 
 export interface IAppState {
+    readonly mainScreenSettings: IMainScreenSettingsSwitcher,
     readonly appScreenMode: IAppScreenModes,
     readonly mainLeftScreenSwitcher: IMainScreenSwitchers,
     readonly mainRightScreenSwitcher: IMainRightScreenSwitchers,
@@ -30,6 +33,11 @@ export interface IAppState {
 }
 
 export const defaultState: IAppState = {
+    mainScreenSettings:{
+        width:0,
+        height:0,
+        image:''
+    },
     appScreenMode: 'main',
     mainLeftScreenSwitcher: 'visualiser',
     mainRightScreenSwitcher: null,
@@ -105,6 +113,11 @@ export const appReducer: Reducer<IAppState> = (
             return {
                 ...state,
                 error: action.payload
+            };
+        case SWITCH_MAIN_SCREEN_SETTINGS:
+            return {
+                ...state,
+                mainScreenSettings: action.payload
             };
         default:
             return state;

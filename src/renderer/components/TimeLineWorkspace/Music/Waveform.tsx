@@ -395,7 +395,7 @@ class Waveform extends React.Component<IProps, IState> {
 
                 <div className={'timelineControllerWrapper'}>
                     <div className={'timelinePlayerActionsContainer'}>
-                        <Tooltip title={this.state.playing ? "Pause" : "Play"}>
+                        <Tooltip title={this.state.stopBtn ? "Pause" : "Play"}>
                             <Button className={`${this.state.stopBtn ? 'playBtn' : 'stopBtn'}`} onClick={() => {
                                 this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
                                 this.handlePlay();
@@ -405,6 +405,7 @@ class Waveform extends React.Component<IProps, IState> {
                         </Tooltip>
                         <Tooltip title={"Stop"}>
                             <Button onClick={() => {
+                                this.setState({ ...this.state, stopBtn: !this.state.stopBtn });
                                 this.handleStop();
                             }}/>
                         </Tooltip>
@@ -468,7 +469,7 @@ class Waveform extends React.Component<IProps, IState> {
                             </button>
                         </div>
                         <div className={'btnPrecent'}>
-                            <span>{this.state.zoomValue}%</span>
+                            <span>{Math.round(this.state.zoomValue)}%</span>
                         </div>
                         <div className={'Minimap'} ref={this.setMinimapRef}/>
                     </div>

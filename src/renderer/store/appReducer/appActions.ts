@@ -4,7 +4,8 @@ import {
     IAppScreenModes,
     IContextMenuOption,
     IMainRightScreenSwitchers,
-    IMainScreenSwitchers
+    IMainScreenSwitchers,
+    IMainScreenSettingsSwitcher
 } from '../../../types/appTypes';
 import { IPattern, TFixturesTypes } from '../../../types/fixtureTypes';
 import { ThunkDispatch } from 'redux-thunk';
@@ -17,6 +18,7 @@ import { initDevices } from '../cuesReducer/cuesActions';
 
 export const SWITCH_APP_SCREEN_MODE = 'app/SWITCH_APP_SCREEN_MODE';
 export const SWITCH_MAIN_SCREEN = 'app/SWITCH_MAIN_SCREEN';
+export const SWITCH_MAIN_SCREEN_SETTINGS = 'app/SWITCH_MAIN_SCREEN_SETTINGS';
 export const SWITCH_MAIN_RIGHT_PART = 'app/SWITCH_MAIN_RIGHT_PART';
 export const SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURE_PROPERTIES_BUTTONS_SCREEN';
 export const SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN = 'app/SWITCH_FIXTURES_TYPES_BUTTONS_SCREEN';
@@ -46,6 +48,11 @@ export interface ISetError extends Action {
 export interface ISwitchMainScreenAction extends Action {
     type: typeof SWITCH_MAIN_SCREEN,
     payload: IMainScreenSwitchers
+}
+
+export interface ISwitchMainScreenSettingsAction extends Action {
+    type: typeof SWITCH_MAIN_SCREEN_SETTINGS,
+    payload: IMainScreenSettingsSwitcher
 }
 
 export interface ISwitchMainRightPartAction extends Action {
@@ -85,6 +92,9 @@ export interface ISetAllowAPI extends Action {
 
 export const switchMainScreenAction: ActionCreator<ISwitchMainScreenAction> = (payload) => ({
     type: SWITCH_MAIN_SCREEN, payload
+});
+export const switchMainScreenSettingsAction: ActionCreator<ISwitchMainScreenSettingsAction> = (payload) => ({
+    type: SWITCH_MAIN_SCREEN_SETTINGS, payload
 });
 export const switchAppScreenMode: ActionCreator<ISwitchAppScreenMode> = (payload) => ({
     type: SWITCH_APP_SCREEN_MODE, payload
@@ -181,6 +191,6 @@ export const onDeletePressed = () =>
 export const onSpacePressed = () =>
   async (dispatch: ThunkDispatch<{}, {}, RootActions>, getState: GetStateType) => {};
 
-export type IAppActions = ISwitchMainScreenAction | ISwitchFixturePropertiesButtonsScreen
+export type IAppActions = ISwitchMainScreenAction | ISwitchMainScreenSettingsAction | ISwitchFixturePropertiesButtonsScreen
     | ISwitchMainRightPartAction | ISwitchFixtureTypesButtonsScreen | ISetContextMenuOptions
     | ISelectMusicFile | ISetMusicFileLength | ISetAllowAPI | ISwitchAppScreenMode | ISetWholeState | ISetError;

@@ -1,4 +1,5 @@
 export type IMainScreenSwitchers = 'visualiser' | 'cueListWindow';
+export type IMainScreenSettingsSwitcher = {width:number, height:number, image:string}
 export type IAppScreenModes = 'main' | 'patch' | 'output';
 export type IMainRightScreenSwitchers =  'fixtures' | 'cuesWindow' | null;
 export type IActionsScreenSwitchers = 'long' | 'dynamic' | 'static' | 'cues' | 'all';

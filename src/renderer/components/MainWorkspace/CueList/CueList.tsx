@@ -39,7 +39,7 @@ const getListStyle = (isDraggingOver: any) => ({
 });
 
 
-const CueList: React.FC<ConnectedProps<IProps>> = ({ cues, selectedCue, setSelectedCue, updateCue, deleteCue, setContextMenuOptions }: IProps) => {
+const CueList: React.FC<IProps> = ({ cues, selectedCue, musicTotalTime, setSelectedCue, updateCue, deleteCue, setContextMenuOptions }: IProps) => {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: [dragTypes.CUE_FIELD, dragTypes.FIXTURE],
         drop: () => ({ cueList: 'CUELIST', startTime: getLastCueTime() }),

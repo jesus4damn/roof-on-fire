@@ -47,6 +47,172 @@
   max-width: 400px;
 }
 
+.changeMainScreen {
+  background: #444444;
+  border-radius: 2px;
+  min-width: 174px;
+  min-height: 0px;
+  padding:10px;
+  max-width: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalFormWrapp.changeMainScreen  h2 {
+  flex: 1 1 100%;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  margin:0;
+  color: #FFFFFF;
+  height: auto;
+}
+
+.modalFormWrapp.changeMainScreen  h3 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A1A1A1;
+  margin:0;
+}
+
+.inputsContainer{
+  width:"100%";
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sceneInputsContainer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.sceneInput {
+  width: 45%;
+}
+
+.imageInputContainer {
+  margin-top: 8px;
+  width:100%;
+  height:104px;
+  padding: 4px;
+  background: #000000;
+  border-radius: 2px;
+}
+.imageInputBorder {
+  width:100%;
+  height:100%;
+  background: #000000;
+  opacity: 0.4;
+  border: 0.5px dashed #7F7F7F;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.imageTextContainer{
+  margin-top: 10px;
+}
+.blueButton {
+  background: #2F80ED;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  width: 180px;
+  height: 30px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 9px;
+  color: #FFFFFF;
+
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.imageText{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 6px;
+  line-height: 7px;
+  color: #7F7F7F;
+}
+.sceneInput h4 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 9px;
+  margin:0;
+  color: #FFFFFF;
+}
+.sceneInput input {
+  background: #000000;
+  border-radius: 2px;
+  height:18px;
+  width:80%;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FFFFFF;
+  margin-right: 2px;
+}
+.sceneInput input:focus {
+  outline: none;
+}
+.sceneInput p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 18px;
+  margin:0;
+  color: #FFFFFF;
+}
+.sceneWidth{
+  display: flex;
+  position: relative;
+  margin-top: 4px;
+}
+.sceneHeight{
+  display: flex;
+  position: relative;
+  margin-top: 4px;
+}
+
+.imageImage {
+  width: 35px;
+  height: 35px;
+  // background-image: url("../../../assets/images/svg/mdi_image.svg");
+  margin-top: 16px;
+}
+
+.sceneSizeContainer {
+  width:100%;
+  margin-top: 10px;
+  padding:8px;
+  background: #222222;
+  border-radius: 2px;
+}
+
+.imageContainer {
+  width:100%;
+  margin-top: 10px;
+  padding:8px;
+  background: #222222;
+  border-radius: 2px;
+}
+
 .headerContent button {
   // background: #333333;
   border-radius: 2px;
@@ -60,7 +226,6 @@
   border: none;
   height: 23px;
   cursor: pointer;
-
 }
 
 .headerContent button:hover {
@@ -116,4 +281,16 @@
 
 .modalFormItem span {
   color: rgba(255, 255, 255, 0.8);
+}
+
+
+//ChangeMainScreen
+.changeMainScreenContainer {
+  padding:10px 9px 8px 9px;
+  background: #444444;
+  border-radius: 2px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }

@@ -14,8 +14,12 @@ import { IAppScreenModes } from '../../../types/appTypes';
 import { getLoadFilePath, IInitAppParams, setSaveFilePath } from '../../store/getInitalState';
 import { RootState } from '../../store/rootReducer';
 import { IPattern } from '../../../types/fixtureTypes';
+import ChangeMainScreenModal from './ChangeMainScreenModal'
 
 require('./Header.scss');
+
+
+
 
 interface IProps {
   hideContextMenu: () => void
@@ -90,6 +94,14 @@ const Header: React.FC<IProps & IConnectedProps> = ({
         setMenuShow(null);
       }
     },
+    {
+      title: 'Change Main Screen',
+      disabled: false,
+      callback: () => {
+        showModal('mainScreen');
+        setMenuShow(null);
+      }
+    },
   ];
   const contextFileOptions = [
     {
@@ -122,35 +134,44 @@ const Header: React.FC<IProps & IConnectedProps> = ({
     closeModal();
   };
 
-  const showModal = useCallback((type: 'music' | 'reset' | 'parser') => {
-    if (type === 'music') {
-      setModalContent(() =>
-        <div className={'importWrapper'}>
-          <MusicInput
-            label={'Select track'}
-            onSelect={(path: string) => {
-              selectMusicFile(path);
-            }}
-            onChange={() => {
-            }}
-          />
-        </div>
-      );
-    } else if (type === 'parser') {
-      setModalContent(() =>
-        <div className={'importWrapper'}>
-          <TextPatternsInput
-            label={'Select txt file'}
-            onSelect={(patterns: IPattern []) => {
-              resetData({fixtures: 12, static: 27, dynamic: 27, long: 12}, patterns)
-            }}
-          />
-        </div>
-      );
-    } else {
-      setModalContent(
-        <ResetAppForm onResetAppDataConfirm={onResetAppDataConfirm}/>
-      );
+  const showModal = useCallback((type: 'music' | 'reset' | 'parser' | 'mainScreen') => {
+    switch(type){
+      case 'music':
+        setModalContent(() =>
+          <div className={'importWrapper'}>
+            <MusicInput
+              label={'Select track'}
+              onSelect={(path: string) => {
+                selectMusicFile(path);
+              }}
+              onChange={() => {
+              }}
+            />
+          </div>
+        );
+        break;
+      case 'parser':
+        setModalContent(() =>
+          <div className={'importWrapper'}>
+            <TextPatternsInput
+              label={'Select txt file'}
+              onSelect={(patterns: IPattern []) => {
+                resetData({fixtures: 12, static: 27, dynamic: 27, long: 12}, patterns)
+              }}
+            />
+          </div>
+        );
+        break;
+      case 'reset':
+        setModalContent(
+          <ResetAppForm onResetAppDataConfirm={onResetAppDataConfirm}/>
+        );
+        break;
+      case 'mainScreen':
+        setModalContent(
+          <ChangeMainScreenModal closeModal={closeModal} />
+        );
+        break;
     }
     setIsModalShown(true);
   }, [resetData, selectMusicFile]);
@@ -305,6 +326,68 @@ const ResetAppForm: React.FC<IformProps> = ({ onResetAppDataConfirm }) => {
     </div>
   );
 };
+
+
+// const ChangeMainScreenForm = ({closeModal}:{closeModal:() => void}) => {
+
+//   const [width, setWidth] = useState<number>(0);
+//   const [height, setHeight] = useState<number>(0);
+
+//   return (
+//     <div className="modalFormWrapp changeMainScreen">
+//       <h2>Scene settings</h2>
+//       <div className="sceneSizeContainer">
+//         <h3>Scene</h3>
+//         <div className="sceneInputsContainer">
+//           <div className="sceneInput">
+//             <h4>Width</h4>
+//             <div className="sceneWidth">
+//               <input
+//                 onChange={(e) => {
+//                   console.log(e.target.value);
+//                   if(parseInt(e.target.value) || e.target.value === ''){
+//                     setWidth(parseInt(e.target.value) || 0);
+//                   }
+//                 }}
+//                 value={width}
+//               />
+//               <p>cm</p>
+//             </div>
+//           </div>
+//           <div className="sceneInput">
+//             <h4>Height</h4>
+//             <div className="sceneHeight">
+//               <input
+//                 onChange={(e) => {
+//                   console.log(e.target.value);
+//                   if(parseInt(e.target.value) || e.target.value === ''){
+//                     setHeight(parseInt(e.target.value) || 0);
+//                   }
+//                 }}
+//                 value={height}
+//               />
+//               <p>cm</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="imageContainer">
+//         <h3>Image</h3>
+//         <div className="imageInputContainer">
+//           <div className="imageInputBorder">
+//             <div className="imageImage" />
+//             <div className="imageTextContainer">
+//               <p className="imageText">Click on the area to load the image or drag and drop</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="blueButton" onClick={() => closeModal()}>
+//         Apply
+//       </div>
+//     </div>
+//   );
+// };
 
 const mapStateToProps = (state: RootState) => ({
   contextOptions: state.app.contextMenuOptions,

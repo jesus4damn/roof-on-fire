@@ -120,8 +120,7 @@ const ButtonsWorkspace: React.FunctionComponent<IProps> = ({
 
     </div>
     );
-                                                            
-                                                                                                          
+                                                                          
     return (
     //     <Rnd
     //     className={'cuesWrapperContentScroll'}

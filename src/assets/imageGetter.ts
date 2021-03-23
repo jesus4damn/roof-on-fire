@@ -24,7 +24,7 @@ export const ImgLib = {
         mail: './images/svg/mail.svg',
         note: './images/svg/note.svg',
         notif: './images/svg/notif.svg',
-        x: './images/svg/x.svg',
+        x: './images/svg/x.svg'
     }
 };
 

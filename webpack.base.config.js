@@ -26,7 +26,7 @@ module.exports = {
             /hot/,
             /^lodash/, /babel/,
             /^core-js/, /react/,
-            /redux/, /wavesurfer/,
+            /redux/, /wavesurfer/,/formik/,/styled-components/,
             /^uuid/, 'reselect', 'xlsx', /webpack/,
             'uws', 'dmx', 'axios', /@material/
         ]
