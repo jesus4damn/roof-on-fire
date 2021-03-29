@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback } from 'react';
-import { DragSourceMonitor, useDrag } from 'react-dnd';
+import { DragSourceMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import { dragTypes } from '../../../types/dragTypes';
 import { IFixture } from '../../../types/fixtureTypes';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { getFixtureById } from '../../store/fixturesReducer/fixturesSelector';
 interface IFixtureProps {
   fixtureId: string
   children?: JSX.Element | JSX.Element[];
+  updateFixturePosition:(id:string,x:number,y:number) => void
 }
 
 const DragFixture: React.FC<IFixtureProps> = ({ fixtureId, children }: IFixtureProps) => {
@@ -21,6 +22,7 @@ const DragFixture: React.FC<IFixtureProps> = ({ fixtureId, children }: IFixtureP
     end: (item: { id: string }
       | undefined, monitor: DragSourceMonitor) => {
       const dropResult = monitor.getDropResult();
+      console.log(item,fixture.selected);
       if (item && fixture.selected) {
         if (dropResult && dropResult.cueType && item.id) {
           dispatch(addFixturesToCue())
@@ -46,3 +48,4 @@ const DragFixture: React.FC<IFixtureProps> = ({ fixtureId, children }: IFixtureP
   );
 };
 export default DragFixture;
+

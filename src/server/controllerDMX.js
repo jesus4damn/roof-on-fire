@@ -31,7 +31,6 @@ export const DMXController = () => {
     universe.update({1: 255, 3: 120, 4: 230, 5: 30, 6: 110, 7: 255, 8: 10, 9: 255, 10: 255, 11: 0});
 
     function greenWater(universe, channels, duration) {
-        console.log("greenWater");
         const colors = [
             [160, 230, 20],
             [255, 255, 0],
@@ -53,7 +52,6 @@ export const DMXController = () => {
 
     function warp(universe, channel, min, max, duration) {
         const a = {}, b = {};
-        console.log("warp");
         // @ts-ignore
         a[channel] = min;
         // @ts-ignore

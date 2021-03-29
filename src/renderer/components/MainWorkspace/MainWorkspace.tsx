@@ -45,10 +45,7 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
       setBackgroundImageUrl(URL.createObjectURL(backgroundImage));
     }
   },[backgroundImage]);
-
-  React.useEffect(() => {
-    console.log(backgroundSrc);
-  },[backgroundSrc]);
+  
   return (
     <MainWorkspaceContent className='mainWorkspaceContent' background={backgroundSrc}>
       <div className="navGroup">
