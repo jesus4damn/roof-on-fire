@@ -14,7 +14,8 @@ interface IState {
 class ErrorBoundary extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
-    this.state = { error: null,
+    this.state = { 
+      error: null,
       errorInfo: null,
       returnNew: false,
     };

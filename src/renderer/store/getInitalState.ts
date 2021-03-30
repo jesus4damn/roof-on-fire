@@ -91,6 +91,7 @@ export const getInitialState = (initParams?: IInitAppParams, patterns?: IPattern
             fixtures: fixtures,
             groups: [],
             fixtureTypes: ['fireMachine', 'fireWorks', 'dimmer'],
+            shootingFixtures:[]
         },
         cues: {
             selectedCue: null,

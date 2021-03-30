@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RootState } from '../../store/rootReducer';
+import styled from "styled-components";
 import { switchMainRightPartAction, switchMainScreenAction } from '../../store/appReducer/appActions';
 import { connect } from 'react-redux';
 import { IMainRightScreenSwitchers, IMainScreenSwitchers } from '../../../types/appTypes';
@@ -13,6 +14,7 @@ require('./MainWorkspace.scss');
 export interface IConnectedProps {
   mainLeftScreenSwitcher: IMainScreenSwitchers,
   mainRightScreenSwitcher: IMainRightScreenSwitchers,
+  backgroundImage: any
 }
 
 export interface IDispatchedProps {
@@ -23,14 +25,29 @@ export interface IDispatchedProps {
 interface IAllProps extends IConnectedProps, IDispatchedProps {
 }
 
+const MainWorkspaceContent = styled.div<{background: string}>`
+  background-image: ${({background}) => `url(${background})` };
+  background-size: cover;
+`;
+
 const MainWorkspace: React.FunctionComponent<IAllProps> = ({
                                                              mainLeftScreenSwitcher,
                                                              mainRightScreenSwitcher,
                                                              switchMainScreenAction,
-                                                             switchMainRightPartAction
+                                                             switchMainRightPartAction,
+                                                             backgroundImage
                                                            }) => {
+  
+  const [backgroundSrc,setBackgroundImageUrl] = React.useState('');
+  React.useEffect(() => {
+    if(typeof backgroundImage === 'object'){
+      console.log("Change background");
+      setBackgroundImageUrl(URL.createObjectURL(backgroundImage));
+    }
+  },[backgroundImage]);
+  
   return (
-    <div className='mainWorkspaceContent'>
+    <MainWorkspaceContent className='mainWorkspaceContent' background={backgroundSrc}>
       <div className="navGroup">
         <div className="navGroupButton">
           <button className={mainLeftScreenSwitcher === 'visualiser' ? 'navGroupButtonActive' : ''} onClick={() => {
@@ -72,13 +89,14 @@ const MainWorkspace: React.FunctionComponent<IAllProps> = ({
           {mainRightScreenSwitcher === 'cuesWindow' && <Cues/>}
         </div>}
       </div>
-    </div>
+    </MainWorkspaceContent>
   );
 };
 
 const mapStateToProps = (state: RootState) => ({
   mainLeftScreenSwitcher: state.app.mainLeftScreenSwitcher,
-  mainRightScreenSwitcher: state.app.mainRightScreenSwitcher
+  mainRightScreenSwitcher: state.app.mainRightScreenSwitcher,
+  backgroundImage: state.app.mainScreenSettings.image
 });
 
 export default connect(mapStateToProps, { switchMainScreenAction, switchMainRightPartAction })(MainWorkspace);

@@ -32,7 +32,7 @@ export const MusicContextProvider = ({children}: any) => {
     const [tick, setTick] = useState(0);
     useRecursiveTimeout(
         () =>
-            new Promise(r => {
+            new Promise<void>(r => {
                 setTick(() => tick + 10);
                 // if (musicContext.status === 'play') {
                 //    r();

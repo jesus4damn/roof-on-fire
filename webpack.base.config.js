@@ -25,8 +25,8 @@ module.exports = {
         whitelist: [
             /hot/,
             /^lodash/, /babel/,
-            /^core-js/, /react/,
-            /redux/, /wavesurfer/,
+            /^core-js/, /react/,/prop-types/,
+            /redux/, /wavesurfer/,/formik/,/styled-components/,/react-konva/,/konva/,
             /^uuid/, 'reselect', 'xlsx', /webpack/,
             'uws', 'dmx', 'axios', /@material/
         ]

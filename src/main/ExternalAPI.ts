@@ -10,7 +10,7 @@ class ExternalAPI {
     getPath() {
         const loadDialog = async () => {
             console.log(dialog);
-            const path = dialog.showOpenDialog();
+            const path = dialog.showOpenDialog({});
             return path[0] ? path[0] : ''
         };
         return loadDialog();
@@ -18,7 +18,7 @@ class ExternalAPI {
 
     save() {
         const saveDialog = async () => {
-            const res = await dialog.showSaveDialog();
+            const res = dialog.showSaveDialog({});
             return res;
         };
         return saveDialog();
