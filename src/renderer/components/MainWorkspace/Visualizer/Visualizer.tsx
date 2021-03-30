@@ -10,6 +10,7 @@ import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import { dragTypes } from '../../../../types/dragTypes';
 import Fixtures from '../Fixtures/Fixtures';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { MapInteraction } from 'react-map-interaction';
 //react-selectable
 //https://codesandbox.io/s/fw9hw
 
@@ -31,10 +32,11 @@ interface IFixturesPosition {
     id:string
 }
 
-const ZoomContainer = styled.div<{width:number,height:number,scale:number}>`
+const ZoomContainer = styled.div<{x:number,y:number,scale:number}>`
     width: 100%;
     height: 100%;
-    transform: translate(${({width}) => width}px, ${({height}) => height}px) scale(${({scale}) => scale});
+    transform: translate(${({x}) => x}px, ${({y}) => y}px) scale(${({scale}) => scale});
+    transform-origin: 0px 0px 0px;
 `;
 
 
@@ -46,9 +48,8 @@ const Visualizer: React.FC<IProps> = ({
     const containerRef = useRef<any>(null);
 
     const [fixtureClickable, setFixtureClickable] = useState<boolean>(true);
-    const [zoomWidth, setZoomWidth] = useState<number>(0);
-    const [zoomHeight, setZoomHeight] = useState<number>(0);
-    const [zoomScale, setZoomScale] = useState<number>(1);
+    const [translation, setTranslation] = useState<{translation: { x: number, y: number }, scale:number}>({translation: { x: 0, y: 0 },scale:1});
+
 
     const updateFixturePosition = (id:string, x:number, y:number) => {
         const index = fixtures.findIndex((item) => item.id === id);
@@ -56,12 +57,6 @@ const Visualizer: React.FC<IProps> = ({
         // fixturesPositions[index] = {id,x,y};
         // setFixturesPositions([...fixturesPositions]);
     }
-
-    useEffect(() => {
-        window.addEventListener("resize", function(event) {
-            console.log(event);
-       });
-    },[]);
 
 
     useEffect(() => {
@@ -79,9 +74,6 @@ const Visualizer: React.FC<IProps> = ({
         }
     },[]);
 
-    useEffect(() => {
-        console.log("Update");
-    },[fixtures]);
 
     const [, drop] = useDrop({
         accept: dragTypes.FIXTURE,
@@ -96,10 +88,44 @@ const Visualizer: React.FC<IProps> = ({
 
     return (
             <div style={{ position: 'relative', width: '100%', height: '100%' }} ref={containerRef}>
-                    <ZoomContainer width={zoomWidth} height={zoomHeight} scale={zoomScale}>
-                        <div className="visualizerWrapper" ref={drop}>
+                        <div className="visualizerWrapper" ref={drop} onClick={() => console.log(1)}>
                             {/*<StageWrapper fixtures={fixtures} workTime={context.musicContext.currentTime} enabled={enabled}/>*/}
-                            <DrawRect updateFixture={updateFixture} fixtures={fixtures} setFixtureClickable={setFixtureClickable} />
+                            {/* <MapInteraction
+                                value={translation}
+                                disablePan={true}
+                                onChange={(value) => setTranslation(value)}>
+                                {
+                                    ({ translation, scale }) => { 
+                                        return (
+                                            <ZoomContainer x={translation.x} y={translation.y} scale={scale}>
+                                                <DrawRect updateFixture={updateFixture} fixtures={fixtures} setFixtureClickable={setFixtureClickable} />
+                                                {fixtures && fixtures.length
+                                                    ? fixtures.map((f, index) => <VisualizerFixture key={f.id}
+                                                                                        fixture={f}
+                                                                                        posX={fixtures[index] ? fixtures[index].posX : 0}
+                                                                                        posY={fixtures[index] ? fixtures[index].posY : 0}
+                                                                                        updateFixture={updateFixture}
+                                                                                        fixtureClickable={fixtureClickable}
+                                                    />)
+                                                    : null}
+                                            </ZoomContainer>
+                                        )
+                                    }
+                                }
+                            </MapInteraction> */}
+                            <ZoomContainer x={translation.translation.x} y={translation.translation.y} scale={translation.scale}>
+                                                <DrawRect updateFixture={updateFixture} fixtures={fixtures} setFixtureClickable={setFixtureClickable} />
+                                                {fixtures && fixtures.length
+                                                    ? fixtures.map((f, index) => <VisualizerFixture key={f.id}
+                                                                                        fixture={f}
+                                                                                        posX={fixtures[index] ? fixtures[index].posX : 0}
+                                                                                        posY={fixtures[index] ? fixtures[index].posY : 0}
+                                                                                        updateFixture={updateFixture}
+                                                                                        fixtureClickable={fixtureClickable}
+                                                    />)
+                                                    : null}
+                                            </ZoomContainer>
+                                {/* <DrawRect updateFixture={updateFixture} fixtures={fixtures} setFixtureClickable={setFixtureClickable} />
                                 {fixtures && fixtures.length
                                     ? fixtures.map((f, index) => <VisualizerFixture key={f.id}
                                                                         fixture={f}
@@ -108,7 +134,7 @@ const Visualizer: React.FC<IProps> = ({
                                                                         updateFixture={updateFixture}
                                                                         fixtureClickable={fixtureClickable}
                                     />)
-                                    : null}
+                                    : null} */}
                             <div className="counterBtn">
                                 <button className={active ? 'fixturesBtnPosition ' : 'fixturesBtnPosition-active'}
                                         onClick={() => setActive(!active)}>
@@ -128,7 +154,6 @@ const Visualizer: React.FC<IProps> = ({
                                 {/*</button>*/}
                             </div>
                         </div>
-                    </ZoomContainer>
             </div>
     );
 };

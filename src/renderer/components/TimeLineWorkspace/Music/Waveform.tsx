@@ -14,7 +14,7 @@ require('./Waveform.scss');
 const TimelinePlugin = require('wavesurfer.js/dist/plugin/wavesurfer.timeline.js');
 const CursorPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.cursor.js');
 const MinimapPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.minimap.js');
-//const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
+const RegionsPlugin = require('wavesurfer.js/dist/plugin/wavesurfer.regions.js');
 
 
 const noteImg = require('../../../../assets/images/svg/note.svg');
@@ -164,11 +164,11 @@ class Waveform extends React.Component<IProps, IState> {
                     backgroundColor: '#222',
                     forceDecode: true
                 }),
-                // RegionsPlugin.create({
-                //     maxRegions: 1,
-                //     wrapper: this.regionRef,
-                //     wavesurfer: this.waveformTimeLine
-                // })
+                RegionsPlugin.create({
+                    maxRegions: 1,
+                    wrapper: this.regionRef,
+                    wavesurfer: this.waveformTimeLine
+                })
             ]
         });
 
@@ -390,7 +390,7 @@ class Waveform extends React.Component<IProps, IState> {
                     <div className={'wave'} ref={this.wave}/>
                     <div ref={this.setWaveFormTimelineRef}/>
                     <div ref={this.setWaveFormCursorRef}/>
-                    <div ref={this.setRegionRef}/>
+                    <div className={'tttt'} ref={this.setRegionRef}/>
                 </div>
 
                 <div className={'timelineControllerWrapper'}>
